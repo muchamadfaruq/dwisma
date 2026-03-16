@@ -142,14 +142,14 @@
 
     <!-- Ambient Background Blobs (Canggih Effect) -->
     <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-        <div
-            class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-purple-400/40 rounded-full mix-blend-multiply filter blur-[100px] animate-blob">
+        <div id="blob1"
+            class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-purple-400/40 rounded-full mix-blend-multiply filter blur-[100px] transition-transform duration-1000 ease-out animate-blob">
         </div>
-        <div
-            class="absolute top-[20%] right-[-10%] w-96 h-96 bg-cyan-400/40 rounded-full mix-blend-multiply filter blur-[100px] animate-blob animation-delay-2000">
+        <div id="blob2"
+            class="absolute top-[20%] right-[-10%] w-96 h-96 bg-cyan-400/40 rounded-full mix-blend-multiply filter blur-[100px] transition-transform duration-1000 ease-out animate-blob animation-delay-2000">
         </div>
-        <div
-            class="absolute bottom-[-20%] left-[20%] w-[500px] h-[500px] bg-pink-400/30 rounded-full mix-blend-multiply filter blur-[120px] animate-blob animation-delay-4000">
+        <div id="blob3"
+            class="absolute bottom-[-20%] left-[20%] w-[500px] h-[500px] bg-pink-400/30 rounded-full mix-blend-multiply filter blur-[120px] transition-transform duration-1000 ease-out animate-blob animation-delay-4000">
         </div>
     </div>
 
@@ -190,13 +190,25 @@
                                 class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-600 transition-all font-semibold text-slate-700">
                                 <i class="bi bi-wifi text-lg text-blue-500"></i> Manajemen Hotspot
                             </a>
-                            <a href="http://pc.dwisma.id:8006" target="_blank"
+                            <a href="https://proxmox.dwisma.id" target="_blank"
                                 class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 hover:text-emerald-600 transition-all font-semibold text-slate-700">
-                                <i class="bi bi-hdd-network text-lg text-emerald-500"></i> Manajemen VM
+                                <i class="bi bi-hdd-network text-lg text-emerald-500"></i> Manajemen Proxmox
                             </a>
-                            <a href="https://pc.dwisma.id:3000" target="_blank"
+                            <a href="https://idrac.dwisma.id" target="_blank"
                                 class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-fuchsia-50 hover:text-purple-600 transition-all font-semibold text-slate-700">
-                                <i class="bi bi-server text-lg text-purple-500"></i> Manajemen idrac
+                                <i class="bi bi-server text-lg text-purple-500"></i> Manajemen iDRAC
+                            </a>
+                            <a href="https://n8n.dwisma.id" target="_blank"
+                                class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-amber-50 hover:text-orange-600 transition-all font-semibold text-slate-700">
+                                <i class="bi bi-diagram-3 text-lg text-orange-500"></i> Manajemen N8N
+                            </a>
+                            <a href="https://npm.dwisma.id" target="_blank"
+                                class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-red-50 hover:to-rose-50 hover:text-red-600 transition-all font-semibold text-slate-700">
+                                <i class="bi bi-router text-lg text-red-500"></i> Nginx Proxy Manager
+                            </a>
+                            <a href="https://rdp.dwisma.id" target="_blank"
+                                class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-cyan-50 hover:to-sky-50 hover:text-cyan-600 transition-all font-semibold text-slate-700">
+                                <i class="bi bi-display text-lg text-cyan-500"></i> Remote Desktop
                             </a>
                         </div>
                     </div>
@@ -221,13 +233,25 @@
                     class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-indigo-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
                     <i class="bi bi-wifi text-xl"></i> Manajemen Hotspot
                 </a>
-                <a href="http://pc.dwisma.id:8006" target="_blank"
+                <a href="https://proxmox.dwisma.id" target="_blank"
                     class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-teal-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
-                    <i class="bi bi-hdd-network text-xl"></i> Manajemen VM
+                    <i class="bi bi-hdd-network text-xl"></i> Manajemen Proxmox
                 </a>
-                <a href="https://pc.dwisma.id:3000" target="_blank"
+                <a href="https://idrac.dwisma.id" target="_blank"
                     class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-purple-500 hover:to-fuchsia-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
-                    <i class="bi bi-server text-xl"></i> Manajemen idrac
+                    <i class="bi bi-server text-xl"></i> Manajemen iDRAC
+                </a>
+                <a href="https://n8n.dwisma.id" target="_blank"
+                    class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-orange-500 hover:to-amber-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
+                    <i class="bi bi-diagram-3 text-xl"></i> Manajemen N8N
+                </a>
+                <a href="https://npm.dwisma.id" target="_blank"
+                    class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-red-500 hover:to-rose-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
+                    <i class="bi bi-router text-xl"></i> Nginx Proxy Manager
+                </a>
+                <a href="https://rdp.dwisma.id" target="_blank"
+                    class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-cyan-500 hover:to-sky-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
+                    <i class="bi bi-display text-xl"></i> Remote Desktop
                 </a>
             </div>
         </div>
@@ -239,7 +263,7 @@
             <!-- Floating Logo with Neon Glow -->
             <div class="relative inline-block animate-float">
                 <div class="absolute inset-0 bg-blue-500/30 blur-[40px] rounded-full scale-150"></div>
-                <a href="https://sman2mengwi.sch.id" target="_blank"
+                <a href="https://sman2mengwi.sch.id" target="_blank" title="Situs Resmi SMAN 2 Mengwi"
                     class="relative block hover:scale-110 transition-transform duration-500">
                     <img src="/img/Logo Dwisma.png" alt="Logo SMAN 2 Mengwi"
                         class="w-36 md:w-44 mx-auto drop-shadow-[0_20px_30px_rgba(0,0,0,0.2)] mb-8" />
@@ -251,14 +275,17 @@
             </p>
 
             <h1
-                class="font-extrabold text-5xl md:text-7xl text-dwisma-dark mt-2 tracking-tight leading-[1.1] animate-fade-in-up delay-100">
-                Selamat Datang di <br class="hidden md:block" />
-                <span
-                    class="text-gradient-animated bg-gradient-to-r from-blue-600 via-indigo-500 to-cyan-400 animate-gradient pb-2 inline-block">Portal
-                    Dwisma</span>
+                class="font-extrabold text-5xl md:text-7xl text-dwisma-dark mt-2 tracking-tight leading-[1.1] animate-fade-in-up delay-100 min-h-[110px] md:min-h-[150px]">
+                <span id="typed-text-1"></span><br class="hidden md:block" />
+                <span id="typed-text-2"
+                    class="text-gradient-animated bg-gradient-to-r from-blue-600 via-indigo-500 to-cyan-400 animate-gradient pb-2 inline-block"></span><span id="cursor-main" class="animate-pulse font-light text-slate-800 ml-1">|</span>
             </h1>
 
-            <p class="mt-8 text-lg md:text-xl text-slate-500 font-medium animate-fade-in-up delay-200">
+            <p class="mt-4 text-base md:text-lg text-slate-600 font-bold h-[28px] animate-fade-in-up delay-200">
+                <span id="typed-text-3"></span><span id="cursor-sub" class="hidden animate-pulse font-light text-slate-800 ml-1">|</span>
+            </p>
+
+            <p class="mt-8 text-lg md:text-xl text-slate-500 font-medium animate-fade-in-up delay-300">
                 Kunjungi situs resmi:
                 <a href="https://sman2mengwi.sch.id" target="_blank"
                     class="inline-flex items-center gap-1.5 px-4 py-1.5 ml-1 bg-white/60 border border-white rounded-full shadow-sm text-blue-600 hover:bg-blue-600 hover:text-white font-bold transition-all duration-300">
@@ -268,7 +295,7 @@
         </div>
 
         <!-- Links Grid Section -->
-        <div class="max-w-6xl mx-auto space-y-20 pb-20 animate-fade-in-up delay-300">
+        <div class="max-w-6xl mx-auto space-y-20 pb-20 animate-fade-in-up delay-400">
 
             <!-- Aplikasi Sekolah -->
             <section>
@@ -289,15 +316,15 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Card 1: Dapodik -->
-                    <a href="https://dapodik.dwisma.id" target="_blank"
-                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.3)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+                    <a href="https://dapodik.dwisma.id" target="_blank" title="Aplikasi Dapodik"
+                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(59,130,246,0.4)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                         </div>
                         <div
-                            class="relative rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]">
+                            class="relative rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_30px_rgba(59,130,246,0.6)]">
                             <div class="w-14 h-14 bg-white rounded-[14px] flex items-center justify-center p-2.5">
-                                <img src="/img/Logo Dapodik.png" alt=""
+                                <img src="/img/Logo Dapodik.png" alt="Logo Dapodik"
                                     class="object-contain w-full h-full drop-shadow-sm" />
                             </div>
                         </div>
@@ -313,15 +340,15 @@
                     </a>
 
                     <!-- Card 2: Simatik -->
-                    <a href="https://simatik.dwisma.id" target="_blank"
-                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-15px_rgba(16,185,129,0.3)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+                    <a href="https://simatik.dwisma.id" target="_blank" title="Aplikasi Simatik"
+                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(16,185,129,0.4)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-teal-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                         </div>
                         <div
-                            class="relative rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]">
+                            class="relative rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_30px_rgba(16,185,129,0.6)]">
                             <div class="w-14 h-14 bg-white rounded-[14px] flex items-center justify-center p-2.5">
-                                <img src="/img/Logo Dwisma.png" alt=""
+                                <img src="/img/Logo Dwisma.png" alt="Logo Simatik"
                                     class="object-contain w-full h-full drop-shadow-sm" />
                             </div>
                         </div>
@@ -337,15 +364,15 @@
                     </a>
 
                     <!-- Card 3: CBT -->
-                    <a href="https://cbt.dwisma.id" target="_blank"
-                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-15px_rgba(139,92,246,0.3)] hover:-translate-y-2 transition-all duration-500 overflow-hidden lg:col-span-1">
+                    <a href="https://cbt.dwisma.id" target="_blank" title="Computer Based Test (CBT)"
+                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(139,92,246,0.4)] hover:-translate-y-2 transition-all duration-500 overflow-hidden lg:col-span-1">
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-violet-500/10 to-fuchsia-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                         </div>
                         <div
-                            class="relative rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_20px_rgba(139,92,246,0.4)]">
+                            class="relative rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_30px_rgba(139,92,246,0.6)]">
                             <div class="w-14 h-14 bg-white rounded-[14px] flex items-center justify-center p-2.5">
-                                <img src="/img/Logo CBT.png" alt=""
+                                <img src="/img/Logo CBT.png" alt="Logo CBT"
                                     class="object-contain w-full h-full drop-shadow-sm" />
                             </div>
                         </div>
@@ -361,15 +388,15 @@
                     </a>
 
                     <!-- Card 4: e-Rapor -->
-                    <a href="https://rapor.dwisma.id" target="_blank"
-                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-15px_rgba(6,182,212,0.3)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+                    <a href="https://rapor.dwisma.id" target="_blank" title="Aplikasi e-Rapor"
+                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(6,182,212,0.4)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-cyan-400/10 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                         </div>
                         <div
-                            class="relative rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]">
+                            class="relative rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-500 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_30px_rgba(6,182,212,0.6)]">
                             <div class="w-14 h-14 bg-white rounded-[14px] flex items-center justify-center p-2.5">
-                                <img src="/img/logo-erapor-sma.png" alt=""
+                                <img src="/img/logo-erapor-sma.png" alt="Logo e-Rapor"
                                     class="object-contain w-full h-full drop-shadow-sm" />
                             </div>
                         </div>
@@ -385,15 +412,15 @@
                     </a>
 
                     <!-- Card 5: SNPMB -->
-                    <a href="https://snpmb.dwisma.id" target="_blank"
-                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-15px_rgba(99,102,241,0.3)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+                    <a href="https://snpmb.dwisma.id" target="_blank" title="Akses SNPMB"
+                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(99,102,241,0.4)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                         </div>
                         <div
-                            class="relative rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_20px_rgba(99,102,241,0.4)]">
+                            class="relative rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_30px_rgba(99,102,241,0.6)]">
                             <div class="w-14 h-14 bg-white rounded-[14px] flex items-center justify-center p-2.5">
-                                <img src="https://asset.uinjkt.ac.id/uploads/fmXyXwZY/2023/06/logo-snpmb.png" alt=""
+                                <img src="https://asset.uinjkt.ac.id/uploads/fmXyXwZY/2023/06/logo-snpmb.png" alt="Logo SNPMB"
                                     class="object-contain w-full h-full drop-shadow-sm" />
                             </div>
                         </div>
@@ -408,41 +435,17 @@
                         </div>
                     </a>
 
-                    <!-- Card 6: Mapel -->
-                    <a href="https://mapel.dwisma.id" target="_blank"
-                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-15px_rgba(244,63,94,0.3)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-rose-500/10 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        </div>
-                        <div
-                            class="relative rounded-2xl bg-gradient-to-br from-rose-500 to-pink-500 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_20px_rgba(244,63,94,0.4)]">
-                            <div class="w-14 h-14 bg-white rounded-[14px] flex items-center justify-center p-2.5">
-                                <img src="/img/Logo Dwisma.png" alt=""
-                                    class="object-contain w-full h-full drop-shadow-sm" />
-                            </div>
-                        </div>
-                        <div class="relative flex-1">
-                            <span
-                                class="block font-extrabold text-xl text-slate-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-rose-500 group-hover:to-pink-500 transition-all">Mapel</span>
-                        </div>
-                        <div
-                            class="relative w-10 h-10 rounded-full bg-slate-100/80 border border-white shadow-sm flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-rose-500 group-hover:to-pink-500 transition-all duration-500">
-                            <i
-                                class="bi bi-arrow-right-short text-2xl text-slate-400 group-hover:text-white group-hover:translate-x-0.5 transition-all"></i>
-                        </div>
-                    </a>
-
                     <!-- Card 7: Immich - Galeri -->
-                    <a href="https://galeri.dwisma.id" target="_blank"
-                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-15px_rgba(249,115,22,0.3)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+                    <a href="https://galeri.dwisma.id" target="_blank" title="Galeri Sekolah"
+                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(249,115,22,0.4)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-amber-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                         </div>
                         <div
-                            class="relative rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_20px_rgba(249,115,22,0.4)]">
+                            class="relative rounded-2xl bg-gradient-to-br from-orange-500 to-amber-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_30px_rgba(249,115,22,0.6)]">
                             <div class="w-14 h-14 bg-white rounded-[14px] flex items-center justify-center p-2.5">
                                 <img src="https://play-lh.googleusercontent.com/nJsRIdtaot1-FKH3kiRem4kjqUU1-_0hd_64qZH0BgtzUecYfWLCDfpk2nNVul8hOrw=w240-h480-rw"
-                                    alt="" class="object-contain w-full h-full drop-shadow-sm" />
+                                    alt="Logo Galeri" class="object-contain w-full h-full drop-shadow-sm" />
                             </div>
                         </div>
                         <div class="relative flex-1">
@@ -457,15 +460,15 @@
                     </a>
 
                     <!-- Card 8: e-Learning -->
-                    <a href="https://elearning.dwisma.id" target="_blank"
-                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.3)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+                    <a href="https://elearning.dwisma.id" target="_blank" title="Akses e-Learning"
+                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(59,130,246,0.4)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-cyan-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                         </div>
                         <div
-                            class="relative rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)]">
+                            class="relative rounded-2xl bg-gradient-to-br from-blue-500 to-cyan-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_30px_rgba(59,130,246,0.6)]">
                             <div class="w-14 h-14 bg-white rounded-[14px] flex items-center justify-center p-2.5">
-                                <img src="/img/Logo Dwisma.png" alt=""
+                                <img src="/img/Logo Dwisma.png" alt="Logo eLearning"
                                     class="object-contain w-full h-full drop-shadow-sm" />
                             </div>
                         </div>
@@ -475,6 +478,53 @@
                         </div>
                         <div
                             class="relative w-10 h-10 rounded-full bg-slate-100/80 border border-white shadow-sm flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-blue-500 group-hover:to-cyan-400 transition-all duration-500">
+                            <i
+                                class="bi bi-arrow-right-short text-2xl text-slate-400 group-hover:text-white group-hover:translate-x-0.5 transition-all"></i>
+                        </div>
+                    </a>
+
+                    <!-- Card 9: PDF Tools -->
+                    <a href="https://pdf.dwisma.id" target="_blank" title="Akses PDF Tools"
+                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(239,68,68,0.4)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-red-500/10 to-rose-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                        <div
+                            class="relative rounded-2xl bg-gradient-to-br from-red-500 to-rose-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_30px_rgba(239,68,68,0.6)]">
+                            <div class="w-14 h-14 bg-white rounded-[14px] flex items-center justify-center p-2.5">
+                                <i class="bi bi-file-earmark-pdf-fill text-3xl text-red-500"></i>
+                            </div>
+                        </div>
+                        <div class="relative flex-1">
+                            <span
+                                class="block font-extrabold text-xl text-slate-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-red-600 group-hover:to-rose-500 transition-all">PDF Tools</span>
+                        </div>
+                        <div
+                            class="relative w-10 h-10 rounded-full bg-slate-100/80 border border-white shadow-sm flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-red-500 group-hover:to-rose-400 transition-all duration-500">
+                            <i
+                                class="bi bi-arrow-right-short text-2xl text-slate-400 group-hover:text-white group-hover:translate-x-0.5 transition-all"></i>
+                        </div>
+                    </a>
+
+                    <!-- Card 10: Simapel -->
+                    <a href="https://simapel.dwisma.id" target="_blank" title="Akses Simapel"
+                        class="group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-xl border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(16,185,129,0.4)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-green-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                        <div
+                            class="relative rounded-2xl bg-gradient-to-br from-emerald-500 to-green-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_30px_rgba(16,185,129,0.6)]">
+                            <div class="w-14 h-14 bg-white rounded-[14px] flex items-center justify-center p-2.5">
+                                <img src="/img/Logo Dwisma.png" alt="Logo Simapel"
+                                    class="object-contain w-full h-full drop-shadow-sm" />
+                            </div>
+                        </div>
+                        <div class="relative flex-1">
+                            <span
+                                class="block font-extrabold text-xl text-slate-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-emerald-600 group-hover:to-green-500 transition-all">Simapel</span>
+                        </div>
+                        <div
+                            class="relative w-10 h-10 rounded-full bg-slate-100/80 border border-white shadow-sm flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-emerald-500 group-hover:to-green-400 transition-all duration-500">
                             <i
                                 class="bi bi-arrow-right-short text-2xl text-slate-400 group-hover:text-white group-hover:translate-x-0.5 transition-all"></i>
                         </div>
@@ -497,6 +547,18 @@
                         Pembelajaran
                     </h2>
                     <div class="flex flex-col gap-4 relative z-10">
+                        <a href="https://gamesosiologi.dwisma.id" target="_blank"
+                            class="flex items-center gap-5 p-4 bg-white/70 backdrop-blur rounded-2xl border border-white shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(139,92,246,0.2)] hover:-translate-y-1 transition-all duration-300">
+                            <div
+                                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center p-2 shadow-sm border border-slate-100">
+                                <i class="bi bi-controller text-2xl text-violet-500"></i>
+                            </div>
+                            <span
+                                class="font-bold text-lg text-slate-700 flex-1 hover:text-violet-600 transition-colors">Game Sosiologi</span>
+                            <div class="w-8 h-8 rounded-full bg-violet-50 flex items-center justify-center">
+                                <i class="bi bi-chevron-right text-violet-500"></i>
+                            </div>
+                        </a>
                         <a href="https://sosiologi.dwisma.id" target="_blank"
                             class="flex items-center gap-5 p-4 bg-white/70 backdrop-blur rounded-2xl border border-white shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(245,158,11,0.2)] hover:-translate-y-1 transition-all duration-300">
                             <div
@@ -624,34 +686,34 @@
                             <div
                                 class="w-14 h-14 bg-gradient-to-br from-orange-400 to-red-500 rounded-[14px] p-[2px] shadow-sm group-hover:scale-110 transition-transform">
                                 <div class="w-full h-full bg-white rounded-[12px] flex items-center justify-center p-2">
-                                    <img src="https://kanal.baliprov.go.id/system/simpeg-logo.png"
-                                        class="object-contain w-full h-full" alt="" />
+                                    <img src="https://kanal.baliprov.go.id/system/simpeg-logo.png" title="Logo Simpeg Bali"
+                                        class="object-contain w-full h-full" alt="Logo Simpeg" />
                                 </div>
                             </div>
                             <span
                                 class="font-extrabold text-lg text-slate-700 group-hover:text-orange-500 transition-colors">Simpeg</span>
                         </a>
-                        <a href="https://sikepo.baliprov.go.id" target="_blank"
+                        <a href="https://sikepo.baliprov.go.id" target="_blank" title="Akses Sikepo"
                             class="group flex items-center gap-4 p-4 bg-white/60 backdrop-blur border border-white rounded-2xl shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(225,29,72,0.2)] hover:-translate-y-1 transition-all">
                             <div
                                 class="w-14 h-14 bg-gradient-to-br from-rose-500 to-pink-600 rounded-[14px] p-[2px] shadow-sm group-hover:scale-110 transition-transform">
                                 <div
                                     class="w-full h-full bg-white rounded-[12px] flex items-center justify-center p-1.5">
-                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4nXInk5gM5OblLKEad08BYCgf51jsVt1pyQ&s"
-                                        class="object-cover w-full h-full rounded-lg" alt="" />
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4nXInk5gM5OblLKEad08BYCgf51jsVt1pyQ&s" title="Logo Sikepo Bali"
+                                        class="object-cover w-full h-full rounded-lg" alt="Logo Sikepo" />
                                 </div>
                             </div>
                             <span
                                 class="font-extrabold text-lg text-slate-700 group-hover:text-rose-600 transition-colors">Sikepo</span>
                         </a>
-                        <a href="https://kelasvirtual.baliprov.go.id/" target="_blank"
+                        <a href="https://kelasvirtual.baliprov.go.id/" target="_blank" title="Akses Kelas Virtual Balo"
                             class="group flex items-center gap-4 p-4 bg-white/60 backdrop-blur border border-white rounded-2xl shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(37,99,235,0.2)] hover:-translate-y-1 transition-all sm:col-span-2 md:col-span-1">
                             <div
                                 class="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-[14px] p-[2px] shadow-sm group-hover:scale-110 transition-transform">
                                 <div
                                     class="w-full h-full bg-white rounded-[12px] flex items-center justify-center p-1.5">
-                                    <img src="/img/Logo Kelas Virtual.png"
-                                        class="object-contain w-full h-full rounded-md" alt="" />
+                                    <img src="/img/Logo Kelas Virtual.png" title="Logo Kelas Virtual"
+                                        class="object-contain w-full h-full rounded-md" alt="Logo Kelas Virtual" />
                                 </div>
                             </div>
                             <span
@@ -675,31 +737,31 @@
                             <div
                                 class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full p-[2px] shadow-sm group-hover:scale-110 transition-transform">
                                 <div class="w-full h-full bg-white rounded-full flex items-center justify-center p-1.5">
-                                    <img src="/img/Logo Dapodik.png" class="w-full h-full object-contain" alt="" />
+                                    <img src="/img/Logo Dapodik.png" class="w-full h-full object-contain" alt="Logo My ASN" />
                                 </div>
                             </div>
                             <span class="font-extrabold text-slate-700 group-hover:text-indigo-600 transition-colors">My
                                 ASN</span>
                         </a>
-                        <a href="https://info.gtk.kemendikdasmen.go.id/" target="_blank"
+                        <a href="https://info.gtk.kemendikdasmen.go.id/" target="_blank" title="Akses Info GTK"
                             class="group flex items-center justify-center gap-3 p-4 bg-white/60 backdrop-blur border border-white rounded-2xl shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(245,158,11,0.2)] hover:-translate-y-1 transition-all">
                             <div
                                 class="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full p-[2px] shadow-sm group-hover:scale-110 transition-transform">
                                 <div class="w-full h-full bg-white rounded-full flex items-center justify-center p-1.5">
-                                    <img src="https://info.gtk.dikdasmen.go.id/assets/img/favicon.png"
-                                        class="w-full h-full object-contain" alt="" />
+                                    <img src="https://info.gtk.dikdasmen.go.id/assets/img/favicon.png" title="Logo Info GTK"
+                                        class="w-full h-full object-contain" alt="Logo Info GTK" />
                                 </div>
                             </div>
                             <span
                                 class="font-extrabold text-slate-700 group-hover:text-amber-600 transition-colors">Info-Gtk</span>
                         </a>
-                        <a href="https://paspor-gtk.simpkb.id/" target="_blank"
+                        <a href="https://paspor-gtk.simpkb.id/" target="_blank" title="Akses Simpkb"
                             class="group flex items-center justify-center gap-3 p-4 bg-white/60 backdrop-blur border border-white rounded-2xl shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(14,165,233,0.2)] hover:-translate-y-1 transition-all">
                             <div
                                 class="w-10 h-10 bg-gradient-to-br from-sky-400 to-blue-500 rounded-full p-[2px] shadow-sm group-hover:scale-110 transition-transform">
                                 <div class="w-full h-full bg-white rounded-full flex items-center justify-center p-1.5">
-                                    <img src="https://paspor-gtk.simpkb.id/casgpo/asset/img/logo-kemdikbud.png"
-                                        class="w-full h-full object-contain" alt="" />
+                                    <img src="https://paspor-gtk.simpkb.id/casgpo/asset/img/logo-kemdikbud.png" title="Logo Simpkb"
+                                        class="w-full h-full object-contain" alt="Logo Simpkb" />
                                 </div>
                             </div>
                             <span
@@ -710,8 +772,8 @@
                             <div
                                 class="w-10 h-10 bg-gradient-to-br from-teal-400 to-emerald-500 rounded-full p-[2px] shadow-sm group-hover:scale-110 transition-transform">
                                 <div class="w-full h-full bg-white rounded-full flex items-center justify-center p-1.5">
-                                    <img src="https://cdn-dapodik.kemdikbud.go.id/sp/favicon.ico"
-                                        class="w-full h-full object-contain" alt="" />
+                                    <img src="https://cdn-dapodik.kemdikbud.go.id/sp/favicon.ico" title="Logo Datadik"
+                                        class="w-full h-full object-contain" alt="Logo Datadik" />
                                 </div>
                             </div>
                             <span
@@ -780,6 +842,120 @@
         </div>
     </footer>
 
+    <!-- Typing Effect Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const text1 = "Selamat Datang di \n";
+            const text2 = "Portal Dwisma";
+            const text3 = "Wadah Digital Bagi Seluruh Civitas Akademika SMA Negeri 2 Mengwi";
+            
+            const el1 = document.getElementById('typed-text-1');
+            const el2 = document.getElementById('typed-text-2');
+            const el3 = document.getElementById('typed-text-3');
+            
+            let i = 0;
+            let j = 0;
+            let k = 0;
+            let isDeleting = false;
+            let isPaused = false;
+            
+            const typeSpeed = 75; // Kecepatan Ngetik
+            const deleteSpeed = 30; // Kecepatan Ngapus
+            const pauseTime = 3000; // Waktu jeda pas tulisan lengkap
+            
+            function typeWriter() {
+                if (isPaused) return;
+
+                if (!isDeleting) {
+                    let isTyping = false;
+                    
+                    // Main Text Typing (Phase 1 & 2)
+                    if (i < text1.length) {
+                        el1.innerHTML = text1.slice(0, i + 1);
+                        i++;
+                        isTyping = true;
+                    } else if (j < text2.length) {
+                        el2.innerHTML = text2.slice(0, j + 1);
+                        j++;
+                        isTyping = true;
+                    }
+                    
+                    // Subtitle Typing (Simultaneous, maju 2 huruf supaya imbang dengan text1+text2)
+                    if (k < text3.length) {
+                        k += 2;
+                        if (k > text3.length) k = text3.length;
+                        el3.innerHTML = text3.slice(0, k);
+                        isTyping = true;
+                    }
+
+                    
+                    if (isTyping) {
+                        setTimeout(typeWriter, typeSpeed);
+                    } else {
+                        // Teks udah lengkap, siap ngehapus
+                        isPaused = true;
+                        isDeleting = true;
+                        setTimeout(() => {
+                            isPaused = false;
+                            typeWriter();
+                        }, pauseTime);
+                    }
+                } else {
+                    let isDeletingChar = false;
+                    
+                    // Subtitle Ngehapus
+                    if (k > 0) {
+                        k -= 2;
+                        if (k < 0) k = 0;
+                        el3.innerHTML = text3.slice(0, k);
+                        isDeletingChar = true;
+                    }
+                    
+                    // Main Text Ngehapus
+                    if (j > 0) {
+                        el2.innerHTML = text2.slice(0, j - 1);
+                        j--;
+                        isDeletingChar = true;
+                    } else if (i > 0) {
+                        el1.innerHTML = text1.slice(0, i - 1);
+                        i--;
+                        isDeletingChar = true;
+                    }
+                    
+                    if (isDeletingChar) {
+                        setTimeout(typeWriter, deleteSpeed);
+                    } else {
+                        isDeleting = false;
+                        setTimeout(typeWriter, typeSpeed);
+                    }
+                }
+            }
+            
+            
+            // Start typing effect after slight delay
+            setTimeout(typeWriter, 1000);
+            
+            // Interactive Background Blobs
+            const blob1 = document.getElementById('blob1');
+            const blob2 = document.getElementById('blob2');
+            const blob3 = document.getElementById('blob3');
+            
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX;
+                const y = e.clientY;
+                const winWidth = window.innerWidth;
+                const winHeight = window.innerHeight;
+                
+                // Calculate movement (slight parallax shift)
+                const moveX = (x / winWidth - 0.5) * 50; 
+                const moveY = (y / winHeight - 0.5) * 50;
+                
+                if (blob1) blob1.style.transform = `translate(${moveX}px, ${moveY}px)`;
+                if (blob2) blob2.style.transform = `translate(${-moveX * 1.5}px, ${-moveY * 1.5}px)`;
+                if (blob3) blob3.style.transform = `translate(${moveX * 0.8}px, ${-moveY * 0.8}px)`;
+            });
+        });
+    </script>
 </body>
 
 </html>
