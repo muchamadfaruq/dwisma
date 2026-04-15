@@ -1,0 +1,44 @@
+{
+    "name": "Portal Aplikasi SMAN 2 Mengwi",
+    "short_name": "Dwisma Portal",
+    "description": "Portal aplikasi resmi SMAN 2 Mengwi - akses semua layanan sekolah dalam satu tempat",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#f8f9fa",
+    "theme_color": "#0061ff",
+    "orientation": "portrait-primary",
+    "lang": "id",
+    "categories": ["education", "productivity"],
+    "icons": [
+        {
+            "src": "/img/Logo Dwisma.png",
+            "sizes": "any",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Dapodik",
+            "short_name": "Dapodik",
+            "description": "Buka Aplikasi Dapodik",
+            "url": "https://dapodik.dwisma.id",
+            "icons": [{ "src": "/img/Logo Dapodik.png", "sizes": "any" }]
+        },
+        {
+            "name": "e-Rapor",
+            "short_name": "e-Rapor",
+            "description": "Buka Aplikasi e-Rapor",
+            "url": "https://rapor.dwisma.id",
+            "icons": [{ "src": "/img/logo-erapor-sma.png", "sizes": "any" }]
+        },
+        {
+            "name": "CBT",
+            "short_name": "CBT",
+            "description": "Buka Aplikasi CBT",
+            "url": "https://cbt.dwisma.id",
+            "icons": [{ "src": "/img/Logo CBT.png", "sizes": "any" }]
+        }
+    ]
+}

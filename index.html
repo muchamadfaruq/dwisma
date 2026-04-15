@@ -7,6 +7,16 @@
     <title>Portal Aplikasi SMAN 2 Mengwi</title>
     <link rel="shortcut icon" href="/img/favicon.ico" />
 
+    <!-- PWA Support -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0061ff" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Dwisma Portal" />
+    <link rel="apple-touch-icon" href="/img/Logo Dwisma.png" />
+    <meta name="description" content="Portal aplikasi resmi SMAN 2 Mengwi – akses semua layanan sekolah dalam satu tempat." />
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -993,6 +1003,17 @@
                 });
             });
         });
+    </script>
+
+    <!-- PWA: Registrasi Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((reg) => console.log('[PWA] Service Worker terdaftar:', reg.scope))
+                    .catch((err) => console.warn('[PWA] Gagal mendaftarkan Service Worker:', err));
+            });
+        }
     </script>
 </body>
 
