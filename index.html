@@ -473,7 +473,7 @@
                     </a>
 
                     <!-- Card 5: SNPMB PTN -->
-                    <a href="https://snpmb.dwisma.id" target="_blank" title="Akses SNPMB PTN"
+                    <a href="https://snpmb.bppp.kemdikbud.go.id/" target="_blank" title="Akses SNPMB PTN"
                         class="perf-card group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-md border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(99,102,241,0.4)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -1161,6 +1161,7 @@
                     return true;
                 } catch (e) {
                     clearTimeout(timeoutId);
+                    console.warn(`[Status Checker] Gagal memuat ${url} | Error:`, e.message || e);
                     return false;
                 }
             }
