@@ -1092,6 +1092,115 @@
         });
     </script>
 
+    <!-- Website Status Checker -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const excludeDomains = [
+                'youtube.com',
+                'instagram.com',
+                'facebook.com'
+            ];
+
+            // Get all external links to verify
+            const links = Array.from(document.querySelectorAll('a[target="_blank"]')).filter(link => {
+                const href = link.getAttribute('href');
+                if (!href || !href.startsWith('http')) return false;
+                
+                // Exclude social media
+                if (excludeDomains.some(domain => href.includes(domain))) return false;
+                
+                // Exclude the hero logo link (only contains img and has hover:scale-110)
+                if (link.querySelector('img') && link.classList.contains('hover:scale-110')) return false;
+                
+                return true;
+            });
+
+            // Prepare status elements
+            const linkData = links.map(link => {
+                const isCard = link.classList.contains('perf-card') || link.querySelector('.w-24.h-24');
+                let dot;
+
+                if (isCard) {
+                    // Find icon wrapper
+                    const icon = link.querySelector('img, i');
+                    let wrapper = icon ? icon.closest('div') : null;
+                    if (!wrapper) {
+                        wrapper = link;
+                    }
+                    wrapper.classList.add('relative');
+                    
+                    // Create absolute dot
+                    dot = document.createElement('span');
+                    dot.className = 'absolute -top-1 -right-1 h-3.5 w-3.5 rounded-full border-2 border-white bg-slate-400 animate-pulse shadow-sm transition-all duration-300 z-10';
+                    wrapper.appendChild(dot);
+                } else {
+                    // Menu item / list item
+                    dot = document.createElement('span');
+                    dot.className = 'ml-auto w-2.5 h-2.5 rounded-full bg-slate-400 animate-pulse transition-all duration-300 flex-shrink-0';
+                    link.appendChild(dot);
+                }
+
+                return {
+                    url: link.getAttribute('href'),
+                    dotElement: dot
+                };
+            });
+
+            // Function to check status with no-cors mode
+            async function checkStatus(url) {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 8000); // 8 seconds timeout
+
+                try {
+                    await fetch(url, {
+                        mode: 'no-cors',
+                        signal: controller.signal,
+                        cache: 'no-store'
+                    });
+                    clearTimeout(timeoutId);
+                    return true;
+                } catch (e) {
+                    clearTimeout(timeoutId);
+                    return false;
+                }
+            }
+
+            // Process queue with concurrency limit of 3
+            async function processQueue() {
+                const concurrency = 3;
+                let index = 0;
+
+                async function worker() {
+                    while (index < linkData.length) {
+                        const currentIdx = index++;
+                        const item = linkData[currentIdx];
+                        
+                        const isOnline = await checkStatus(item.url);
+                        
+                        // Update UI
+                        item.dotElement.classList.remove('bg-slate-400', 'animate-pulse');
+                        if (isOnline) {
+                            item.dotElement.classList.add('bg-emerald-500', 'shadow-[0_0_10px_rgba(16,185,129,0.7)]');
+                            item.dotElement.title = "Online / Aktif";
+                        } else {
+                            item.dotElement.classList.add('bg-rose-500', 'shadow-[0_0_10px_rgba(244,63,94,0.7)]');
+                            item.dotElement.title = "Offline / Tidak Aktif";
+                        }
+                    }
+                }
+
+                const workers = Array(Math.min(concurrency, linkData.length))
+                    .fill(null)
+                    .map(() => worker());
+                
+                await Promise.all(workers);
+            }
+
+            // Run status check
+            processQueue();
+        });
+    </script>
+
     <!-- PWA: Registrasi Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
