@@ -1,10 +1,12 @@
-const CACHE_NAME = 'dwisma-portal-v1';
+const CACHE_NAME = 'dwisma-portal-v3';
 
 // Aset lokal yang akan di-cache untuk akses offline
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
     '/img/Logo Dwisma.png',
+    '/img/Logo_Kemendikdasmen.png',
+    '/img/logo-pemprov-bali.png',
     '/img/favicon.ico',
     '/img/Logo CBT.png',
     '/img/Logo Dapodik.png',
