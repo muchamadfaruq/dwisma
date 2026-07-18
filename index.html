@@ -245,10 +245,7 @@
                                 class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-fuchsia-50 hover:text-purple-600 transition-all font-semibold text-slate-700">
                                 <i class="bi bi-server text-lg text-purple-500"></i> Manajemen iDRAC
                             </a>
-                            <a href="https://n8n.dwisma.id" target="_blank"
-                                class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-orange-50 hover:to-amber-50 hover:text-orange-600 transition-all font-semibold text-slate-700">
-                                <i class="bi bi-diagram-3 text-lg text-orange-500"></i> Manajemen N8N
-                            </a>
+
                             <a href="https://npm.dwisma.id" target="_blank"
                                 class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-red-50 hover:to-rose-50 hover:text-red-600 transition-all font-semibold text-slate-700">
                                 <i class="bi bi-router text-lg text-red-500"></i> Nginx Proxy Manager
@@ -296,10 +293,7 @@
                     class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-purple-500 hover:to-fuchsia-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
                     <i class="bi bi-server text-xl"></i> Manajemen iDRAC
                 </a>
-                <a href="https://n8n.dwisma.id" target="_blank"
-                    class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-orange-500 hover:to-amber-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
-                    <i class="bi bi-diagram-3 text-xl"></i> Manajemen N8N
-                </a>
+
                 <a href="https://npm.dwisma.id" target="_blank"
                     class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-red-500 hover:to-rose-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
                     <i class="bi bi-router text-xl"></i> Nginx Proxy Manager
@@ -607,29 +601,7 @@
                         </div>
                     </a>
 
-<!-- Card 9: PDF Tools -->
-                    <a href="https://pdf.dwisma.id" target="_blank" title="Akses PDF Tools"
-                        class="perf-card group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-md border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(239,68,68,0.4)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-red-500/10 to-rose-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        </div>
-                        <div
-                            class="relative rounded-2xl bg-gradient-to-br from-red-500 to-rose-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_30px_rgba(239,68,68,0.6)]">
-                            <div class="w-14 h-14 bg-white rounded-[14px] flex items-center justify-center p-2.5">
-                                <i class="bi bi-file-earmark-pdf-fill text-3xl text-red-500"></i>
-                            </div>
-                        </div>
-                        <div class="relative flex-1">
-                            <span
-                                class="block font-extrabold text-xl text-slate-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-red-600 group-hover:to-rose-500 transition-all">PDF
-                                Tools</span>
-                        </div>
-                        <div
-                            class="relative w-10 h-10 rounded-full bg-slate-100/80 border border-white shadow-sm flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-red-500 group-hover:to-rose-400 transition-all duration-500">
-                            <i
-                                class="bi bi-arrow-right-short text-2xl text-slate-400 group-hover:text-white group-hover:translate-x-0.5 transition-all"></i>
-                        </div>
-                    </a>
+
 
 <!-- Card 10: Simapel -->
                     <a href="https://simapel.dwisma.id" target="_blank" title="Akses Simapel"
@@ -1054,7 +1026,151 @@
                 </section>
             </div>
         </div>
+
+            <!-- ===== BERITA TERKINI ===== -->
+            <section class="perf-section mt-8 mb-4" id="berita-section">
+                <div class="flex items-center justify-center gap-4 mb-10">
+                    <div class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs"></div>
+                    <h2 class="font-sans font-black text-slate-800 tracking-widest uppercase text-sm md:text-base px-8 py-2.5 bg-white/60 backdrop-blur border border-white shadow-sm rounded-full text-center">
+                        <i class="bi bi-newspaper text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-500 mr-2"></i>
+                        Berita Terkini
+                    </h2>
+                    <div class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs"></div>
+                </div>
+
+                <!-- Grid Berita -->
+                <div id="berita-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Skeleton loading -->
+                    <div class="berita-skeleton animate-pulse glass-panel rounded-[2rem] overflow-hidden border border-white shadow-glass">
+                        <div class="w-full h-44 bg-slate-200/70 rounded-t-[2rem]"></div>
+                        <div class="p-5 space-y-3">
+                            <div class="h-3 bg-slate-200/70 rounded-full w-1/3"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-4/5"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-2/3"></div>
+                        </div>
+                    </div>
+                    <div class="berita-skeleton animate-pulse glass-panel rounded-[2rem] overflow-hidden border border-white shadow-glass hidden sm:block">
+                        <div class="w-full h-44 bg-slate-200/70 rounded-t-[2rem]"></div>
+                        <div class="p-5 space-y-3">
+                            <div class="h-3 bg-slate-200/70 rounded-full w-1/3"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-4/5"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-2/3"></div>
+                        </div>
+                    </div>
+                    <div class="berita-skeleton animate-pulse glass-panel rounded-[2rem] overflow-hidden border border-white shadow-glass hidden lg:block">
+                        <div class="w-full h-44 bg-slate-200/70 rounded-t-[2rem]"></div>
+                        <div class="p-5 space-y-3">
+                            <div class="h-3 bg-slate-200/70 rounded-full w-1/3"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-4/5"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-2/3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tombol lihat semua -->
+                <div class="text-center mt-8">
+                    <a href="https://sman2mengwi.sch.id" target="_blank"
+                        class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5 transition-all duration-300">
+                        <i class="bi bi-arrow-up-right-circle-fill"></i>
+                        Lihat Semua Berita
+                    </a>
+                </div>
+            </section>
+        </div>
     </main>
+
+    <script>
+    // ===== FETCH BERITA DARI WORDPRESS REST API =====
+    (function () {
+        const API = 'https://sman2mengwi.sch.id/wp-json/wp/v2/posts?per_page=6&_fields=id,title,excerpt,date,link,featured_media,_links&_embed=wp:featuredmedia';
+        const FALLBACK_IMG = '/img/Logo Dwisma.png';
+        const grid = document.getElementById('berita-grid');
+
+        // Format tanggal ke Bahasa Indonesia
+        function formatDate(iso) {
+            const d = new Date(iso);
+            return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+        }
+
+        // Strip HTML tags dari excerpt
+        function stripHtml(html) {
+            const tmp = document.createElement('div');
+            tmp.innerHTML = html;
+            return (tmp.textContent || tmp.innerText || '').trim().slice(0, 120) + '...';
+        }
+
+        // Buat card berita
+        function buildCard(post) {
+            // Coba ambil featured image dari _embedded
+            let imgUrl = FALLBACK_IMG;
+            try {
+                const media = post._embedded && post._embedded['wp:featuredmedia'];
+                if (media && media[0] && media[0].source_url) {
+                    imgUrl = media[0].source_url;
+                }
+            } catch (e) {}
+
+            const title = post.title.rendered;
+            const excerpt = stripHtml(post.excerpt.rendered);
+            const date = formatDate(post.date);
+
+            return `
+            <a href="${post.link}" target="_blank" rel="noopener"
+                class="perf-card group relative flex flex-col bg-white/60 backdrop-blur-md border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(59,130,246,0.3)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+                <!-- Thumbnail -->
+                <div class="relative w-full h-44 overflow-hidden rounded-t-[2rem] bg-slate-100">
+                    <img src="${imgUrl}" alt="${title}"
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        onerror="this.src='${FALLBACK_IMG}'; this.classList.add('object-contain','p-6','opacity-60')" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                </div>
+                <!-- Content -->
+                <div class="flex flex-col flex-1 p-5 gap-2">
+                    <span class="text-[10px] font-bold text-blue-500 uppercase tracking-widest flex items-center gap-1">
+                        <i class="bi bi-calendar3"></i> ${date}
+                    </span>
+                    <h3 class="font-extrabold text-slate-800 text-base leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">${title}</h3>
+                    <p class="text-slate-500 text-sm leading-relaxed flex-1">${excerpt}</p>
+                    <span class="inline-flex items-center gap-1.5 text-sm font-bold text-blue-600 mt-1 group-hover:gap-2.5 transition-all">
+                        Baca Selengkapnya <i class="bi bi-arrow-right"></i>
+                    </span>
+                </div>
+            </a>`;
+        }
+
+        // Render error state
+        function renderError() {
+            grid.innerHTML = `
+            <div class="col-span-full flex flex-col items-center gap-4 py-12 text-slate-400">
+                <i class="bi bi-wifi-off text-5xl"></i>
+                <p class="font-semibold text-lg">Berita tidak tersedia saat ini</p>
+                <a href="https://sman2mengwi.sch.id" target="_blank"
+                    class="text-blue-500 hover:underline font-bold flex items-center gap-1">
+                    Kunjungi sman2mengwi.sch.id <i class="bi bi-arrow-up-right"></i>
+                </a>
+            </div>`;
+        }
+
+        // Fetch posts
+        fetch(API)
+            .then(r => {
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                return r.json();
+            })
+            .then(posts => {
+                if (!posts || posts.length === 0) { renderError(); return; }
+                grid.innerHTML = posts.map(buildCard).join('');
+            })
+            .catch(() => renderError());
+    })();
+    </script>
+
 
     <!-- Footer -->
     <footer class="mt-auto relative bg-white/30 backdrop-blur-2xl border-t border-white/60">
