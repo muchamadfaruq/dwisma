@@ -170,6 +170,271 @@
         .perf-card {
             contain: layout style;
         }
+
+        /* ===== DARK MODE ===== */
+        html.dark body::before {
+            background-image:
+                linear-gradient(135deg, rgba(15, 23, 42, 0.92) 0%, rgba(30, 41, 59, 0.95) 100%),
+                url("../img/background.jpeg");
+        }
+        html.dark .glass-panel {
+            background: rgba(30, 41, 59, 0.6);
+            border-color: rgba(71, 85, 105, 0.5);
+        }
+        html.dark,
+        html.dark body {
+            color: #e2e8f0;
+        }
+        html.dark .text-dwisma-dark,
+        html.dark .text-slate-800,
+        html.dark .text-slate-700,
+        html.dark h1, html.dark h2, html.dark h3, html.dark h4,
+        html.dark .font-extrabold.text-slate-800,
+        html.dark .font-extrabold.text-slate-700,
+        html.dark .font-black.text-slate-800,
+        html.dark .font-semibold.text-slate-700 {
+            color: #f1f5f9;
+        }
+        html.dark .text-slate-500,
+        html.dark .text-slate-400,
+        html.dark .text-slate-600 {
+            color: #94a3b8;
+        }
+        html.dark #ai-chat-messages .chat-msg.bot {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(71, 85, 105, 0.5);
+            color: #e2e8f0;
+        }
+        html.dark #ai-chat-input {
+            background: #1e293b;
+            border-color: #334155;
+            color: #e2e8f0;
+        }
+        html.dark #ai-chat-input-area {
+            background: rgba(30, 41, 59, 0.3);
+            border-color: rgba(71, 85, 105, 0.4);
+        }
+        html.dark #ai-chat-panel {
+            background: rgba(15, 23, 42, 0.85);
+            border-color: rgba(71, 85, 105, 0.5);
+        }
+        html.dark #blob1 { background: rgba(99, 102, 241, 0.25); }
+        html.dark #blob2 { background: rgba(14, 165, 233, 0.2); }
+        html.dark #blob3 { background: rgba(217, 70, 239, 0.2); }
+        html.dark .bg-white\/60,
+        html.dark .bg-white\/70,
+        html.dark .bg-white\/\[\.60\],
+        html.dark nav .bg-white\/60 {
+            background: rgba(30, 41, 59, 0.5);
+        }
+        html.dark nav button,
+        html.dark nav a {
+            color: #e2e8f0;
+        }
+        html.dark nav .text-slate-700 {
+            color: #e2e8f0;
+        }
+        html.dark #dark-toggle,
+        html.dark #dark-toggle-mobile {
+            background: rgba(30, 41, 59, 0.5);
+            border-color: rgba(71, 85, 105, 0.4);
+            color: #e2e8f0;
+        }
+        html.dark #dark-toggle:hover,
+        html.dark #dark-toggle-mobile:hover {
+            color: #f59e0b;
+        }
+        html.dark .border-white,
+        html.dark .border-white\/80,
+        html.dark .border-white\/60 {
+            border-color: rgba(71, 85, 105, 0.5);
+        }
+        html.dark .shadow-glass {
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        html.dark .perf-card {
+            background: rgba(30, 41, 59, 0.5);
+            border-color: rgba(71, 85, 105, 0.4);
+        }
+        html.dark .perf-card .bg-white {
+            background: rgba(30, 41, 59, 0.8);
+        }
+        html.dark .typing-indicator {
+            background: rgba(30, 41, 59, 0.8);
+            border-color: rgba(71, 85, 105, 0.5);
+        }
+        html.dark #search-input {
+            background: rgba(30, 41, 59, 0.5);
+            border-color: rgba(71, 85, 105, 0.4);
+            color: #e2e8f0;
+        }
+        html.dark #search-input::placeholder {
+            color: #64748b;
+        }
+        html.dark #search-empty p {
+            color: #94a3b8;
+        }
+        html.dark .perf-card .bg-white\/\[\.60\],
+        html.dark .perf-card a .bg-white {
+            background: rgba(30, 41, 59, 0.8);
+        }
+        html.dark #kalender-list .timeline-item {
+            background: rgba(30, 41, 59, 0.5);
+            border-color: rgba(71, 85, 105, 0.4);
+        }
+        html.dark #kalender-list .timeline-date {
+            color: #94a3b8;
+        }
+        html.dark #kalender-list .timeline-line {
+            background: rgba(71, 85, 105, 0.4);
+        }
+
+        /* Timeline Kalender */
+        #kalender-list .timeline-track {
+            position: relative;
+        }
+        #kalender-list .timeline-track::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #10b981, #14b8a6, #06b6d4);
+            border-radius: 2px;
+        }
+        #kalender-list .timeline-item {
+            position: relative;
+            padding: 16px 20px 16px 60px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            transition: all .3s;
+        }
+        #kalender-list .timeline-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.1);
+        }
+        #kalender-list .timeline-dot {
+            position: absolute;
+            left: 16px;
+            top: 22px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #10b981;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.3);
+            z-index: 1;
+        }
+        #kalender-list .timeline-date {
+            font-size: 11px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        #kalender-list .timeline-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #1e293b;
+            margin-top: 2px;
+        }
+        #kalender-list .timeline-desc {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        #kalender-list .timeline-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 999px;
+            background: rgba(16, 185, 129, 0.12);
+            color: #059669;
+        }
+        html.dark #kalender-list .timeline-title {
+            color: #f1f5f9;
+        }
+        html.dark #kalender-list .timeline-dot {
+            border-color: #1e293b;
+        }
+
+        /* Timeline aktif — menyala */
+        #kalender-list .timeline-item.active {
+            border-color: #10b981;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3), 0 0 60px rgba(16, 185, 129, 0.1);
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+        #kalender-list .timeline-item.active .timeline-dot {
+            background: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.4), 0 0 20px rgba(16, 185, 129, 0.6);
+            animation: dotPulse 2s ease-in-out infinite;
+        }
+        #kalender-list .timeline-item.active .timeline-title {
+            color: #059669;
+        }
+        html.dark #kalender-list .timeline-item.active .timeline-title {
+            color: #34d399;
+        }
+        #kalender-list .timeline-item.past {
+            opacity: .45;
+            filter: grayscale(.6);
+        }
+        #kalender-list .timeline-item.past:hover {
+            opacity: .7;
+            filter: grayscale(.3);
+        }
+        html.dark #kalender-list .timeline-item.active {
+            border-color: #34d399;
+            box-shadow: 0 0 20px rgba(52, 211, 153, 0.25), 0 0 60px rgba(52, 211, 153, 0.08);
+        }
+
+        html.dark #kalender-list .timeline-item.past {
+            opacity: .35;
+        }
+        #kalender-list .toggle-all-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 20px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 13px;
+            color: #059669;
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            cursor: pointer;
+            transition: all .3s;
+        }
+        #kalender-list .toggle-all-btn:hover {
+            background: rgba(16, 185, 129, 0.15);
+            transform: translateY(-1px);
+        }
+        html.dark #kalender-list .toggle-all-btn {
+            color: #34d399;
+            background: rgba(52, 211, 153, 0.1);
+            border-color: rgba(52, 211, 153, 0.2);
+        }
+        html.dark #kalender-list .toggle-all-btn:hover {
+            background: rgba(52, 211, 153, 0.18);
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3), 0 0 40px rgba(16, 185, 129, 0.1); }
+            50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.5), 0 0 80px rgba(16, 185, 129, 0.2); }
+        }
+        @keyframes dotPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.4), 0 0 20px rgba(16, 185, 129, 0.6); }
+            50% { transform: scale(1.2); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.2), 0 0 30px rgba(16, 185, 129, 0.8); }
+        }
     </style>
 </head>
 
@@ -219,8 +484,13 @@
                     </span>
                 </div>
 
-                <!-- Desktop Dropdown -->
-                <div class="hidden md:block">
+                <!-- Desktop Right -->
+                <div class="hidden md:flex items-center gap-2">
+                    <button id="dark-toggle"
+                        class="flex items-center justify-center w-10 h-10 rounded-full bg-white/60 border border-white hover:bg-white text-slate-600 hover:text-amber-500 shadow-sm transition-all duration-300"
+                        onclick="toggleDark()" aria-label="Toggle Dark Mode">
+                        <i id="dark-icon" class="bi bi-moon-fill text-lg"></i>
+                    </button>
                     <div class="relative group">
                         <button
                             class="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-slate-700 bg-white/60 border border-white hover:bg-white hover:shadow-[0_4px_20px_-5px_rgba(0,97,255,0.2)] transition-all duration-300">
@@ -271,7 +541,12 @@
                 </div>
 
                 <!-- Mobile Hamburger -->
-                <div class="md:hidden">
+                <div class="md:hidden flex items-center gap-2">
+                    <button id="dark-toggle-mobile"
+                        class="flex items-center justify-center w-10 h-10 rounded-full bg-white/60 border border-white hover:bg-white text-slate-600 hover:text-amber-500 shadow-sm transition-all duration-300"
+                        onclick="toggleDark()" aria-label="Toggle Dark Mode">
+                        <i id="dark-icon-mobile" class="bi bi-moon-fill text-lg"></i>
+                    </button>
                     <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
                         class="p-2.5 rounded-xl bg-white/60 border border-white hover:bg-white text-slate-700 shadow-sm transition-all">
                         <i class="bi bi-list text-2xl"></i>
@@ -372,8 +647,50 @@
         <!-- Links Grid Section -->
         <div class="max-w-6xl mx-auto space-y-20 pb-20 animate-fade-in-up delay-400">
 
+            <!-- Search Bar Global -->
+            <div class="relative max-w-lg mx-auto">
+                <i
+                    class="bi bi-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-lg pointer-events-none"></i>
+                <input id="search-input" type="text" placeholder="Cari di portal..."
+                    oninput="searchApps(this.value)"
+                    class="w-full pl-12 pr-12 py-3.5 rounded-full bg-white/60 backdrop-blur border border-white/80 text-slate-700 placeholder-slate-400 font-semibold text-sm outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400 transition-all shadow-sm">
+                <button onclick="document.getElementById('search-input').value='';searchApps('')"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-slate-200/60 hover:bg-slate-300/80 text-slate-500 flex items-center justify-center transition-all text-sm hover:bg-red-200 hover:text-red-500">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+
+            <div id="search-empty" class="hidden flex-col items-center gap-3 py-12 text-slate-400 -mt-12">
+                <i class="bi bi-inbox text-5xl"></i>
+                <p class="font-bold text-lg">Tidak ditemukan</p>
+                <p class="text-sm">Coba kata kunci lain</p>
+            </div>
+
+            <!-- Kalender Akademik -->
+            <section id="search-section-kalender" class="perf-section search-section">
+                <div class="flex items-center justify-center gap-4 mb-6">
+                    <div class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
+                    </div>
+                    <h2
+                        class="font-sans font-black text-slate-800 tracking-widest uppercase text-sm md:text-base px-8 py-2.5 bg-white/60 backdrop-blur border border-white shadow-sm rounded-full text-center">
+                        <i
+                            class="bi bi-calendar-event text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500 mr-2"></i>
+                        Kalender Akademik
+                    </h2>
+                    <div class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
+                    </div>
+                </div>
+
+                <div id="kalender-list" class="relative max-w-3xl mx-auto">
+                    <div class="text-center py-12 text-slate-400">
+                        <i class="bi bi-calendar-week text-5xl block mb-4"></i>
+                        <p class="font-semibold text-lg">Memuat kalender...</p>
+                    </div>
+                </div>
+            </section>
+
             <!-- Aplikasi Sekolah -->
-            <section class="perf-section">
+            <section class="perf-section search-section" id="search-section-aplikasi">
                 <div class="flex items-center justify-center gap-4 mb-10">
                     <div
                         class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
@@ -389,7 +706,7 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div id="aplikasi-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
                     <!-- Card 3: CBT -->
                     <a href="https://cbt.dwisma.id" target="_blank" title="Computer Based Test (CBT)"
@@ -730,11 +1047,97 @@
                                 class="bi bi-arrow-right-short text-2xl text-slate-400 group-hover:text-white group-hover:translate-x-0.5 transition-all"></i>
                         </div>
                     </a>
+
+                    <!-- Card 13: Terminal Server -->
+                    <a href="/terminal/" title="Terminal Server Linux"
+                        class="perf-card group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-md border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(16,185,129,0.4)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-teal-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                        </div>
+                        <div
+                            class="relative rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_30px_rgba(16,185,129,0.6)]">
+                            <div class="w-14 h-14 bg-white rounded-[14px] flex items-center justify-center p-2.5">
+                                <i class="bi bi-terminal-fill text-3xl text-emerald-500"></i>
+                            </div>
+                        </div>
+                        <div class="relative flex-1">
+                            <span
+                                class="block font-extrabold text-xl text-slate-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-emerald-600 group-hover:to-teal-500 transition-all">Terminal</span>
+                            <span
+                                class="block text-[10px] font-bold text-slate-400 uppercase tracking-tight mt-0.5">Server
+                                Management</span>
+                        </div>
+                        <div
+                            class="relative w-10 h-10 rounded-full bg-slate-100/80 border border-white shadow-sm flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-emerald-500 group-hover:to-teal-400 transition-all duration-500">
+                            <i
+                                class="bi bi-arrow-right-short text-2xl text-slate-400 group-hover:text-white group-hover:translate-x-0.5 transition-all"></i>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- ===== BERITA TERKINI ===== -->
+            <section class="perf-section search-section" id="berita-section">
+                <div class="flex items-center justify-center gap-4 mb-10">
+                    <div class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
+                    </div>
+                    <h2
+                        class="font-sans font-black text-slate-800 tracking-widest uppercase text-sm md:text-base px-8 py-2.5 bg-white/60 backdrop-blur border border-white shadow-sm rounded-full text-center">
+                        <i
+                            class="bi bi-newspaper text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-500 mr-2"></i>
+                        Berita Terkini
+                    </h2>
+                    <div class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
+                    </div>
+                </div>
+
+                <div id="berita-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div
+                        class="berita-skeleton animate-pulse glass-panel rounded-[2rem] overflow-hidden border border-white shadow-glass">
+                        <div class="w-full h-44 bg-slate-200/70 rounded-t-[2rem]"></div>
+                        <div class="p-5 space-y-3">
+                            <div class="h-3 bg-slate-200/70 rounded-full w-1/3"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-4/5"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-2/3"></div>
+                        </div>
+                    </div>
+                    <div
+                        class="berita-skeleton animate-pulse glass-panel rounded-[2rem] overflow-hidden border border-white shadow-glass hidden sm:block">
+                        <div class="w-full h-44 bg-slate-200/70 rounded-t-[2rem]"></div>
+                        <div class="p-5 space-y-3">
+                            <div class="h-3 bg-slate-200/70 rounded-full w-1/3"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-4/5"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-2/3"></div>
+                        </div>
+                    </div>
+                    <div
+                        class="berita-skeleton animate-pulse glass-panel rounded-[2rem] overflow-hidden border border-white shadow-glass hidden lg:block">
+                        <div class="w-full h-44 bg-slate-200/70 rounded-t-[2rem]"></div>
+                        <div class="p-5 space-y-3">
+                            <div class="h-3 bg-slate-200/70 rounded-full w-1/3"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-4/5"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-2/3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8">
+                    <a href="https://sman2mengwi.sch.id" target="_blank"
+                        class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5 transition-all duration-300">
+                        <i class="bi bi-arrow-up-right-circle-fill"></i>
+                        Lihat Semua Berita
+                    </a>
                 </div>
             </section>
 
             <!-- Pembelajaran & Ekstrakurikuler -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 perf-section">
+            <div id="search-section-belajar" class="grid grid-cols-1 lg:grid-cols-2 gap-12 perf-section search-section">
                 <section
                     class="glass-panel p-8 rounded-[2.5rem] border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] relative overflow-hidden group">
                     <div
@@ -880,7 +1283,7 @@
             <!-- Aplikasi Pemerintah -->
             <div class="grid grid-cols-1 gap-16 perf-section">
                 <!-- Provinsi -->
-                <section>
+                <section id="search-section-pemprov" class="search-section">
                     <div class="flex items-center gap-4 mb-8">
                         <div
                             class="w-2 h-8 bg-gradient-to-b from-red-500 to-orange-500 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.5)]">
@@ -936,7 +1339,7 @@
                 </section>
 
                 <!-- Pusat -->
-                <section>
+                <section id="search-section-pusat" class="search-section">
                     <div class="flex items-center gap-4 mb-8">
                         <div
                             class="w-2 h-8 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]">
@@ -1002,7 +1405,7 @@
                 </section>
 
                 <!-- Lokasi Sekolah -->
-                <section class="perf-section">
+                <section id="search-section-lokasi" class="perf-section search-section">
                     <div class="flex items-center justify-center gap-4 mb-10">
                         <div
                             class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
@@ -1054,123 +1457,33 @@
                 </section>
             </div>
         </div>
-
-        <!-- ===== BERITA TERKINI ===== -->
-        <section class="perf-section mt-8 mb-4" id="berita-section">
-            <div class="flex items-center justify-center gap-4 mb-10">
-                <div class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
-                </div>
-                <h2
-                    class="font-sans font-black text-slate-800 tracking-widest uppercase text-sm md:text-base px-8 py-2.5 bg-white/60 backdrop-blur border border-white shadow-sm rounded-full text-center">
-                    <i
-                        class="bi bi-newspaper text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-500 mr-2"></i>
-                    Berita Terkini
-                </h2>
-                <div class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
-                </div>
-            </div>
-
-            <!-- Grid Berita -->
-            <div id="berita-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Skeleton loading -->
-                <div
-                    class="berita-skeleton animate-pulse glass-panel rounded-[2rem] overflow-hidden border border-white shadow-glass">
-                    <div class="w-full h-44 bg-slate-200/70 rounded-t-[2rem]"></div>
-                    <div class="p-5 space-y-3">
-                        <div class="h-3 bg-slate-200/70 rounded-full w-1/3"></div>
-                        <div class="h-5 bg-slate-200/70 rounded-full w-full"></div>
-                        <div class="h-5 bg-slate-200/70 rounded-full w-4/5"></div>
-                        <div class="h-3 bg-slate-200/70 rounded-full w-full"></div>
-                        <div class="h-3 bg-slate-200/70 rounded-full w-2/3"></div>
-                    </div>
-                </div>
-                <div
-                    class="berita-skeleton animate-pulse glass-panel rounded-[2rem] overflow-hidden border border-white shadow-glass hidden sm:block">
-                    <div class="w-full h-44 bg-slate-200/70 rounded-t-[2rem]"></div>
-                    <div class="p-5 space-y-3">
-                        <div class="h-3 bg-slate-200/70 rounded-full w-1/3"></div>
-                        <div class="h-5 bg-slate-200/70 rounded-full w-full"></div>
-                        <div class="h-5 bg-slate-200/70 rounded-full w-4/5"></div>
-                        <div class="h-3 bg-slate-200/70 rounded-full w-full"></div>
-                        <div class="h-3 bg-slate-200/70 rounded-full w-2/3"></div>
-                    </div>
-                </div>
-                <div
-                    class="berita-skeleton animate-pulse glass-panel rounded-[2rem] overflow-hidden border border-white shadow-glass hidden lg:block">
-                    <div class="w-full h-44 bg-slate-200/70 rounded-t-[2rem]"></div>
-                    <div class="p-5 space-y-3">
-                        <div class="h-3 bg-slate-200/70 rounded-full w-1/3"></div>
-                        <div class="h-5 bg-slate-200/70 rounded-full w-full"></div>
-                        <div class="h-5 bg-slate-200/70 rounded-full w-4/5"></div>
-                        <div class="h-3 bg-slate-200/70 rounded-full w-full"></div>
-                        <div class="h-3 bg-slate-200/70 rounded-full w-2/3"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tombol lihat semua -->
-            <div class="text-center mt-8">
-                <a href="https://sman2mengwi.sch.id" target="_blank"
-                    class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5 transition-all duration-300">
-                    <i class="bi bi-arrow-up-right-circle-fill"></i>
-                    Lihat Semua Berita
-                </a>
-            </div>
-        </section>
-        </div>
     </main>
 
     <script>
-            // ===== FETCH BERITA DARI WORDPRESS REST API =====
             (function () {
-                const API = 'https://sman2mengwi.sch.id/wp-json/wp/v2/posts?per_page=6&_fields=id,title,excerpt,date,link,featured_media,_links&_embed=wp:featuredmedia';
                 const FALLBACK_IMG = '/img/Logo Dwisma.png';
                 const grid = document.getElementById('berita-grid');
 
-                // Format tanggal ke Bahasa Indonesia
-                function formatDate(iso) {
-                    const d = new Date(iso);
-                    return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+                function truncate(text, max) {
+                    return text.length > max ? text.slice(0, max) + '...' : text;
                 }
 
-                // Strip HTML tags dari excerpt
-                function stripHtml(html) {
-                    const tmp = document.createElement('div');
-                    tmp.innerHTML = html;
-                    return (tmp.textContent || tmp.innerText || '').trim().slice(0, 120) + '...';
-                }
-
-                // Buat card berita
-                function buildCard(post) {
-                    // Coba ambil featured image dari _embedded
-                    let imgUrl = FALLBACK_IMG;
-                    try {
-                        const media = post._embedded && post._embedded['wp:featuredmedia'];
-                        if (media && media[0] && media[0].source_url) {
-                            imgUrl = media[0].source_url;
-                        }
-                    } catch (e) { }
-
-                    const title = post.title.rendered;
-                    const excerpt = stripHtml(post.excerpt.rendered);
-                    const date = formatDate(post.date);
-
+                function buildCard(item) {
+                    const excerpt = truncate(item.excerpt || '', 120);
                     return `
-            <a href="${post.link}" target="_blank" rel="noopener"
+            <a href="${item.link}" target="_blank" rel="noopener"
                 class="perf-card group relative flex flex-col bg-white/60 backdrop-blur-md border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(59,130,246,0.3)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
-                <!-- Thumbnail -->
                 <div class="relative w-full h-44 overflow-hidden rounded-t-[2rem] bg-slate-100">
-                    <img src="${imgUrl}" alt="${title}"
+                    <img src="${item.img || FALLBACK_IMG}" alt="${item.title}"
                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         onerror="this.src='${FALLBACK_IMG}'; this.classList.add('object-contain','p-6','opacity-60')" />
                     <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
-                <!-- Content -->
                 <div class="flex flex-col flex-1 p-5 gap-2">
                     <span class="text-[10px] font-bold text-blue-500 uppercase tracking-widest flex items-center gap-1">
-                        <i class="bi bi-calendar3"></i> ${date}
+                        <i class="bi bi-calendar3"></i> ${item.date}
                     </span>
-                    <h3 class="font-extrabold text-slate-800 text-base leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">${title}</h3>
+                    <h3 class="font-extrabold text-slate-800 text-base leading-snug group-hover:text-blue-600 transition-colors line-clamp-2">${item.title}</h3>
                     <p class="text-slate-500 text-sm leading-relaxed flex-1">${excerpt}</p>
                     <span class="inline-flex items-center gap-1.5 text-sm font-bold text-blue-600 mt-1 group-hover:gap-2.5 transition-all">
                         Baca Selengkapnya <i class="bi bi-arrow-right"></i>
@@ -1179,7 +1492,6 @@
             </a>`;
                 }
 
-                // Render error state
                 function renderError() {
                     grid.innerHTML = `
             <div class="col-span-full flex flex-col items-center gap-4 py-12 text-slate-400">
@@ -1192,17 +1504,13 @@
             </div>`;
                 }
 
-                // Fetch posts
-                fetch(API)
-                    .then(r => {
-                        if (!r.ok) throw new Error('HTTP ' + r.status);
-                        return r.json();
+                fetch('/api/berita')
+                    .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+                    .then(res => {
+                        if (!res.success || !res.data || res.data.length === 0) { renderError(); return; }
+                        grid.innerHTML = res.data.map(buildCard).join('');
                     })
-                    .then(posts => {
-                        if (!posts || posts.length === 0) { renderError(); return; }
-                        grid.innerHTML = posts.map(buildCard).join('');
-                    })
-                    .catch(() => renderError());
+                    .catch(function () { renderError(); });
             })();
     </script>
 
@@ -1517,6 +1825,579 @@
                     .then((reg) => console.log('[PWA] Service Worker terdaftar:', reg.scope))
                     .catch((err) => console.warn('[PWA] Gagal mendaftarkan Service Worker:', err));
             });
+        }
+    </script>
+
+    <style>
+        #ai-chat-btn {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 9999;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            color: #fff;
+            border: none;
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.5);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .3s;
+            animation: chatPulse 2.5s ease-in-out infinite;
+        }
+        #ai-chat-btn::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
+            z-index: -1;
+            animation: chatRing 2.5s ease-in-out infinite;
+        }
+        @keyframes chatPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 8px 32px rgba(139, 92, 246, 0.5); }
+            50% { transform: scale(1.05); box-shadow: 0 12px 48px rgba(139, 92, 246, 0.7); }
+        }
+        @keyframes chatRing {
+            0%, 100% { opacity: .5; transform: scale(1); }
+            50% { opacity: 0; transform: scale(1.3); }
+        }
+        #ai-chat-btn:hover {
+            animation: none;
+            transform: scale(1.12);
+            box-shadow: 0 16px 48px rgba(139, 92, 246, 0.6);
+        }
+        #ai-chat-btn i {
+            font-size: 28px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        @media (max-width: 640px) {
+            #ai-chat-btn {
+                width: 50px;
+                height: 50px;
+                bottom: 18px;
+                right: 18px;
+            }
+            #ai-chat-btn i {
+                font-size: 22px;
+            }
+            #ai-chat-label {
+                font-size: 12px;
+                padding: 6px 12px;
+                bottom: 34px;
+                right: 76px;
+            }
+            #ai-chat-panel {
+                width: calc(100vw - 24px);
+                height: 60vh;
+                bottom: 76px;
+                right: 12px;
+            }
+        }
+
+        #ai-chat-label {
+            position: fixed;
+            bottom: 46px;
+            right: 104px;
+            z-index: 9998;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            pointer-events: none;
+            animation: labelIn .5s ease .5s both;
+        }
+        #ai-chat-label::after {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 6px solid transparent;
+            border-left-color: rgba(15, 23, 42, 0.85);
+        }
+        @keyframes labelIn {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        #ai-chat-panel {
+            position: fixed;
+            bottom: 92px;
+            right: 24px;
+            z-index: 9999;
+            width: 360px;
+            max-width: calc(100vw - 48px);
+            height: 520px;
+            max-height: calc(100vh - 140px);
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 24px;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        #ai-chat-panel.open {
+            display: flex;
+        }
+
+        #ai-chat-header {
+            padding: 16px 20px;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+        }
+        #ai-chat-header i {
+            font-size: 22px;
+        }
+        #ai-chat-header span {
+            flex: 1;
+            font-size: 15px;
+        }
+        #ai-chat-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+            opacity: .7;
+            padding: 0;
+        }
+        #ai-chat-close:hover {
+            opacity: 1;
+        }
+
+        #ai-chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            scroll-behavior: smooth;
+        }
+        #ai-chat-messages::-webkit-scrollbar {
+            width: 4px;
+        }
+        #ai-chat-messages::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .chat-msg {
+            max-width: 85%;
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            animation: msgIn .3s ease;
+        }
+        @keyframes msgIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .chat-msg.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+        .chat-msg.bot {
+            align-self: flex-start;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            color: #1e293b;
+            border-bottom-left-radius: 4px;
+        }
+        .chat-msg.bot i {
+            margin-right: 6px;
+        }
+        .quick-q {
+            font-size:11px;padding:6px 12px;border-radius:999px;border:1px solid #cbd5e1;
+            background:#f8fafc;color:#475569;cursor:pointer;font-weight:600;
+            transition:all 0.2s;white-space:nowrap;
+        }
+        .quick-q:hover { background:#e2e8f0;border-color:#94a3b8; }
+        html.dark .quick-q { background:#1e293b;border-color:#334155;color:#cbd5e1; }
+        html.dark .quick-q:hover { background:#334155; }
+
+        #ai-chat-input-area {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            border-top: 1px solid rgba(226, 232, 240, 0.6);
+            background: rgba(255, 255, 255, 0.5);
+        }
+        #ai-chat-input {
+            flex: 1;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 14px;
+            outline: none;
+            background: #fff;
+            font-family: inherit;
+        }
+        #ai-chat-input:focus {
+            border-color: #3b82f6;
+        }
+        #ai-chat-send {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: all .2s;
+        }
+        #ai-chat-send:hover {
+            transform: scale(1.05);
+        }
+        #ai-chat-send i {
+            font-size: 18px;
+        }
+        #ai-chat-send:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+        }
+
+        .typing-indicator {
+            align-self: flex-start;
+            display: flex;
+            gap: 4px;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
+        }
+        .typing-indicator span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #94a3b8;
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) {
+            animation-delay: .2s;
+        }
+        .typing-indicator span:nth-child(3) {
+            animation-delay: .4s;
+        }
+        @keyframes typing {
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                opacity: .4;
+            }
+            30% {
+                transform: translateY(-6px);
+                opacity: 1;
+            }
+        }
+    </style>
+
+    <div id="ai-chat-label">Tanya AI Dwisma</div>
+
+    <button id="ai-chat-btn" onclick="toggleChat()" aria-label="Chat AI">
+        <i class="bi bi-stars"></i>
+    </button>
+
+    <div id="ai-chat-panel">
+        <div id="ai-chat-header">
+            <i class="bi bi-robot"></i>
+            <span>AI Assistant Dwisma</span>
+            <button id="ai-chat-close" onclick="toggleChat()">&times;</button>
+        </div>
+        <div id="ai-chat-messages">
+            <div class="chat-msg bot">
+                <i class="bi bi-robot"></i> Halo! Ada yang bisa saya bantu tentang SMA Negeri 2 Mengwi?
+            </div>
+            <div id="chat-quick-qs" style="display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px">
+                <button class="quick-q" onclick="quickChat('Siapa kepala sekolah?')">Kepala Sekolah</button>
+                <button class="quick-q" onclick="quickChat('Apa saja aplikasi sekolah?')">Aplikasi</button>
+                <button class="quick-q" onclick="quickChat('Siapa wakasek kurikulum?')">Wakasek</button>
+                <button class="quick-q" onclick="quickChat('Kapan hari pertama masuk?')">Kalender</button>
+                <button class="quick-q" onclick="quickChat('Apa NPSN sekolah?')">NPSN</button>
+            </div>
+        </div>
+        <div id="ai-chat-input-area">
+            <input id="ai-chat-input" type="text" placeholder="Ketik pesan..." autocomplete="off"
+                onkeydown="if(event.key==='Enter')sendChat()">
+            <button id="ai-chat-send" onclick="sendChat()"><i class="bi bi-send-fill"></i></button>
+        </div>
+    </div>
+
+    <script>
+        function toggleChat() {
+            const panel = document.getElementById('ai-chat-panel');
+            const btn = document.getElementById('ai-chat-btn');
+            const label = document.getElementById('ai-chat-label');
+            const isOpen = panel.classList.toggle('open');
+            btn.style.display = isOpen ? 'none' : 'flex';
+            if (label) label.style.display = isOpen ? 'none' : 'block';
+            if (isOpen) {
+                const msgs = document.getElementById('ai-chat-messages');
+                msgs.scrollTop = msgs.scrollHeight;
+                document.getElementById('ai-chat-input').focus();
+            }
+        }
+
+        function addMsg(text, role) {
+            const div = document.createElement('div');
+            div.className = 'chat-msg ' + role;
+            const html = text
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+                .replace(/\*(.+?)\*/g, '<i>$1</i>')
+                .replace(/\n/g, '<br>');
+            if (role === 'bot') {
+                div.innerHTML = '<i class="bi bi-robot"></i> ' + html;
+            } else {
+                div.innerHTML = html;
+            }
+            document.getElementById('ai-chat-messages').appendChild(div);
+        }
+
+        function showTyping() {
+            const div = document.createElement('div');
+            div.className = 'typing-indicator';
+            div.id = 'chat-typing';
+            for (let i = 0; i < 3; i++) {
+                const span = document.createElement('span');
+                div.appendChild(span);
+            }
+            document.getElementById('ai-chat-messages').appendChild(div);
+            const msgs = document.getElementById('ai-chat-messages');
+            msgs.scrollTop = msgs.scrollHeight;
+        }
+
+        function hideTyping() {
+            const el = document.getElementById('chat-typing');
+            if (el) el.remove();
+        }
+
+        function quickChat(msg) {
+            document.getElementById('ai-chat-input').value = msg;
+            sendChat();
+        }
+
+        async function sendChat() {
+            const input = document.getElementById('ai-chat-input');
+            const msg = input.value.trim();
+            if (!msg) return;
+            input.value = '';
+            addMsg(msg, 'user');
+            const btn = document.getElementById('ai-chat-send');
+            btn.disabled = true;
+            showTyping();
+            try {
+                const r = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: msg }),
+                });
+                const data = await r.json();
+                hideTyping();
+                if (data.success) {
+                    addMsg(data.response, 'bot');
+                } else {
+                    addMsg('Maaf, terjadi kesalahan. Coba lagi.', 'bot');
+                }
+            } catch {
+                hideTyping();
+                addMsg('Maaf, terjadi kesalahan. Coba lagi.', 'bot');
+            }
+            btn.disabled = false;
+            const msgs = document.getElementById('ai-chat-messages');
+            msgs.scrollTop = msgs.scrollHeight;
+            document.getElementById('ai-chat-input').focus();
+        }
+
+        function toggleDark() {
+            const html = document.documentElement;
+            const isDark = html.classList.toggle('dark');
+            localStorage.setItem('dwisma-dark', isDark ? '1' : '0');
+            document.querySelectorAll('#dark-icon, #dark-icon-mobile').forEach(el => {
+                el.className = isDark ? 'bi bi-sun-fill text-lg' : 'bi bi-moon-fill text-lg';
+            });
+        }
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (localStorage.getItem('dwisma-dark') === null) {
+                if (e.matches) {
+                    document.documentElement.classList.add('dark');
+                    document.querySelectorAll('#dark-icon, #dark-icon-mobile').forEach(el => {
+                        el.className = 'bi bi-sun-fill text-lg';
+                    });
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    document.querySelectorAll('#dark-icon, #dark-icon-mobile').forEach(el => {
+                        el.className = 'bi bi-moon-fill text-lg';
+                    });
+                }
+            }
+        });
+
+        (function () {
+            const saved = localStorage.getItem('dwisma-dark');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const isDark = saved !== null ? saved === '1' : prefersDark;
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                document.querySelectorAll('#dark-icon, #dark-icon-mobile').forEach(el => {
+                    el.className = 'bi bi-sun-fill text-lg';
+                });
+            }
+        })();
+
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+        function formatTanggal(iso) {
+            const d = new Date(iso + 'T00:00:00');
+            return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+        }
+
+        function daysUntil(iso) {
+            const now = new Date();
+            now.setHours(0, 0, 0, 0);
+            const target = new Date(iso + 'T00:00:00');
+            const diff = Math.ceil((target - now) / (1000 * 60 * 60 * 24));
+            if (diff < 0) return null;
+            if (diff === 0) return 'Hari ini';
+            if (diff === 1) return 'Besok';
+            return diff + ' hari lagi';
+        }
+
+        function renderKalender() {
+            const container = document.getElementById('kalender-list');
+            fetch('/api/kalender')
+                .then(r => r.json())
+                .then(res => {
+                    if (!res.success || !res.data || res.data.length === 0) {
+                        container.innerHTML = '<div class="text-center py-12 text-slate-400"><i class="bi bi-calendar-x text-5xl block mb-4"></i><p class="font-semibold text-lg">Belum ada agenda</p></div>';
+                        return;
+                    }
+                    const now = new Date();
+                    now.setHours(0, 0, 0, 0);
+                    const upcoming = res.data.filter(d => new Date(d.tanggal + 'T00:00:00') >= now);
+                    const sorted = upcoming.sort((a, b) => a.tanggal.localeCompare(b.tanggal));
+
+                    const limit = 3;
+                    let html = '<div class="timeline-track">';
+                    sorted.forEach((item, i) => {
+                        const label = daysUntil(item.tanggal);
+                        const badge = label ? '<span class="timeline-badge ml-2">' + label + '</span>' : '';
+                        const active = i === 0 && label !== null ? ' active' : '';
+                        const cls = active || (label !== null ? '' : ' past');
+                        const hidden = i >= limit ? ' style="display:none"' : '';
+                        html += `
+                        <div class="timeline-item${cls}"${hidden}>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-date"><i class="bi bi-calendar3"></i> ${formatTanggal(item.tanggal)}${badge}</div>
+                            <div class="timeline-title">${item.kegiatan}</div>
+                            <div class="timeline-desc">${item.keterangan}</div>
+                        </div>`;
+                    });
+                    html += '</div>';
+                    if (sorted.length > limit) {
+                        html += '<div class="text-center mt-4"><button onclick="toggleKalender(this)" class="toggle-all-btn">Lihat Semua <i class="bi bi-chevron-down"></i></button></div>';
+                    }
+                    container.innerHTML = html;
+                })
+                .catch(() => {
+                    container.innerHTML = '<div class="text-center py-12 text-slate-400"><i class="bi bi-exclamation-triangle text-5xl block mb-4"></i><p class="font-semibold text-lg">Gagal memuat kalender</p></div>';
+                });
+        }
+
+        renderKalender();
+
+        function toggleKalender(btn) {
+            const items = document.querySelectorAll('#kalender-list .timeline-item');
+            const hidden = btn.dataset.open === '1';
+            items.forEach((el, i) => {
+                if (i >= 3) el.style.display = hidden ? 'none' : '';
+            });
+            btn.dataset.open = hidden ? '0' : '1';
+            btn.innerHTML = hidden
+                ? 'Lihat Semua <i class="bi bi-chevron-down"></i>'
+                : 'Tampilkan Sedikit <i class="bi bi-chevron-up"></i>';
+        }
+
+        function searchApps(value) {
+            const q = value.toLowerCase().trim();
+            const sections = document.querySelectorAll('.search-section');
+            let anyVisible = false;
+
+            sections.forEach(section => {
+                if (!q) {
+                    section.style.display = '';
+                    section.querySelectorAll('.perf-card, .timeline-item').forEach(c => c.style.display = '');
+                    if (section.id === 'search-section-kalender') {
+                        const items = section.querySelectorAll('.timeline-item');
+                        items.forEach((el, i) => { if (i >= 3) el.style.display = 'none'; });
+                        const btn = section.querySelector('.toggle-all-btn');
+                        if (btn) { btn.dataset.open = '0'; btn.innerHTML = 'Lihat Semua <i class="bi bi-chevron-down"></i>'; }
+                    }
+                    anyVisible = true;
+                    return;
+                }
+
+                const id = section.id;
+                const isItemized = id === 'search-section-aplikasi' || id === 'berita-section' || id === 'search-section-kalender';
+
+                if (isItemized) {
+                    let selector = '.perf-card';
+                    if (id === 'search-section-kalender') selector = '.timeline-item';
+                    const items = section.querySelectorAll(selector);
+                    if (id === 'search-section-kalender') items.forEach(el => el.style.display = '');
+                    let hasMatch = false;
+                    items.forEach(item => {
+                        const m = item.textContent.toLowerCase().includes(q);
+                        item.style.display = m ? '' : 'none';
+                        if (m) hasMatch = true;
+                    });
+                    section.style.display = hasMatch ? '' : 'none';
+                    if (hasMatch) anyVisible = true;
+                } else {
+                    const match = section.textContent.toLowerCase().includes(q);
+                    section.style.display = match ? '' : 'none';
+                    if (match) anyVisible = true;
+                }
+            });
+
+            const empty = document.getElementById('search-empty');
+            if (empty) empty.style.display = anyVisible ? 'none' : 'flex';
         }
     </script>
 </body>

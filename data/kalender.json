@@ -1,0 +1,170 @@
+[
+  {
+    "id": 1,
+    "tanggal": "2026-07-13",
+    "kegiatan": "Hari Pertama Masuk Sekolah",
+    "keterangan": "Awal semester ganjil TA 2026/2027"
+  },
+  {
+    "id": 2,
+    "tanggal": "2026-07-15",
+    "kegiatan": "Masa Pengenalan Lingkungan Sekolah (MPLS)",
+    "keterangan": "Kelas X"
+  },
+  {
+    "id": 3,
+    "tanggal": "2026-07-23",
+    "kegiatan": "Peringatan Hari Anak Nasional",
+    "keterangan": "Upacara dan kegiatan"
+  },
+  {
+    "id": 4,
+    "tanggal": "2026-07-24",
+    "kegiatan": "Workshop Komunitas Belajar",
+    "keterangan": "Di ruang pertemuan"
+  },
+  {
+    "id": 5,
+    "tanggal": "2026-07-27",
+    "kegiatan": "Pendaftaran Peserta TKA dan peserta AN",
+    "keterangan": "27 Juli - 27 September 2026"
+  },
+  {
+    "id": 6,
+    "tanggal": "2026-07-28",
+    "kegiatan": "OSN-P",
+    "keterangan": "Olimpiade Sains Nasional tingkat Provinsi"
+  },
+  {
+    "id": 7,
+    "tanggal": "2026-08-17",
+    "kegiatan": "Hari Kemerdekaan RI ke-81",
+    "keterangan": "Upacara bendera"
+  },
+  {
+    "id": 8,
+    "tanggal": "2026-09-05",
+    "kegiatan": "Peringatan Hari Olahraga Nasional",
+    "keterangan": "Kegiatan olahraga bersama"
+  },
+  {
+    "id": 9,
+    "tanggal": "2026-09-16",
+    "kegiatan": "Penilaian Tengah Semester (PTS) Ganjil",
+    "keterangan": "Kelas X, XI, XII"
+  },
+  {
+    "id": 10,
+    "tanggal": "2026-09-21",
+    "kegiatan": "Simulasi TKA dan AN",
+    "keterangan": "21 - 27 September 2026"
+  },
+  {
+    "id": 11,
+    "tanggal": "2026-10-05",
+    "kegiatan": "Gladi Bersih TKA & AN",
+    "keterangan": "5 - 11 Oktober 2026"
+  },
+  {
+    "id": 12,
+    "tanggal": "2026-10-26",
+    "kegiatan": "Pelaksanaan TKA Tingkat SMA",
+    "keterangan": "26 - 29 Oktober 2026"
+  },
+  {
+    "id": 13,
+    "tanggal": "2026-10-28",
+    "kegiatan": "Peringatan Hari Sumpah Pemuda",
+    "keterangan": "Upacara bendera"
+  },
+  {
+    "id": 14,
+    "tanggal": "2026-11-10",
+    "kegiatan": "Peringatan Hari Pahlawan",
+    "keterangan": "Upacara bendera"
+  },
+  {
+    "id": 15,
+    "tanggal": "2026-11-25",
+    "kegiatan": "Penilaian Akhir Semester (PAS) Ganjil",
+    "keterangan": "Kelas X, XI, XII"
+  },
+  {
+    "id": 16,
+    "tanggal": "2026-12-16",
+    "kegiatan": "Pembagian Rapor Semester Ganjil",
+    "keterangan": "Kelas X, XI, XII"
+  },
+  {
+    "id": 17,
+    "tanggal": "2026-12-21",
+    "kegiatan": "Libur Semester Ganjil",
+    "keterangan": "Libur akhir tahun"
+  },
+  {
+    "id": 18,
+    "tanggal": "2026-12-23",
+    "kegiatan": "Pengumuman Hasil TKA",
+    "keterangan": "Pengumuman hasil TKA tingkat SMA"
+  },
+  {
+    "id": 19,
+    "tanggal": "2027-01-04",
+    "kegiatan": "Hari Pertama Semester Genap",
+    "keterangan": "Awal semester genap TA 2026/2027"
+  },
+  {
+    "id": 20,
+    "tanggal": "2027-03-01",
+    "kegiatan": "Penilaian Tengah Semester (PTS) Genap",
+    "keterangan": "Kelas X, XI, XII"
+  },
+  {
+    "id": 21,
+    "tanggal": "2027-03-29",
+    "kegiatan": "Ujian Sekolah (US)",
+    "keterangan": "Kelas XII"
+  },
+  {
+    "id": 22,
+    "tanggal": "2027-04-21",
+    "kegiatan": "Ujian Nasional / Asesmen Akhir",
+    "keterangan": "Kelas XII"
+  },
+  {
+    "id": 23,
+    "tanggal": "2027-05-03",
+    "kegiatan": "Penilaian Akhir Semester (PAS) Genap",
+    "keterangan": "Kelas X, XI"
+  },
+  {
+    "id": 24,
+    "tanggal": "2027-05-06",
+    "kegiatan": "Peringatan Hari Ulang Tahun Sekolah",
+    "keterangan": "Dies Natalis SMA Negeri 2 Mengwi"
+  },
+  {
+    "id": 25,
+    "tanggal": "2027-05-17",
+    "kegiatan": "Kelulusan Siswa Kelas XII",
+    "keterangan": "Pengumuman kelulusan"
+  },
+  {
+    "id": 26,
+    "tanggal": "2027-05-31",
+    "kegiatan": "Pembagian Rapor Semester Genap",
+    "keterangan": "Kelas X, XI"
+  },
+  {
+    "id": 27,
+    "tanggal": "2027-06-07",
+    "kegiatan": "Libur Akhir Tahun Pelajaran",
+    "keterangan": "Libur kenaikan kelas"
+  },
+  {
+    "id": 28,
+    "tanggal": "2027-07-12",
+    "kegiatan": "Hari Pertama Masuk Sekolah TA 2027/2028",
+    "keterangan": "Awal tahun ajaran baru"
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "name": "dwisma-berita-proxy",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "axios": "^1.7.0",
+    "cheerio": "^1.0.0"
+  }
+}
