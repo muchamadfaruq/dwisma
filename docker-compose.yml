@@ -1,0 +1,42 @@
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./index.html:/usr/share/nginx/html/index.html
+      - ./manifest.json:/usr/share/nginx/html/manifest.json
+      - ./sw.js:/usr/share/nginx/html/sw.js
+      - ./CNAME:/usr/share/nginx/html/CNAME
+      - ./js:/usr/share/nginx/html/js
+      - ./data:/usr/share/nginx/html/data
+      - ./img:/usr/share/nginx/html/img
+    depends_on:
+      - proxy
+    networks:
+      - default
+      - npm
+    restart: unless-stopped
+
+  proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    environment:
+      - PORT=3000
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - DATA_DIR=/data
+    volumes:
+      - ./data:/data
+    expose:
+      - "3000"
+    restart: unless-stopped
+
+networks:
+  default:
+    name: dwisma_default
+  npm:
+    external: true
+    name: nginx-proxy-manager_default
+
