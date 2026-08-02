@@ -491,104 +491,16 @@
                         onclick="toggleDark()" aria-label="Toggle Dark Mode">
                         <i id="dark-icon" class="bi bi-moon-fill text-lg"></i>
                     </button>
-                    <div class="relative group">
-                        <button
-                            class="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-slate-700 bg-white/60 border border-white hover:bg-white hover:shadow-[0_4px_20px_-5px_rgba(0,97,255,0.2)] transition-all duration-300">
-                            <i
-                                class="bi bi-grid-fill text-transparent bg-clip-text bg-gradient-to-br from-blue-500 to-indigo-500"></i>
-                            Menu Admin
-                            <i
-                                class="bi bi-chevron-down text-sm text-slate-400 group-hover:rotate-180 transition-transform duration-300"></i>
-                        </button>
-                        <!-- Dropdown Menu -->
-                        <div
-                            class="absolute right-0 mt-3 w-64 glass-panel rounded-2xl shadow-2xl py-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform group-hover:translate-y-0 translate-y-3 border border-white border-t-0">
-                            <div class="px-4 pb-2 mb-2 border-b border-slate-200/50">
-                                <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Akses
-                                    Administrator</span>
-                            </div>
-                            <a href="https://dwisma.faruqadvmikhmon.my.id" target="_blank"
-                                class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 hover:text-blue-600 transition-all font-semibold text-slate-700">
-                                <i class="bi bi-wifi text-lg text-blue-500"></i> Manajemen Hotspot
-                            </a>
-                            <a href="https://proxmox.dwisma.id" target="_blank"
-                                class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 hover:text-emerald-600 transition-all font-semibold text-slate-700">
-                                <i class="bi bi-hdd-network text-lg text-emerald-500"></i> Manajemen Proxmox
-                            </a>
-                            <a href="https://idrac.dwisma.id" target="_blank"
-                                class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-purple-50 hover:to-fuchsia-50 hover:text-purple-600 transition-all font-semibold text-slate-700">
-                                <i class="bi bi-server text-lg text-purple-500"></i> Manajemen iDRAC
-                            </a>
-
-                            <a href="https://npm.dwisma.id" target="_blank"
-                                class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-red-50 hover:to-rose-50 hover:text-red-600 transition-all font-semibold text-slate-700">
-                                <i class="bi bi-router text-lg text-red-500"></i> Nginx Proxy Manager
-                            </a>
-                            <a href="https://rdp.dwisma.id" target="_blank"
-                                class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-cyan-50 hover:to-sky-50 hover:text-cyan-600 transition-all font-semibold text-slate-700">
-                                <i class="bi bi-display text-lg text-cyan-500"></i> Remote Desktop
-                            </a>
-                            <a href="https://lulus.dwisma.id" target="_blank"
-                                class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-yellow-50 hover:to-amber-50 hover:text-yellow-600 transition-all font-semibold text-slate-700 border-t border-slate-100 mt-1 pt-3">
-                                <i class="bi bi-mortarboard text-lg text-yellow-500"></i> Manajemen Kelulusan
-                            </a>
-                            <a href="https://spmb.dwisma.id" target="_blank"
-                                class="flex items-center gap-3 px-4 py-2.5 mx-2 rounded-xl hover:bg-gradient-to-r hover:from-indigo-50 hover:to-purple-50 hover:text-indigo-600 transition-all font-semibold text-slate-700">
-                                <i class="bi bi-person-plus text-lg text-indigo-500"></i> Manajemen SPMB
-                            </a>
-                        </div>
-                    </div>
                 </div>
 
-                <!-- Mobile Hamburger -->
+                <!-- Mobile Right -->
                 <div class="md:hidden flex items-center gap-2">
                     <button id="dark-toggle-mobile"
                         class="flex items-center justify-center w-10 h-10 rounded-full bg-white/60 border border-white hover:bg-white text-slate-600 hover:text-amber-500 shadow-sm transition-all duration-300"
                         onclick="toggleDark()" aria-label="Toggle Dark Mode">
                         <i id="dark-icon-mobile" class="bi bi-moon-fill text-lg"></i>
                     </button>
-                    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
-                        class="p-2.5 rounded-xl bg-white/60 border border-white hover:bg-white text-slate-700 shadow-sm transition-all">
-                        <i class="bi bi-list text-2xl"></i>
-                    </button>
                 </div>
-            </div>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-white shadow-inner">
-            <div class="px-4 py-5 space-y-2">
-                <div class="text-xs font-extrabold text-slate-400 uppercase tracking-widest px-3 mb-3">Akses
-                    Administrator</div>
-                <a href="https://dwisma.faruqadvmikhmon.my.id" target="_blank"
-                    class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-blue-500 hover:to-indigo-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
-                    <i class="bi bi-wifi text-xl"></i> Manajemen Hotspot
-                </a>
-                <a href="https://proxmox.dwisma.id" target="_blank"
-                    class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-emerald-500 hover:to-teal-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
-                    <i class="bi bi-hdd-network text-xl"></i> Manajemen Proxmox
-                </a>
-                <a href="https://idrac.dwisma.id" target="_blank"
-                    class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-purple-500 hover:to-fuchsia-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
-                    <i class="bi bi-server text-xl"></i> Manajemen iDRAC
-                </a>
-
-                <a href="https://npm.dwisma.id" target="_blank"
-                    class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-red-500 hover:to-rose-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
-                    <i class="bi bi-router text-xl"></i> Nginx Proxy Manager
-                </a>
-                <a href="https://rdp.dwisma.id" target="_blank"
-                    class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-cyan-500 hover:to-sky-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
-                    <i class="bi bi-display text-xl"></i> Remote Desktop
-                </a>
-                <a href="https://lulus.dwisma.id" target="_blank"
-                    class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-yellow-500 hover:to-amber-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
-                    <i class="bi bi-mortarboard text-xl"></i> Manajemen Kelulusan
-                </a>
-                <a href="https://spmb.dwisma.id" target="_blank"
-                    class="flex items-center gap-3 px-4 py-3.5 bg-white/60 rounded-xl hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-500 hover:text-white font-bold transition-all border border-white shadow-sm text-slate-700">
-                    <i class="bi bi-person-plus text-xl"></i> Manajemen SPMB
-                </a>
             </div>
         </div>
     </nav>
@@ -887,8 +799,8 @@
                         </div>
                     </a>
 
-                    <!-- Card: TKA -->
-                    <a href="https://tka.dwisma.id" target="_blank" title="Tes Kemampuan Akademik"
+                    <!-- Card: Daftar TKA -->
+                    <a href="https://tka.dwisma.id" target="_blank" title="Daftar Tes Kemampuan Akademik"
                         class="perf-card group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-md border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(129,140,248,0.4)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
                         <div
                             class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -901,10 +813,10 @@
                         </div>
                         <div class="relative flex-1">
                             <span
-                                class="block font-extrabold text-xl text-slate-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-indigo-500 group-hover:to-violet-500 transition-all">TKA</span>
+                                class="block font-extrabold text-xl text-slate-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-indigo-500 group-hover:to-violet-500 transition-all">Daftar TKA</span>
                             <span
-                                class="block text-[10px] font-bold text-slate-400 uppercase tracking-tight mt-0.5">Tes
-                                Kemampuan Akademik</span>
+                                class="block text-[10px] font-bold text-slate-400 uppercase tracking-tight mt-0.5">Daftar
+                                Tes Kemampuan Akademik</span>
                         </div>
                         <div
                             class="relative w-10 h-10 rounded-full bg-slate-100/80 border border-white shadow-sm flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-indigo-500 group-hover:to-violet-500 transition-all duration-500">
@@ -1100,31 +1012,7 @@
                         </div>
                     </a>
 
-                    <!-- Card 13: Terminal Server -->
-                    <a href="/terminal/" title="Terminal Server Linux"
-                        class="perf-card group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-md border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(16,185,129,0.4)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
-                        <div
-                            class="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-teal-400/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        </div>
-                        <div
-                            class="relative rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-400 p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md group-hover:shadow-[0_0_30px_rgba(16,185,129,0.6)]">
-                            <div class="w-14 h-14 bg-white rounded-[14px] flex items-center justify-center p-2.5">
-                                <i class="bi bi-terminal-fill text-3xl text-emerald-500"></i>
-                            </div>
-                        </div>
-                        <div class="relative flex-1">
-                            <span
-                                class="block font-extrabold text-xl text-slate-800 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-emerald-600 group-hover:to-teal-500 transition-all">Terminal</span>
-                            <span
-                                class="block text-[10px] font-bold text-slate-400 uppercase tracking-tight mt-0.5">Server
-                                Management</span>
-                        </div>
-                        <div
-                            class="relative w-10 h-10 rounded-full bg-slate-100/80 border border-white shadow-sm flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-emerald-500 group-hover:to-teal-400 transition-all duration-500">
-                            <i
-                                class="bi bi-arrow-right-short text-2xl text-slate-400 group-hover:text-white group-hover:translate-x-0.5 transition-all"></i>
-                        </div>
-                    </a>
+
                 </div>
             </section>
 
@@ -1852,17 +1740,9 @@
                         if (isOnline) {
                             item.dotElement.classList.add('bg-emerald-500', 'shadow-[0_0_10px_rgba(16,185,129,0.7)]');
                             item.dotElement.title = "Online / Aktif";
-                            if (item.isCard && item.link) {
-                                item.link.classList.remove('service-offline');
-                                item.link.style.display = '';
-                            }
                         } else {
                             item.dotElement.classList.add('bg-rose-500', 'shadow-[0_0_10px_rgba(244,63,94,0.7)]');
                             item.dotElement.title = "Offline / Tidak Aktif";
-                            if (item.isCard && item.link) {
-                                item.link.classList.add('service-offline');
-                                item.link.style.display = 'none';
-                            }
                         }
                     }
                 }
@@ -2424,13 +2304,7 @@
             sections.forEach(section => {
                 if (!q) {
                     section.style.display = '';
-                    section.querySelectorAll('.perf-card, .timeline-item').forEach(c => {
-                        if (c.classList.contains('service-offline')) {
-                            c.style.display = 'none';
-                        } else {
-                            c.style.display = '';
-                        }
-                    });
+                    section.querySelectorAll('.perf-card, .timeline-item').forEach(c => c.style.display = '');
                     if (section.id === 'search-section-kalender') {
                         const items = section.querySelectorAll('.timeline-item');
                         items.forEach((el, i) => { if (i >= 3) el.style.display = 'none'; });
@@ -2451,10 +2325,9 @@
                     if (id === 'search-section-kalender') items.forEach(el => el.style.display = '');
                     let hasMatch = false;
                     items.forEach(item => {
-                        const isOffline = item.classList.contains('service-offline');
                         const m = item.textContent.toLowerCase().includes(q);
-                        item.style.display = (m && !isOffline) ? '' : 'none';
-                        if (m && !isOffline) hasMatch = true;
+                        item.style.display = m ? '' : 'none';
+                        if (m) hasMatch = true;
                     });
                     section.style.display = hasMatch ? '' : 'none';
                     if (hasMatch) anyVisible = true;
