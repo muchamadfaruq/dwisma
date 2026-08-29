@@ -512,6 +512,52 @@ app.get('/api/guru', (req, res) => {
   }
 });
 
+const UPTIME_KUMA_URL = process.env.UPTIME_KUMA_URL || 'https://uptime.dwisma.id';
+const STATUS_PAGE_SLUG = 'status';
+let cachedStatus = null;
+let statusCacheTime = 0;
+const STATUS_CACHE_TTL = 60 * 1000;
+
+app.get('/api/status', async (req, res) => {
+  try {
+    if (cachedStatus && Date.now() - statusCacheTime < STATUS_CACHE_TTL) {
+      return res.json(cachedStatus);
+    }
+
+    const [listRes, heartbeatRes] = await Promise.all([
+      axios.get(`${UPTIME_KUMA_URL}/api/status-page/${STATUS_PAGE_SLUG}`, { timeout: 15000 }),
+      axios.get(`${UPTIME_KUMA_URL}/api/status-page/heartbeat/${STATUS_PAGE_SLUG}`, { timeout: 15000 }),
+    ]);
+
+    const beats = heartbeatRes.data.heartbeatList;
+    const uptime = heartbeatRes.data.uptimeList;
+    const monitors = [];
+
+    for (const group of listRes.data.publicGroupList || []) {
+      for (const mon of group.monitorList || []) {
+        const beatArr = beats[mon.id] || [];
+        const latest = beatArr.length ? beatArr[beatArr.length - 1] : null;
+        monitors.push({
+          id: mon.id,
+          name: mon.name,
+          url: mon.url || null,
+          status: latest ? latest.status : null,
+          uptime: uptime[`${mon.id}_24`] ?? null,
+          ping: latest ? latest.ping : null,
+          lastCheck: latest ? latest.time : null,
+        });
+      }
+    }
+
+    cachedStatus = { success: true, updated: new Date().toISOString(), monitors };
+    statusCacheTime = Date.now();
+    res.json(cachedStatus);
+  } catch (err) {
+    console.error('Status error:', err.message);
+    res.status(502).json({ success: false, message: 'Gagal mengambil status layanan' });
+  }
+});
+
 app.get('/api/aplikasi', (req, res) => {
   try {
     const filePath = path.join(DATA_DIR, 'aplikasi.json');

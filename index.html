@@ -171,6 +171,27 @@
             contain: layout style;
         }
 
+        .status-dot {
+            position: absolute;
+            top: 1.1rem;
+            right: 1.1rem;
+            z-index: 10;
+            width: 0.7rem;
+            height: 0.7rem;
+            border-radius: 9999px;
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            background: #94a3b8;
+        }
+        .status-dot.up {
+            background: #22c55e;
+        }
+        .status-dot.down {
+            background: #ef4444;
+        }
+        .status-dot.maintenance {
+            background: #f59e0b;
+        }
+
         /* ===== DARK MODE ===== */
         html.dark body::before {
             background-image:
@@ -617,6 +638,8 @@
                         class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
                     </div>
                 </div>
+
+                <div id="status-summary" class="text-center mb-8"></div>
 
                 <div id="aplikasi-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
@@ -2283,6 +2306,59 @@
         }
 
         renderKalender();
+
+        function normalizeUrl(u) {
+            return (u || '').replace(/^https?:\/\//, '').replace(/\/$/, '').toLowerCase();
+        }
+
+        function loadStatus() {
+            const summary = document.getElementById('status-summary');
+            fetch('/api/status')
+                .then(r => r.json())
+                .then(res => {
+                    if (!res.success) return;
+                    const monitors = res.monitors || [];
+                    const byUrl = {};
+                    monitors.forEach(m => {
+                        if (m.url) byUrl[normalizeUrl(m.url)] = m;
+                    });
+
+                    let up = 0, down = 0;
+                    document.querySelectorAll('#aplikasi-grid a.perf-card').forEach(card => {
+                        const href = card.getAttribute('href');
+                        if (!href) return;
+                        const mon = byUrl[normalizeUrl(href)];
+                        if (!mon) return;
+                        if (mon.status === 1) up++;
+                        else if (mon.status === 0) down++;
+
+                        const cls = mon.status === 1 ? 'up' : (mon.status === 3 ? 'maintenance' : 'down');
+                        const label = mon.status === 1 ? 'Online' : (mon.status === 3 ? 'Pemeliharaan' : 'Offline');
+                        const dot = document.createElement('span');
+                        dot.className = 'status-dot ' + cls;
+                        dot.title = label;
+                        card.appendChild(dot);
+                    });
+
+                    const total = up + down;
+                    if (!summary || total === 0) return;
+                    const allUp = down === 0;
+                    summary.innerHTML = `
+                        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur border border-white shadow-sm text-sm font-semibold text-slate-600">
+                            <span class="w-2.5 h-2.5 rounded-full ${allUp ? 'bg-green-500' : 'bg-red-500'}"></span>
+                            ${allUp
+                                ? up + ' layanan aktif · semua berjalan normal'
+                                : up + ' aktif · ' + down + ' gangguan'}
+                            <a href="https://uptime.dwisma.id/status/status" target="_blank" rel="noopener"
+                               class="ml-1 text-blue-600 hover:underline">Detail</a>
+                        </div>`;
+                })
+                .catch(() => {
+                    if (summary) summary.innerHTML = '';
+                });
+        }
+
+        loadStatus();
 
         function toggleKalender(btn) {
             const items = document.querySelectorAll('#kalender-list .timeline-item');
