@@ -1,4 +1,5 @@
 [
+  {"nama": "Arsip", "deskripsi": "Arsip Dokumen Sekolah", "url": "https://arsip.dwisma.id", "kategori": "Sekolah"},
   {"nama": "CBT", "deskripsi": "Computer Based Test", "url": "https://cbt.dwisma.id", "kategori": "Sekolah"},
   {"nama": "Dapodik", "deskripsi": "Aplikasi Dapodik", "url": "https://dapodik.dwisma.id", "kategori": "Sekolah"},
   {"nama": "e-Learning", "deskripsi": "Sistem Pembelajaran Jarak Jauh", "url": "https://elearning.dwisma.id", "kategori": "Sekolah"},
@@ -6,6 +7,7 @@
   {"nama": "Galeri", "deskripsi": "Galeri Sekolah", "url": "https://galeri.dwisma.id", "kategori": "Sekolah"},
   {"nama": "Hasil TKA", "deskripsi": "Hasil Tes Kemampuan Akademik", "url": "https://hasiltka.faruqadv.my.id", "kategori": "Sekolah"},
   {"nama": "Daftar TKA", "deskripsi": "Daftar Tes Kemampuan Akademik", "url": "https://tka.dwisma.id", "kategori": "Sekolah"},
+  {"nama": "Draw", "deskripsi": "Whiteboard Kolaborasi", "url": "https://draw.dwisma.id", "kategori": "Sekolah"},
   {"nama": "KAIH", "deskripsi": "7 Kebiasaan Anak Indonesia Hebat", "url": "https://kaih.dwisma.id", "kategori": "Sekolah"},
   {"nama": "Kelulusan", "deskripsi": "Pengumuman Kelulusan", "url": "https://lulus.dwisma.id", "kategori": "Sekolah"},
   {"nama": "NILATISMA", "deskripsi": "Komunitas Belajar SMAN 2 Mengwi", "url": "https://nilatisma.dwisma.id", "kategori": "Sekolah"},
