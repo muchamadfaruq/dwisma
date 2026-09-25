@@ -1,7 +1,11 @@
 .env
-
 .env.*
+!.env.example
 node_modules/
-*.db
-*.sqlite
-*.sql
+data/*.db
+data/*.db-*
+data/uploads/
+*.log
+.DS_Store
+.DS_Store?
+Thumbs.db

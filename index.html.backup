@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Portal Aplikasi SMAN 2 Mengwi</title>
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+
+    <!-- PWA Support -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/css/styles.css" />
+    <meta name="theme-color" content="#0061ff" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Dwisma Portal" />
+    <link rel="apple-touch-icon" href="/img/Logo Dwisma.png" />
+    <meta name="description"
+        content="Portal aplikasi resmi SMAN 2 Mengwi – akses semua layanan sekolah dalam satu tempat." />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Icons & Fonts -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Merriweather:ital,wght@0,700;1,700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        merriweather: ['Merriweather', 'serif'],
+                    },
+                    colors: {
+                        dwisma: {
+                            blue: '#0061ff',
+                            dark: '#0f172a',
+                            light: '#f8f9fa',
+                        }
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.05)',
+                        'icon': '0 10px 20px -5px rgba(0,0,0,0.1)',
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                        'blob': 'blob 10s infinite',
+                        'gradient-text': 'gradient 8s linear infinite',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        },
+                        gradient: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                            '100%': { backgroundPosition: '0% 50%' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+
+<body
+    class="font-sans text-dwisma-dark min-h-screen flex flex-col antialiased selection:bg-blue-600 selection:text-white relative overflow-x-hidden">
+
+    <!-- Ambient Background Blobs (Canggih Effect) -->
+    <!-- mix-blend-multiply dihapus: property ini paksa GPU re-composite
+         seluruh halaman di setiap frame scroll — sangat mahal -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div id="blob1"
+            class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-purple-400/40 rounded-full filter blur-[100px] animate-blob"
+            style="will-change: transform; transform: translateZ(0);">
+        </div>
+        <div id="blob2"
+            class="absolute top-[20%] right-[-10%] w-96 h-96 bg-cyan-400/40 rounded-full filter blur-[100px] animate-blob animation-delay-2000"
+            style="will-change: transform; transform: translateZ(0);">
+        </div>
+        <div id="blob3"
+            class="absolute bottom-[-20%] left-[20%] w-[500px] h-[500px] bg-pink-400/30 rounded-full filter blur-[120px] animate-blob animation-delay-4000"
+            style="will-change: transform; transform: translateZ(0);">
+        </div>
+    </div>
+
+    <!-- Navigasi -->
+    <nav class="sticky top-0 z-50 glass-panel border-b border-white/60 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+
+                <!-- Logo Brand -->
+                <div class="flex-shrink-0 flex items-center gap-3 group cursor-pointer"
+                    onclick="window.location.reload()">
+                    <div class="flex items-center gap-2">
+                        <img src="/img/logo-pemprov-bali.png" alt="Logo Pemprov Bali"
+                            class="h-10 w-10 object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-300" />
+                        <img src="/img/Logo Dwisma.png" alt="Logo SMAN 2 Mengwi"
+                            class="h-10 w-10 object-contain drop-shadow-sm group-hover:scale-105 transition-transform duration-300" />
+                        <div class="h-6 w-[1px] bg-slate-300/80 self-center hidden sm:block"></div>
+                        <img src="/img/Logo_Kemendikdasmen.png" alt="Logo Kemendikdasmen"
+                            class="h-7 w-auto object-contain hidden sm:block group-hover:scale-105 transition-transform duration-300" />
+                    </div>
+                    <span
+                        class="text-2xl font-black tracking-tighter transition-transform duration-300 group-hover:scale-105 ml-1">
+                        <span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">dwisma.</span><span
+                            class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-600">id</span>
+                    </span>
+                </div>
+
+                <!-- Desktop Right -->
+                <div class="hidden md:flex items-center gap-2">
+                    <button id="dark-toggle"
+                        class="flex items-center justify-center w-10 h-10 rounded-full bg-white/60 border border-white hover:bg-white text-slate-600 hover:text-amber-500 shadow-sm transition-all duration-300"
+                        onclick="toggleDark()" aria-label="Toggle Dark Mode">
+                        <i id="dark-icon" class="bi bi-moon-fill text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Right -->
+                <div class="md:hidden flex items-center gap-2">
+                    <button id="dark-toggle-mobile"
+                        class="flex items-center justify-center w-10 h-10 rounded-full bg-white/60 border border-white hover:bg-white text-slate-600 hover:text-amber-500 shadow-sm transition-all duration-300"
+                        onclick="toggleDark()" aria-label="Toggle Dark Mode">
+                        <i id="dark-icon-mobile" class="bi bi-moon-fill text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header & Hero -->
+    <main class="flex-grow container mx-auto px-4 py-16">
+        <div class="text-center max-w-4xl mx-auto mb-20 relative">
+            <!-- Authority Badge (Pemprov Bali & Kemendikdasmen) -->
+            <div class="flex justify-center mb-6 animate-fade-in-up">
+                <div
+                    class="px-5 py-2.5 bg-white/70 backdrop-blur-md border border-white/80 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex items-center gap-3.5 hover:shadow-[0_8px_30px_rgba(0,97,255,0.1)] hover:scale-105 transition-all duration-300">
+                    <img src="/img/logo-pemprov-bali.png" alt="Logo Pemprov Bali"
+                        class="h-7 md:h-9 w-auto object-contain" />
+                    <div class="h-5 w-[1px] bg-slate-300/80"></div>
+                    <img src="/img/Logo_Kemendikdasmen.png" alt="Logo Kemendikdasmen"
+                        class="h-7 md:h-9 w-auto object-contain" />
+                </div>
+            </div>
+
+            <!-- Floating Logo with Neon Glow -->
+            <div class="relative inline-block animate-float">
+                <div class="absolute inset-0 bg-blue-500/30 blur-[40px] rounded-full scale-150"></div>
+                <a href="https://sman2mengwi.sch.id" target="_blank" title="Situs Resmi SMAN 2 Mengwi"
+                    class="relative block hover:scale-110 transition-transform duration-500">
+                    <img src="/img/Logo Dwisma.png" alt="Logo SMAN 2 Mengwi"
+                        class="w-36 md:w-44 mx-auto drop-shadow-[0_20px_30px_rgba(0,0,0,0.2)] mb-8" />
+                </a>
+            </div>
+
+            <p class="font-merriweather italic text-xl md:text-2xl text-slate-600 font-bold mb-2 animate-fade-in-up">
+                SMAN 2 Mengwi
+            </p>
+
+            <h1
+                class="font-extrabold text-5xl md:text-7xl text-dwisma-dark mt-2 tracking-tight leading-[1.1] animate-fade-in-up delay-100 min-h-[110px] md:min-h-[150px]">
+                <span id="typed-text-1"></span><br class="hidden md:block" />
+                <span id="typed-text-2"
+                    class="text-gradient-animated bg-gradient-to-r from-blue-600 via-indigo-500 to-cyan-400 animate-gradient pb-2 inline-block"></span><span
+                    id="cursor-main" class="animate-pulse font-light text-slate-800 ml-1">|</span>
+            </h1>
+
+            <p class="mt-4 text-base md:text-lg text-slate-600 font-bold h-[28px] animate-fade-in-up delay-200">
+                <span id="typed-text-3"></span><span id="cursor-sub"
+                    class="hidden animate-pulse font-light text-slate-800 ml-1">|</span>
+            </p>
+
+            <p class="mt-8 text-lg md:text-xl text-slate-500 font-medium animate-fade-in-up delay-300">
+                Kunjungi situs resmi:
+                <a href="https://sman2mengwi.sch.id" target="_blank"
+                    class="inline-flex items-center gap-1.5 px-4 py-1.5 ml-1 bg-white/60 border border-white rounded-full shadow-sm text-blue-600 hover:bg-blue-600 hover:text-white font-bold transition-all duration-300">
+                    sman2mengwi.sch.id <i class="bi bi-arrow-up-right text-sm"></i>
+                </a>
+            </p>
+        </div>
+
+        <!-- Links Grid Section -->
+        <div class="max-w-6xl mx-auto space-y-20 pb-20 animate-fade-in-up delay-400">
+
+            <!-- Search Bar Global -->
+            <div class="relative max-w-lg mx-auto">
+                <i
+                    class="bi bi-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-lg pointer-events-none"></i>
+                <input id="search-input" type="text" placeholder="Cari di portal..."
+                    oninput="searchApps(this.value)"
+                    class="w-full pl-12 pr-12 py-3.5 rounded-full bg-white/60 backdrop-blur border border-white/80 text-slate-700 placeholder-slate-400 font-semibold text-sm outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400 transition-all shadow-sm">
+                <button onclick="document.getElementById('search-input').value='';searchApps('')"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-slate-200/60 hover:bg-slate-300/80 text-slate-500 flex items-center justify-center transition-all text-sm hover:bg-red-200 hover:text-red-500">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+
+            <div id="search-empty" class="hidden flex-col items-center gap-3 py-12 text-slate-400 -mt-12">
+                <i class="bi bi-inbox text-5xl"></i>
+                <p class="font-bold text-lg">Tidak ditemukan</p>
+                <p class="text-sm">Coba kata kunci lain</p>
+            </div>
+
+            <!-- Kalender Akademik -->
+            <section id="search-section-kalender" class="perf-section search-section">
+                <div class="flex items-center justify-center gap-4 mb-6">
+                    <div class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
+                    </div>
+                    <h2
+                        class="font-sans font-black text-slate-800 tracking-widest uppercase text-sm md:text-base px-8 py-2.5 bg-white/60 backdrop-blur border border-white shadow-sm rounded-full text-center">
+                        <i
+                            class="bi bi-calendar-event text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500 mr-2"></i>
+                        Kalender Akademik
+                    </h2>
+                    <div class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
+                    </div>
+                </div>
+
+                <div id="kalender-list" class="relative max-w-3xl mx-auto">
+                    <div class="text-center py-12 text-slate-400">
+                        <i class="bi bi-calendar-week text-5xl block mb-4"></i>
+                        <p class="font-semibold text-lg">Memuat kalender...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Aplikasi Sekolah -->
+            <section class="perf-section search-section" id="search-section-aplikasi">
+                <div class="flex items-center justify-center gap-4 mb-10">
+                    <div
+                        class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
+                    </div>
+                    <h2
+                        class="font-sans font-black text-slate-800 tracking-widest uppercase text-sm md:text-base px-8 py-2.5 bg-white/60 backdrop-blur border border-white shadow-sm rounded-full text-center">
+                        <i
+                            class="bi bi-grid-1x2-fill text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-500 mr-2"></i>
+                        Aplikasi Sekolah
+                    </h2>
+                    <div
+                        class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
+                    </div>
+                </div>
+
+                <div id="status-summary" class="text-center mb-8"></div>
+
+                <div id="aplikasi-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </section>
+
+            <!-- ===== BERITA TERKINI ===== -->
+            <section class="perf-section search-section" id="berita-section">
+                <div class="flex items-center justify-center gap-4 mb-10">
+                    <div class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
+                    </div>
+                    <h2
+                        class="font-sans font-black text-slate-800 tracking-widest uppercase text-sm md:text-base px-8 py-2.5 bg-white/60 backdrop-blur border border-white shadow-sm rounded-full text-center">
+                        <i
+                            class="bi bi-newspaper text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-cyan-500 mr-2"></i>
+                        Berita Terkini
+                    </h2>
+                    <div class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
+                    </div>
+                </div>
+
+                <div id="berita-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div
+                        class="berita-skeleton animate-pulse glass-panel rounded-[2rem] overflow-hidden border border-white shadow-glass">
+                        <div class="w-full h-44 bg-slate-200/70 rounded-t-[2rem]"></div>
+                        <div class="p-5 space-y-3">
+                            <div class="h-3 bg-slate-200/70 rounded-full w-1/3"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-4/5"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-2/3"></div>
+                        </div>
+                    </div>
+                    <div
+                        class="berita-skeleton animate-pulse glass-panel rounded-[2rem] overflow-hidden border border-white shadow-glass hidden sm:block">
+                        <div class="w-full h-44 bg-slate-200/70 rounded-t-[2rem]"></div>
+                        <div class="p-5 space-y-3">
+                            <div class="h-3 bg-slate-200/70 rounded-full w-1/3"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-4/5"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-2/3"></div>
+                        </div>
+                    </div>
+                    <div
+                        class="berita-skeleton animate-pulse glass-panel rounded-[2rem] overflow-hidden border border-white shadow-glass hidden lg:block">
+                        <div class="w-full h-44 bg-slate-200/70 rounded-t-[2rem]"></div>
+                        <div class="p-5 space-y-3">
+                            <div class="h-3 bg-slate-200/70 rounded-full w-1/3"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-5 bg-slate-200/70 rounded-full w-4/5"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-full"></div>
+                            <div class="h-3 bg-slate-200/70 rounded-full w-2/3"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-8">
+                    <a href="https://sman2mengwi.sch.id" target="_blank"
+                        class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:-translate-y-0.5 transition-all duration-300">
+                        <i class="bi bi-arrow-up-right-circle-fill"></i>
+                        Lihat Semua Berita
+                    </a>
+                </div>
+            </section>
+
+            <!-- Pembelajaran & Ekstrakurikuler -->
+            <div id="search-section-belajar" class="grid grid-cols-1 lg:grid-cols-2 gap-12 perf-section search-section">
+                <section
+                    class="glass-panel p-8 rounded-[2.5rem] border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] relative overflow-hidden group">
+                    <div
+                        class="absolute -top-20 -right-20 w-64 h-64 bg-amber-400/20 blur-[60px] rounded-full group-hover:bg-amber-400/30 transition-colors duration-700">
+                    </div>
+                    <h2 class="font-extrabold text-slate-800 text-2xl mb-8 flex items-center gap-4 relative z-10">
+                        <div
+                            class="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-amber-400 to-orange-500 text-white rounded-[1rem] shadow-lg shadow-amber-500/30">
+                            <i class="bi bi-book-half text-xl"></i>
+                        </div>
+                        Pembelajaran
+                    </h2>
+                    <div class="flex flex-col gap-4 relative z-10">
+
+                        <a href="https://gamesosiologi.dwisma.id" target="_blank"
+                            class="perf-card flex items-center gap-5 p-4 bg-white/70 backdrop-blur-sm rounded-2xl border border-white shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(139,92,246,0.2)] hover:-translate-y-1 transition-all duration-300">
+                            <div
+                                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center p-2 shadow-sm border border-slate-100">
+                                <i class="bi bi-controller text-2xl text-violet-500"></i>
+                            </div>
+                            <span
+                                class="font-bold text-lg text-slate-700 flex-1 hover:text-violet-600 transition-colors">Game
+                                Sosiologi</span>
+                            <div class="w-8 h-8 rounded-full bg-violet-50 flex items-center justify-center">
+                                <i class="bi bi-chevron-right text-violet-500"></i>
+                            </div>
+                        </a>
+
+                        <a href="https://websejarah.dwisma.id" target="_blank"
+                            class="perf-card flex items-center gap-5 p-4 bg-white/70 backdrop-blur-sm rounded-2xl border border-white shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(59,130,246,0.2)] hover:-translate-y-1 transition-all duration-300">
+                            <div
+                                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center p-2 shadow-sm border border-slate-100">
+                                <img src="/img/Logo Dwisma.png" class="object-contain w-full h-full drop-shadow-sm"
+                                    alt="" />
+                            </div>
+                            <span
+                                class="font-bold text-lg text-slate-700 flex-1 hover:text-blue-600 transition-colors">Sejarah</span>
+                            <div class="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
+                                <i class="bi bi-chevron-right text-blue-500"></i>
+                            </div>
+                        </a>
+
+                        <a href="https://sosiologi.dwisma.id" target="_blank"
+                            class="perf-card flex items-center gap-5 p-4 bg-white/70 backdrop-blur-sm rounded-2xl border border-white shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(245,158,11,0.2)] hover:-translate-y-1 transition-all duration-300">
+                            <div
+                                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center p-2 shadow-sm border border-slate-100">
+                                <img src="/img/logososiologi.png" loading="lazy"
+                                    class="object-contain w-full h-full drop-shadow-sm" alt="" />
+                            </div>
+                            <span
+                                class="font-bold text-lg text-slate-700 flex-1 hover:text-amber-600 transition-colors">Sosiologi</span>
+                            <div class="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center">
+                                <i class="bi bi-chevron-right text-amber-500"></i>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+
+                <section
+                    class="glass-panel p-8 rounded-[2.5rem] border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] relative overflow-hidden group">
+                    <div
+                        class="absolute -top-20 -right-20 w-64 h-64 bg-green-400/20 blur-[60px] rounded-full group-hover:bg-green-400/30 transition-colors duration-700">
+                    </div>
+                    <h2 class="font-extrabold text-slate-800 text-2xl mb-8 flex items-center gap-4 relative z-10">
+                        <div
+                            class="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-green-400 to-emerald-600 text-white rounded-[1rem] shadow-lg shadow-green-500/30">
+                            <i class="bi bi-stars text-xl"></i>
+                        </div>
+                        Ekstrakurikuler
+                    </h2>
+                    <div class="flex flex-col gap-4 relative z-10">
+
+                        <a href="https://informatika.dwisma.id" target="_blank"
+                            class="perf-card flex items-center gap-5 p-4 bg-white/70 backdrop-blur-sm rounded-2xl border border-white shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(14,165,233,0.2)] hover:-translate-y-1 transition-all duration-300">
+                            <div
+                                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center p-2 shadow-sm border border-slate-100">
+                                <img src="/img/Logo Dwisma.png" class="object-contain w-full h-full drop-shadow-sm"
+                                    alt="" />
+                            </div>
+                            <span
+                                class="font-bold text-lg text-slate-700 flex-1 hover:text-sky-600 transition-colors">Informatika</span>
+                            <div class="w-8 h-8 rounded-full bg-sky-50 flex items-center justify-center">
+                                <i class="bi bi-chevron-right text-sky-500"></i>
+                            </div>
+                        </a>
+
+                        <a href="https://sispala.dwisma.id" target="_blank"
+                            class="perf-card flex items-center gap-5 p-4 bg-white/70 backdrop-blur-sm rounded-2xl border border-white shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(16,185,129,0.2)] hover:-translate-y-1 transition-all duration-300">
+                            <div
+                                class="w-12 h-12 bg-white rounded-xl flex items-center justify-center p-2 shadow-sm border border-slate-100">
+                                <img src="/img/logosispala.png" loading="lazy"
+                                    class="object-contain w-full h-full drop-shadow-sm" alt="" />
+                            </div>
+                            <span
+                                class="font-bold text-lg text-slate-700 flex-1 hover:text-emerald-600 transition-colors">Sispala</span>
+                            <div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center">
+                                <i class="bi bi-chevron-right text-emerald-500"></i>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Platform Merdeka Mengajar Banner -->
+            <section class="perf-section text-center w-full">
+                <a href="https://guru.kemendikdasmen.go.id/" target="_blank"
+                    class="group relative block w-full bg-white/50 backdrop-blur-md border-2 border-white/80 rounded-[2.5rem] p-8 md:p-12 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_-10px_rgba(239,68,68,0.2)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">
+                    <!-- Animated gradient background for banner -->
+                    <div
+                        class="absolute inset-0 opacity-20 bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 bg-[length:200%_200%] animate-gradient group-hover:opacity-40 transition-opacity duration-500">
+                    </div>
+                    <div class="absolute inset-0 bg-white/40 backdrop-blur-md"></div>
+
+                    <div class="relative z-10 flex flex-col md:flex-row items-center justify-center gap-8">
+                        <div
+                            class="w-24 h-24 bg-white rounded-3xl shadow-xl flex items-center justify-center p-5 border border-slate-100 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">
+                            <img src="img/logoruanggtk.png" loading="lazy"
+                                class="w-full h-full object-contain drop-shadow-md" alt="" />
+                        </div>
+                        <div class="text-center md:text-left">
+                            <p
+                                class="text-sm font-extrabold text-slate-500 uppercase tracking-widest mb-2 flex items-center justify-center md:justify-start gap-2">
+                                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> Akses Langsung
+                            </p>
+                            <h2 class="font-black text-3xl md:text-5xl tracking-tight text-slate-800">
+                                Platform <span
+                                    class="text-transparent bg-clip-text bg-gradient-to-br from-red-500 to-orange-500">Merdeka</span>
+                                <span
+                                    class="text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-cyan-500">Mengajar</span>
+                            </h2>
+                        </div>
+                        <div class="hidden md:flex flex-1 justify-end">
+                            <div
+                                class="w-14 h-14 rounded-full bg-white shadow-md border border-slate-100 flex items-center justify-center group-hover:bg-gradient-to-br group-hover:from-red-500 group-hover:to-blue-600 transition-all duration-500 group-hover:scale-110">
+                                <i
+                                    class="bi bi-arrow-right text-3xl text-slate-400 group-hover:text-white transition-colors"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </section>
+
+            <!-- Aplikasi Pemerintah -->
+            <div class="grid grid-cols-1 gap-16 perf-section">
+                <!-- Provinsi -->
+                <section id="search-section-pemprov" class="search-section">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div
+                            class="w-2 h-8 bg-gradient-to-b from-red-500 to-orange-500 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.5)]">
+                        </div>
+                        <h2 class="font-black text-slate-800 text-2xl tracking-wide">Aplikasi Pemprov Bali</h2>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
+
+                        <a href="https://kelasvirtual.baliprov.go.id/" target="_blank" title="Akses Kelas Virtual Balo"
+                            class="perf-card group flex items-center gap-4 p-4 bg-white/60 backdrop-blur-sm border border-white rounded-2xl shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(37,99,235,0.2)] hover:-translate-y-1 transition-all sm:col-span-2 md:col-span-1">
+                            <div
+                                class="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-[14px] p-[2px] shadow-sm group-hover:scale-110 transition-transform">
+                                <div
+                                    class="w-full h-full bg-white rounded-[12px] flex items-center justify-center p-1.5">
+                                    <img src="/img/Logo Kelas Virtual.png" title="Logo Kelas Virtual" loading="lazy"
+                                        class="object-contain w-full h-full rounded-md" alt="Logo Kelas Virtual" />
+                                </div>
+                            </div>
+                            <span
+                                class="font-extrabold text-lg text-slate-700 group-hover:text-blue-600 transition-colors">Kelas
+                                Virtual</span>
+                        </a>
+
+                        <a href="https://sikepo.baliprov.go.id" target="_blank" title="Akses Sikepo"
+                            class="perf-card group flex items-center gap-4 p-4 bg-white/60 backdrop-blur-sm border border-white rounded-2xl shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(225,29,72,0.2)] hover:-translate-y-1 transition-all">
+                            <div
+                                class="w-14 h-14 bg-gradient-to-br from-rose-500 to-pink-600 rounded-[14px] p-[2px] shadow-sm group-hover:scale-110 transition-transform">
+                                <div
+                                    class="w-full h-full bg-white rounded-[12px] flex items-center justify-center p-1.5">
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4nXInk5gM5OblLKEad08BYCgf51jsVt1pyQ&s"
+                                        title="Logo Sikepo Bali" loading="lazy"
+                                        class="object-cover w-full h-full rounded-lg" alt="Logo Sikepo" />
+                                </div>
+                            </div>
+                            <span
+                                class="font-extrabold text-lg text-slate-700 group-hover:text-rose-600 transition-colors">Sikepo</span>
+                        </a>
+
+                        <a href="https://simpeg.baliprov.go.id" target="_blank"
+                            class="perf-card group flex items-center gap-4 p-4 bg-white/60 backdrop-blur-sm border border-white rounded-2xl shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(249,115,22,0.2)] hover:-translate-y-1 transition-all">
+                            <div
+                                class="w-14 h-14 bg-gradient-to-br from-orange-400 to-red-500 rounded-[14px] p-[2px] shadow-sm group-hover:scale-110 transition-transform">
+                                <div class="w-full h-full bg-white rounded-[12px] flex items-center justify-center p-2">
+                                    <img src="https://kanal.baliprov.go.id/system/simpeg-logo.png"
+                                        title="Logo Simpeg Bali" loading="lazy" class="object-contain w-full h-full"
+                                        alt="Logo Simpeg" />
+                                </div>
+                            </div>
+                            <span
+                                class="font-extrabold text-lg text-slate-700 group-hover:text-orange-500 transition-colors">Simpeg</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Pusat -->
+                <section id="search-section-pusat" class="search-section">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div
+                            class="w-2 h-8 bg-gradient-to-b from-blue-500 to-cyan-400 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]">
+                        </div>
+                        <h2 class="font-black text-slate-800 text-2xl tracking-wide">Aplikasi Pemerintah Pusat</h2>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+                        <a href="https://ptk.datadik.kemendikdasmen.go.id/" target="_blank"
+                            class="perf-card group flex items-center justify-center gap-3 p-4 bg-white/60 backdrop-blur-sm border border-white rounded-2xl shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(20,184,166,0.2)] hover:-translate-y-1 transition-all">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-teal-400 to-emerald-500 rounded-full p-[2px] shadow-sm group-hover:scale-110 transition-transform">
+                                <div class="w-full h-full bg-white rounded-full flex items-center justify-center p-1.5">
+                                    <img src="https://cdn-dapodik.kemdikbud.go.id/sp/favicon.ico" title="Logo Datadik"
+                                        loading="lazy" class="w-full h-full object-contain" alt="Logo Datadik" />
+                                </div>
+                            </div>
+                            <span
+                                class="font-extrabold text-slate-700 group-hover:text-teal-600 transition-colors">Datadik</span>
+                        </a>
+
+                        <a href="https://info.gtk.kemendikdasmen.go.id/" target="_blank" title="Akses Info GTK"
+                            class="perf-card group flex items-center justify-center gap-3 p-4 bg-white/60 backdrop-blur-sm border border-white rounded-2xl shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(245,158,11,0.2)] hover:-translate-y-1 transition-all">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full p-[2px] shadow-sm group-hover:scale-110 transition-transform">
+                                <div class="w-full h-full bg-white rounded-full flex items-center justify-center p-1.5">
+                                    <img src="https://info.gtk.dikdasmen.go.id/assets/img/favicon.png"
+                                        title="Logo Info GTK" loading="lazy" class="w-full h-full object-contain"
+                                        alt="Logo Info GTK" />
+                                </div>
+                            </div>
+                            <span
+                                class="font-extrabold text-slate-700 group-hover:text-amber-600 transition-colors">Info-Gtk</span>
+                        </a>
+
+                        <a href="https://myasn.bkn.go.id" target="_blank"
+                            class="perf-card group flex items-center justify-center gap-3 p-4 bg-white/60 backdrop-blur-sm border border-white rounded-2xl shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(79,70,229,0.2)] hover:-translate-y-1 transition-all">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full p-[2px] shadow-sm group-hover:scale-110 transition-transform">
+                                <div class="w-full h-full bg-white rounded-full flex items-center justify-center p-1.5">
+                                    <img src="/img/Logo Dapodik.png" loading="lazy" class="w-full h-full object-contain"
+                                        alt="Logo My ASN" />
+                                </div>
+                            </div>
+                            <span class="font-extrabold text-slate-700 group-hover:text-indigo-600 transition-colors">My
+                                ASN</span>
+                        </a>
+
+                        <a href="https://paspor-gtk.simpkb.id/" target="_blank" title="Akses Simpkb"
+                            class="perf-card group flex items-center justify-center gap-3 p-4 bg-white/60 backdrop-blur-sm border border-white rounded-2xl shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(14,165,233,0.2)] hover:-translate-y-1 transition-all">
+                            <div
+                                class="w-10 h-10 bg-gradient-to-br from-sky-400 to-blue-500 rounded-full p-[2px] shadow-sm group-hover:scale-110 transition-transform">
+                                <div class="w-full h-full bg-white rounded-full flex items-center justify-center p-1.5">
+                                    <img src="https://paspor-gtk.simpkb.id/casgpo/asset/img/logo-kemdikbud.png"
+                                        title="Logo Simpkb" loading="lazy" class="w-full h-full object-contain"
+                                        alt="Logo Simpkb" />
+                                </div>
+                            </div>
+                            <span
+                                class="font-extrabold text-slate-700 group-hover:text-sky-600 transition-colors">Simpkb</span>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- Lokasi Sekolah -->
+                <section id="search-section-lokasi" class="perf-section search-section">
+                    <div class="flex items-center justify-center gap-4 mb-10">
+                        <div
+                            class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
+                        </div>
+                        <h2
+                            class="font-sans font-black text-slate-800 tracking-widest uppercase text-sm md:text-base px-8 py-2.5 bg-white/60 backdrop-blur border border-white shadow-sm rounded-full text-center">
+                            <i
+                                class="bi bi-geo-alt-fill text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-500 mr-2"></i>
+                            Lokasi Sekolah
+                        </h2>
+                        <div
+                            class="h-[2px] bg-gradient-to-r from-transparent via-blue-300 to-transparent flex-grow max-w-xs">
+                        </div>
+                    </div>
+
+                    <div
+                        class="max-w-4xl mx-auto glass-panel p-5 md:p-8 rounded-[2.5rem] border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] relative overflow-hidden group">
+                        <!-- Glow effect -->
+                        <div
+                            class="absolute -top-20 -right-20 w-64 h-64 bg-red-400/10 blur-[60px] rounded-full group-hover:bg-red-400/20 transition-colors duration-700">
+                        </div>
+
+                        <div class="relative z-10 flex flex-col gap-6">
+                            <div
+                                class="w-full h-[300px] md:h-[400px] rounded-3xl overflow-hidden border border-slate-100 shadow-inner">
+                                <iframe
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.605342939339!2d115.11822807499912!3d-8.624244291417036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd23f99e31b3433%3A0x633190829377464a!2sSMA%20Negeri%202%20Mengwi!5e0!3m2!1sid!2sid!4v1721234567890!5m2!1sid!2sid"
+                                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                                    referrerpolicy="no-referrer-when-downgrade" class="w-full h-full">
+                                </iframe>
+                            </div>
+                            <div
+                                class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 px-2">
+                                <div class="text-left">
+                                    <h4 class="font-extrabold text-slate-800 text-lg">SMA Negeri 2 Mengwi</h4>
+                                    <p class="text-slate-500 font-bold text-sm mt-1">
+                                        <i class="bi bi-map mr-1.5 text-red-500"></i> Jl. Raya Munggu - Tanah Lot,
+                                        Munggu, Kec. Mengwi, Kab. Badung, Bali
+                                    </p>
+                                </div>
+                                <a href="https://www.google.com/maps/search/?api=1&query=SMA+Negeri+2+Mengwi"
+                                    target="_blank"
+                                    class="w-full md:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-extrabold rounded-full shadow-[0_10px_20px_-5px_rgba(239,68,68,0.3)] hover:scale-105 transition-all duration-300">
+                                    <i class="bi bi-box-arrow-up-right text-lg"></i> Petunjuk Arah
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+
+
+    <!-- Footer -->
+    <footer class="mt-auto relative bg-white/30 backdrop-blur-2xl border-t border-white/60">
+        <div class="absolute inset-0 bg-gradient-to-t from-white/60 to-transparent pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-6 py-12 relative z-10">
+            <div class="flex flex-col lg:flex-row justify-between items-center gap-10">
+                <!-- Branding -->
+                <div class="flex flex-col sm:flex-row items-center gap-5">
+                    <div class="flex items-center gap-4">
+                        <div class="p-3 bg-white rounded-2xl shadow-md border border-slate-100">
+                            <img src="/img/logo-pemprov-bali.png" alt="Logo Pemprov Bali"
+                                class="w-14 h-14 object-contain" />
+                        </div>
+                        <div class="p-3 bg-white rounded-2xl shadow-md border border-slate-100">
+                            <img src="/img/Logo Dwisma.png" alt="Logo" class="w-14 h-14 object-contain" />
+                        </div>
+                        <div class="h-10 w-[1px] bg-slate-200/80 hidden sm:block"></div>
+                        <div class="p-3 bg-white rounded-2xl shadow-md border border-slate-100 hidden sm:block">
+                            <img src="/img/Logo_Kemendikdasmen.png" alt="Logo Kemendikdasmen"
+                                class="h-14 w-auto object-contain" />
+                        </div>
+                    </div>
+                    <div class="text-center sm:text-left">
+                        <h3
+                            class="text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-600">
+                            DWISMA</h3>
+                        <p class="text-slate-500 font-bold text-sm mt-0.5">SMAN 2 Mengwi</p>
+                    </div>
+                </div>
+
+                <!-- Social Links -->
+                <div class="flex flex-wrap justify-center gap-4">
+                    <a href="https://www.youtube.com/channel/UCz6SfxL3mwHP1Xjz_JvBqvg" target="_blank"
+                        class="group flex items-center gap-2.5 px-6 py-3 bg-white/70 backdrop-blur hover:bg-white rounded-full text-slate-600 hover:text-red-600 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1 border border-white">
+                        <i class="bi bi-youtube text-xl group-hover:scale-110 transition-transform"></i>
+                        <span class="font-extrabold text-sm">Youtube</span>
+                    </a>
+                    <a href="https://www.instagram.com/osisdwisma" target="_blank"
+                        class="group flex items-center gap-2.5 px-6 py-3 bg-white/70 backdrop-blur hover:bg-white rounded-full text-slate-600 hover:text-pink-600 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1 border border-white">
+                        <i class="bi bi-instagram text-xl group-hover:scale-110 transition-transform"></i>
+                        <span class="font-extrabold text-sm">Instagram</span>
+                    </a>
+                    <a href="https://web.facebook.com/SMAN2MENGWI" target="_blank"
+                        class="group flex items-center gap-2.5 px-6 py-3 bg-white/70 backdrop-blur hover:bg-white rounded-full text-slate-600 hover:text-blue-700 transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1 border border-white">
+                        <i class="bi bi-facebook text-xl group-hover:scale-110 transition-transform"></i>
+                        <span class="font-extrabold text-sm">Facebook</span>
+                    </a>
+                </div>
+            </div>
+
+            <div
+                class="mt-12 pt-8 border-t border-white/80 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-slate-500 text-sm font-bold">
+                    &copy; 2026 Tim Teknologi Informasi | SMAN 2 Mengwi.
+                    <a href="/admin" class="ml-2 text-blue-500 hover:underline">Masuk Admin</a>
+                </p>
+                <div
+                    class="flex items-center gap-2.5 px-4 py-2 bg-white/50 border border-white rounded-full text-slate-600 text-sm font-bold shadow-sm">
+                    <span class="relative flex h-3 w-3">
+                        <span
+                            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                        <span
+                            class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500 shadow-[0_0_5px_rgba(16,185,129,0.5)]"></span>
+                    </span>
+                    Sistem Berjalan Normal
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Typing Effect Script -->
+
+    <!-- Website Status Checker -->
+
+    <!-- PWA: Registrasi Service Worker -->
+
+
+    <div id="ai-chat-label">Tanya AI Dwisma</div>
+
+    <button id="ai-chat-btn" onclick="toggleChat()" aria-label="Chat AI">
+        <i class="bi bi-stars"></i>
+    </button>
+
+    <div id="ai-chat-panel">
+        <div id="ai-chat-header">
+            <i class="bi bi-robot"></i>
+            <span>AI Assistant Dwisma</span>
+            <button id="ai-chat-close" onclick="toggleChat()">&times;</button>
+        </div>
+        <div id="ai-chat-messages">
+            <div class="chat-msg bot">
+                <i class="bi bi-robot"></i> Halo! Ada yang bisa saya bantu tentang SMA Negeri 2 Mengwi?
+            </div>
+            <div id="chat-quick-qs" style="display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px">
+                <button class="quick-q" onclick="quickChat('Siapa kepala sekolah?')">Kepala Sekolah</button>
+                <button class="quick-q" onclick="quickChat('Apa saja aplikasi sekolah?')">Aplikasi</button>
+                <button class="quick-q" onclick="quickChat('Siapa wakasek kurikulum?')">Wakasek</button>
+                <button class="quick-q" onclick="quickChat('Kapan hari pertama masuk?')">Kalender</button>
+                <button class="quick-q" onclick="quickChat('Apa NPSN sekolah?')">NPSN</button>
+            </div>
+        </div>
+        <div id="ai-chat-input-area">
+            <input id="ai-chat-input" type="text" placeholder="Ketik pesan..." autocomplete="off"
+                onkeydown="if(event.key==='Enter')sendChat()">
+            <button id="ai-chat-send" onclick="sendChat()"><i class="bi bi-send-fill"></i></button>
+        </div>
+    </div>
+
+    <script src="/js/legacy.js" defer></script>
+    <script src="/js/portal.js" defer></script>
+</body>
+
+</html>

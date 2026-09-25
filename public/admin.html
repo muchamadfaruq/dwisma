@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin · Portal Dwisma</title>
+    <link rel="shortcut icon" href="/img/favicon.ico" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="/css/admin.css" />
+</head>
+
+<body class="bg-slate-100 text-slate-800 font-sans">
+    <!-- Login -->
+    <div id="login-view" class="min-h-screen flex items-center justify-center p-6">
+        <form id="login-form" class="w-full max-w-sm bg-white rounded-3xl shadow-xl p-8 space-y-4">
+            <div class="text-center space-y-2">
+                <img src="/img/Logo Dwisma.png" alt="Logo" class="h-16 mx-auto" />
+                <h1 class="text-2xl font-black">Admin Dwisma</h1>
+                <p class="text-sm text-slate-500">Masuk untuk mengelola portal</p>
+            </div>
+            <div id="login-error" class="hidden text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-3 py-2"></div>
+            <label class="block">
+                <span class="text-xs font-bold uppercase text-slate-500">Username</span>
+                <input name="username" required autocomplete="username"
+                    class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2.5 outline-none focus:border-blue-500" />
+            </label>
+            <label class="block">
+                <span class="text-xs font-bold uppercase text-slate-500">Password</span>
+                <input name="password" type="password" required autocomplete="current-password"
+                    class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2.5 outline-none focus:border-blue-500" />
+            </label>
+            <button type="submit"
+                class="w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 transition">
+                Masuk
+            </button>
+        </form>
+    </div>
+
+    <!-- App -->
+    <div id="app-view" class="hidden min-h-screen">
+        <header class="bg-white border-b border-slate-200 sticky top-0 z-30">
+            <div class="max-w-7xl mx-auto px-4 h-16 flex items-center gap-4">
+                <img src="/img/Logo Dwisma.png" alt="Logo" class="h-9" />
+                <div class="font-black text-lg">Dwisma Admin</div>
+                <a href="/" target="_blank" class="text-sm text-slate-500 hover:text-blue-600 hidden sm:inline">
+                    <i class="bi bi-box-arrow-up-right"></i> Lihat Portal
+                </a>
+                <div class="ml-auto flex items-center gap-3">
+                    <span id="current-user" class="text-sm font-semibold text-slate-500"></span>
+                    <button id="logout-btn" class="text-sm font-bold text-red-500 hover:text-red-700">
+                        <i class="bi bi-box-arrow-right"></i> Keluar
+                    </button>
+                </div>
+            </div>
+            <nav id="tabs" class="max-w-7xl mx-auto px-4 flex gap-1 overflow-x-auto text-sm font-bold">
+                <button data-tab="konten" class="tab-btn"><i class="bi bi-grid-1x2"></i> Konten</button>
+                <button data-tab="kalender" class="tab-btn"><i class="bi bi-calendar3"></i> Kalender</button>
+                <button data-tab="guru" class="tab-btn"><i class="bi bi-people"></i> Guru</button>
+                <button data-tab="media" class="tab-btn"><i class="bi bi-image"></i> Gambar</button>
+                <button data-tab="sources" class="tab-btn"><i class="bi bi-cloud-arrow-down"></i> Sumber Data</button>
+                <button data-tab="tampilan" class="tab-btn"><i class="bi bi-palette"></i> Tampilan</button>
+                <button data-tab="ai" class="tab-btn"><i class="bi bi-robot"></i> AI &amp; Situs</button>
+                <button data-tab="users" data-role="admin" class="tab-btn"><i class="bi bi-person-gear"></i> Pengguna</button>
+                <button data-tab="logs" data-role="admin" class="tab-btn"><i class="bi bi-clock-history"></i> Log Akses</button>
+                <button data-tab="security" class="tab-btn"><i class="bi bi-shield-lock"></i> Keamanan</button>
+            </nav>
+        </header>
+
+        <main class="max-w-7xl mx-auto p-4 sm:p-6">
+            <div id="toast"
+                class="hidden fixed bottom-6 right-6 z-50 rounded-xl px-4 py-3 shadow-lg text-white font-semibold"></div>
+
+            <!-- KONTEN -->
+            <section data-panel="konten" class="panel hidden space-y-10">
+                <div>
+                    <div class="panel-head">
+                        <h2><i class="bi bi-collection"></i> Section</h2>
+                        <button class="btn-primary" data-action="add-section"><i class="bi bi-plus-lg"></i> Tambah Section</button>
+                    </div>
+                    <div class="card table-wrap"><table id="sections-table"></table></div>
+                </div>
+                <div>
+                    <div class="panel-head">
+                        <h2><i class="bi bi-grid-1x2"></i> Tombol</h2>
+                        <button class="btn-primary" data-action="add-button"><i class="bi bi-plus-lg"></i> Tambah Tombol</button>
+                    </div>
+                    <div class="card table-wrap"><table id="buttons-table"></table></div>
+                </div>
+                <div>
+                    <div class="panel-head">
+                        <h2><i class="bi bi-share"></i> Sosial Media</h2>
+                        <button class="btn-primary" data-action="add-social"><i class="bi bi-plus-lg"></i> Tambah Sosial</button>
+                    </div>
+                    <div class="card table-wrap"><table id="socials-table"></table></div>
+                </div>
+            </section>
+
+            <section data-panel="kalender" class="panel hidden">
+                <div class="panel-head">
+                    <h2><i class="bi bi-calendar3"></i> Kalender Akademik</h2>
+                    <button class="btn-primary" data-action="add-kalender"><i class="bi bi-plus-lg"></i> Tambah</button>
+                </div>
+                <div class="card table-wrap"><table id="kalender-table"></table></div>
+            </section>
+
+            <section data-panel="guru" class="panel hidden">
+                <div class="panel-head">
+                    <h2><i class="bi bi-people"></i> Guru &amp; Mata Pelajaran</h2>
+                    <button class="btn-primary" data-action="add-guru"><i class="bi bi-plus-lg"></i> Tambah</button>
+                </div>
+                <div class="card table-wrap"><table id="guru-table"></table></div>
+            </section>
+
+            <section data-panel="media" class="panel hidden">
+                <div class="panel-head">
+                    <h2><i class="bi bi-image"></i> Gambar / Media</h2>
+                    <label class="btn-primary cursor-pointer">
+                        <i class="bi bi-upload"></i> Unggah
+                        <input id="media-input" type="file" accept="image/*" class="hidden" />
+                    </label>
+                </div>
+                <div id="media-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
+            </section>
+
+            <section data-panel="sources" class="panel hidden">
+                <div class="panel-head">
+                    <h2><i class="bi bi-cloud-arrow-down"></i> Sumber Data (Scraping)</h2>
+                    <button class="btn-primary" data-action="add-source"><i class="bi bi-plus-lg"></i> Tambah</button>
+                </div>
+                <p class="text-xs text-slate-500 mb-3">Atur URL &amp; selector pengambilan data dari web sekolah.</p>
+                <div class="card table-wrap"><table id="sources-table"></table></div>
+            </section>
+
+            <!-- TAMPILAN -->
+            <section data-panel="tampilan" class="panel hidden">
+                <div class="panel-head"><h2><i class="bi bi-palette"></i> Tampilan Portal</h2></div>
+                <form id="display-form" class="space-y-6">
+                    <fieldset class="card p-6 space-y-4">
+                        <legend class="font-black text-lg mb-2">Navbar</legend>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <label class="block"><span class="lbl">Teks Brand (awalan)</span><input name="site_brand_prefix" class="inp" /></label>
+                            <label class="block"><span class="lbl">Teks Brand (akhiran)</span><input name="site_brand_suffix" class="inp" /></label>
+                            <label class="block"><span class="lbl">Label Tombol Login Admin</span><input name="admin_login_label" class="inp" /></label>
+                        </div>
+                        <label class="block"><span class="lbl">Logo Navbar (satu URL per baris)</span><textarea name="nav_logos" rows="3" class="inp"></textarea></label>
+                    </fieldset>
+
+                    <fieldset class="card p-6 space-y-4">
+                        <legend class="font-black text-lg mb-2">Hero</legend>
+                        <label class="block"><span class="lbl">Logo Badge (satu URL per baris)</span><textarea name="hero_badges" rows="2" class="inp"></textarea></label>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <label class="block"><span class="lbl">Logo Utama</span>
+                                <div class="flex gap-2"><input name="hero_logo" class="inp flex-1" /><button type="button" class="btn-ghost" data-action="pick-image" data-target="#display-form [name=hero_logo]">Pilih</button></div>
+                            </label>
+                            <label class="block"><span class="lbl">Link Logo Utama</span><input name="hero_logo_url" class="inp" /></label>
+                            <label class="block"><span class="lbl">Nama Sekolah (subjudul)</span><input name="hero_school" class="inp" /></label>
+                            <label class="block"><span class="lbl">Teks Sebelum Link Situs</span><input name="hero_official_prefix" class="inp" /></label>
+                            <label class="block"><span class="lbl">Label Situs Resmi</span><input name="hero_official_label" class="inp" /></label>
+                            <label class="block"><span class="lbl">URL Situs Resmi</span><input name="hero_official_url" class="inp" /></label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="card p-6 space-y-4">
+                        <legend class="font-black text-lg mb-2">Teks Animasi</legend>
+                        <label class="block"><span class="lbl">Baris 1</span><input name="typing_title_1" class="inp" /></label>
+                        <label class="block"><span class="lbl">Baris 2 (gradien)</span><input name="typing_title_2" class="inp" /></label>
+                        <label class="block"><span class="lbl">Subjudul</span><input name="typing_subtitle" class="inp" /></label>
+                    </fieldset>
+
+                    <fieldset class="card p-6 space-y-4">
+                        <legend class="font-black text-lg mb-2">Banner</legend>
+                        <label class="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" name="banner_enabled" class="h-4 w-4" /> Tampilkan banner</label>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <label class="block"><span class="lbl">URL Banner</span><input name="banner_url" class="inp" /></label>
+                            <label class="block"><span class="lbl">Logo Banner</span>
+                                <div class="flex gap-2"><input name="banner_logo" class="inp flex-1" /><button type="button" class="btn-ghost" data-action="pick-image" data-target="#display-form [name=banner_logo]">Pilih</button></div>
+                            </label>
+                            <label class="block"><span class="lbl">Label Kecil</span><input name="banner_label" class="inp" /></label>
+                            <label class="block"><span class="lbl">Kata Awal</span><input name="banner_pre" class="inp" /></label>
+                            <label class="block"><span class="lbl">Kata Gradien 1</span><input name="banner_hi1" class="inp" /></label>
+                            <label class="block"><span class="lbl">Kata Gradien 2</span><input name="banner_hi2" class="inp" /></label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="card p-6 space-y-4">
+                        <legend class="font-black text-lg mb-2">Lokasi</legend>
+                        <label class="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" name="location_enabled" class="h-4 w-4" /> Tampilkan lokasi</label>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <label class="block"><span class="lbl">Nama Lokasi</span><input name="location_title" class="inp" /></label>
+                            <label class="block"><span class="lbl">URL Petunjuk Arah</span><input name="location_directions_url" class="inp" /></label>
+                        </div>
+                        <label class="block"><span class="lbl">Alamat</span><input name="location_address" class="inp" /></label>
+                        <label class="block"><span class="lbl">URL Embed Google Maps</span><textarea name="location_map_embed" rows="2" class="inp"></textarea></label>
+                    </fieldset>
+
+                    <fieldset class="card p-6 space-y-4">
+                        <legend class="font-black text-lg mb-2">Footer</legend>
+                        <label class="block"><span class="lbl">Logo Footer (satu URL per baris)</span><textarea name="footer_logos" rows="3" class="inp"></textarea></label>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <label class="block"><span class="lbl">Judul Brand</span><input name="footer_brand_title" class="inp" /></label>
+                            <label class="block"><span class="lbl">Sub Judul Brand</span><input name="footer_brand_sub" class="inp" /></label>
+                            <label class="block"><span class="lbl">Copyright</span><input name="footer_copyright" class="inp" /></label>
+                            <label class="block"><span class="lbl">Teks Status</span><input name="footer_status_text" class="inp" /></label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="card p-6 space-y-4">
+                        <legend class="font-black text-lg mb-2">Chat AI</legend>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <label class="block"><span class="lbl">Label Melayang</span><input name="chat_label" class="inp" /></label>
+                            <label class="block"><span class="lbl">Judul Panel</span><input name="chat_header" class="inp" /></label>
+                        </div>
+                        <label class="block"><span class="lbl">Sapaan</span><input name="chat_welcome" class="inp" /></label>
+                        <label class="block"><span class="lbl">Placeholder Input</span><input name="chat_placeholder" class="inp" /></label>
+                        <label class="block"><span class="lbl">Pertanyaan Cepat (format: Label | Pesan, satu per baris)</span><textarea name="chat_quick_questions" rows="5" class="inp"></textarea></label>
+                    </fieldset>
+
+                    <div id="display-alert" class="hidden text-sm rounded-xl px-3 py-2"></div>
+                    <button type="submit" class="btn-primary"><i class="bi bi-save"></i> Simpan Tampilan</button>
+                </form>
+            </section>
+
+            <!-- AI & SITUS -->
+            <section data-panel="ai" class="panel hidden">
+                <div class="panel-head"><h2><i class="bi bi-robot"></i> Pengaturan AI &amp; Situs</h2></div>
+                <form id="settings-form" class="card p-6 space-y-6 max-w-3xl">
+                    <fieldset class="space-y-4">
+                        <legend class="font-black text-lg">AI (DeepSeek)</legend>
+                        <label class="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" name="ai_enabled" class="h-4 w-4" /> Aktifkan fitur chat AI</label>
+                        <label class="block">
+                            <span class="lbl">DeepSeek API Key</span>
+                            <div class="flex gap-2">
+                                <input name="deepseek_api_key" class="inp flex-1" placeholder="sk-..." />
+                                <button type="button" id="test-ai-btn" class="btn-ghost whitespace-nowrap">Test Koneksi</button>
+                            </div>
+                            <span id="key-hint" class="text-xs text-slate-400"></span>
+                        </label>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <label class="block"><span class="lbl">Model</span><input name="deepseek_model" class="inp" /></label>
+                            <label class="block"><span class="lbl">Base URL</span><input name="deepseek_base_url" class="inp" /></label>
+                        </div>
+                        <label class="block"><span class="lbl">System Prompt</span><textarea name="ai_system_prompt" rows="5" class="inp"></textarea></label>
+                        <button type="button" id="ai-context-btn" class="btn-ghost"><i class="bi bi-database-check"></i> Lihat Data Referensi AI</button>
+                    </fieldset>
+
+                    <fieldset class="space-y-4">
+                        <legend class="font-black text-lg">Identitas Situs</legend>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <label class="block"><span class="lbl">Nama Situs</span><input name="site_name" class="inp" /></label>
+                            <label class="block"><span class="lbl">Nama Singkat</span><input name="site_short_name" class="inp" /></label>
+                            <label class="block"><span class="lbl">Nama Sekolah</span><input name="site_school" class="inp" /></label>
+                        </div>
+                        <label class="block"><span class="lbl">Deskripsi</span><textarea name="site_description" rows="2" class="inp"></textarea></label>
+                    </fieldset>
+
+                    <fieldset class="space-y-4">
+                        <legend class="font-black text-lg">Status Layanan (Uptime Kuma)</legend>
+                        <label class="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" name="uptime_enabled" class="h-4 w-4" /> Aktifkan pengecekan status</label>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <label class="block"><span class="lbl">URL Uptime Kuma</span><input name="uptime_kuma_url" class="inp" /></label>
+                            <label class="block"><span class="lbl">Slug Status Page</span><input name="uptime_status_slug" class="inp" /></label>
+                        </div>
+                    </fieldset>
+
+                    <div id="settings-alert" class="hidden text-sm rounded-xl px-3 py-2"></div>
+                    <button type="submit" class="btn-primary"><i class="bi bi-save"></i> Simpan Pengaturan</button>
+                </form>
+            </section>
+
+            <section data-panel="users" class="panel hidden">
+                <div class="panel-head">
+                    <h2><i class="bi bi-person-gear"></i> Pengguna</h2>
+                    <button class="btn-primary" data-action="add-user"><i class="bi bi-plus-lg"></i> Tambah</button>
+                </div>
+                <div class="card table-wrap"><table id="users-table"></table></div>
+            </section>
+
+            <section data-panel="logs" class="panel hidden">
+                <div class="panel-head">
+                    <h2><i class="bi bi-clock-history"></i> Log Akses Admin</h2>
+                    <div class="flex gap-2">
+                        <button class="btn-mini" data-action="refresh-logs"><i class="bi bi-arrow-clockwise"></i> Muat Ulang</button>
+                        <button class="btn-danger" data-action="clear-logs"><i class="bi bi-trash"></i> Bersihkan</button>
+                    </div>
+                </div>
+                <div class="flex flex-wrap items-center gap-3 mb-3">
+                    <select id="logs-filter" class="inp" style="width:auto">
+                        <option value="">Semua</option>
+                        <option value="portal">Portal (dwisma.id)</option>
+                        <option value="admin">Halaman Admin</option>
+                        <option value="login_ok">Login Berhasil</option>
+                        <option value="login_fail">Login Gagal</option>
+                    </select>
+                    <span class="text-xs text-slate-500"><span id="logs-total">0</span> catatan.
+                        MAC address best-effort dari tabel ARP host (umumnya terisi untuk klien satu LAN).</span>
+                </div>
+                <div class="card table-wrap"><table id="logs-table"></table></div>
+            </section>
+
+            <section data-panel="security" class="panel hidden">
+                <div class="panel-head"><h2><i class="bi bi-shield-lock"></i> Ganti Password</h2></div>
+                <form id="password-form" class="card p-6 space-y-4 max-w-md">
+                    <label class="block"><span class="lbl">Password Lama</span><input name="current_password" type="password" required class="inp" /></label>
+                    <label class="block"><span class="lbl">Password Baru (min. 6)</span><input name="new_password" type="password" required class="inp" /></label>
+                    <div id="password-alert" class="hidden text-sm rounded-xl px-3 py-2"></div>
+                    <button type="submit" class="btn-primary"><i class="bi bi-key"></i> Simpan Password</button>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <div id="modal" class="hidden fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm overflow-y-auto">
+        <div class="min-h-full flex items-start justify-center p-4">
+            <div id="modal-box" class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl my-8"></div>
+        </div>
+    </div>
+
+    <div id="picker" class="hidden fixed inset-0 z-[60] bg-slate-900/60 backdrop-blur-sm overflow-y-auto">
+        <div class="min-h-full flex items-start justify-center p-4">
+            <div id="picker-box" class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl my-8"></div>
+        </div>
+    </div>
+
+    <script src="/js/admin.js" defer></script>
+</body>
+
+</html>

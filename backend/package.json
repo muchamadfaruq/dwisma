@@ -1,0 +1,23 @@
+{
+  "name": "dwisma-backend",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Backend aplikasi Portal Dwisma SMAN 2 Mengwi",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^13.0.3",
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.18.1",
+    "helmet": "^8.0.0",
+    "multer": "^2.0.2"
+  }
+}
