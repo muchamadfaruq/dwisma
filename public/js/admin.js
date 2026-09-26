@@ -383,24 +383,82 @@ function newBlock(tipe) {
 }
 
 /* ===== Buttons ===== */
+function buttonRow(b) {
+  return `<tr class="button-row" data-id="${b.id}" data-section="${b.section_id}" draggable="true">
+    <td class="drag-handle" title="Geser untuk mengubah urutan / pindah section">⠿</td>
+    <td>${buttonThumb(b)}</td>
+    <td class="font-bold">${esc(b.nama)}</td>
+    <td class="max-w-[200px] truncate text-slate-500">${esc(b.deskripsi)}</td>
+    <td><a href="${esc(b.url)}" target="_blank" rel="noopener" class="text-blue-600 hover:underline">${esc(b.url)}</a></td>
+    <td><span class="badge ${b.aktif ? 'on' : 'off'}">${b.aktif ? 'Aktif' : 'Off'}</span></td>
+    <td class="whitespace-nowrap">
+      <button class="btn-mini" data-action="edit-button" data-id="${b.id}">Edit</button>
+      <button class="btn-danger" data-action="del-button" data-id="${b.id}">Hapus</button>
+    </td></tr>`;
+}
+
 function renderButtons() {
-  const rows = state.buttons.map((b) => {
-    const section = state.sections.find((s) => s.id === b.section_id);
-    return `<tr>
-      <td>${buttonThumb(b)}</td>
-      <td class="font-bold">${esc(b.nama)}</td>
-      <td><span class="badge">${esc(section ? section.judul : '-')}</span></td>
-      <td class="max-w-[200px] truncate text-slate-500">${esc(b.deskripsi)}</td>
-      <td><a href="${esc(b.url)}" target="_blank" rel="noopener" class="text-blue-600 hover:underline">${esc(b.url)}</a></td>
-      <td>${b.urutan}</td>
-      <td><span class="badge ${b.aktif ? 'on' : 'off'}">${b.aktif ? 'Aktif' : 'Off'}</span></td>
-      <td class="whitespace-nowrap">
-        <button class="btn-mini" data-action="edit-button" data-id="${b.id}">Edit</button>
-        <button class="btn-danger" data-action="del-button" data-id="${b.id}">Hapus</button>
-      </td></tr>`;
+  const appsSections = state.sections.filter((s) => s.tipe === 'apps');
+  const groups = appsSections.map((s) => {
+    const items = state.buttons.filter((b) => b.section_id === s.id);
+    const header = `<tr class="group-header" data-section="${s.id}"><td colspan="7">
+      <i class="bi bi-folder2-open"></i> ${esc(s.judul)} <span class="badge">${esc(s.slug)}</span>
+      <span class="text-slate-400 text-xs">${items.length} tombol</span></td></tr>`;
+    const rows = items.map(buttonRow).join('');
+    return header + (rows || '<tr><td colspan="7" class="text-center text-slate-400 py-4 text-xs">Belum ada tombol</td></tr>');
   }).join('');
-  $('#buttons-table').innerHTML = `<thead><tr><th>Ikon</th><th>Nama</th><th>Section</th><th>Deskripsi</th><th>URL</th><th>Urutan</th><th>Status</th><th>Aksi</th></tr></thead>
-    <tbody>${rows || '<tr><td colspan="8" class="text-center text-slate-400 py-6">Belum ada tombol</td></tr>'}</tbody>`;
+  $('#buttons-table').innerHTML = `<thead><tr><th></th><th>Ikon</th><th>Nama</th><th>Deskripsi</th><th>URL</th><th>Status</th><th>Aksi</th></tr></thead>
+    <tbody>${groups || '<tr><td colspan="7" class="text-center text-slate-400 py-6">Belum ada section aplikasi</td></tr>'}</tbody>`;
+  bindButtonDrag();
+}
+
+function bindButtonDrag() {
+  const tbody = $('#buttons-table tbody');
+  if (!tbody) return;
+  let dragId = null;
+  tbody.querySelectorAll('tr.button-row').forEach((row) => {
+    row.addEventListener('dragstart', (e) => {
+      dragId = row.dataset.id;
+      row.classList.add('dragging');
+      if (e.dataTransfer) e.dataTransfer.effectAllowed = 'move';
+    });
+    row.addEventListener('dragend', () => {
+      dragId = null;
+      row.classList.remove('dragging');
+      tbody.querySelectorAll('tr').forEach((r) => r.classList.remove('drag-over'));
+    });
+  });
+  tbody.querySelectorAll('tr.button-row, tr.group-header').forEach((row) => {
+    row.addEventListener('dragover', (e) => { if (dragId) { e.preventDefault(); row.classList.add('drag-over'); } });
+    row.addEventListener('dragleave', () => row.classList.remove('drag-over'));
+    row.addEventListener('drop', (e) => {
+      e.preventDefault();
+      row.classList.remove('drag-over');
+      const dragged = dragId ? tbody.querySelector('tr.button-row[data-id="' + dragId + '"]') : null;
+      if (!dragged) return;
+      if (row.classList.contains('group-header')) {
+        if (dragged.dataset.section !== row.dataset.section) {
+          dragged.dataset.section = row.dataset.section;
+          tbody.insertBefore(dragged, row.nextElementSibling);
+        }
+      } else if (row !== dragged) {
+        dragged.dataset.section = row.dataset.section;
+        tbody.insertBefore(dragged, row);
+      }
+      saveButtonOrder();
+    });
+  });
+}
+
+async function saveButtonOrder() {
+  const tbody = $('#buttons-table tbody');
+  const items = Array.from(tbody.querySelectorAll('tr.button-row'))
+    .map((r) => ({ id: Number(r.dataset.id), section_id: Number(r.dataset.section) }));
+  try {
+    await api('PUT', '/api/admin/buttons/reorder', { items });
+    toast('Urutan tombol disimpan');
+    loadKonten();
+  } catch (err) { toast(err.message, 'error'); }
 }
 
 function buttonForm(b = {}) {

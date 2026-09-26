@@ -46,6 +46,30 @@ router.post(
 );
 
 router.put(
+  '/admin/buttons/reorder',
+  requireAuth,
+  asyncHandler((req, res) => {
+    const items = Array.isArray(req.body && req.body.items) ? req.body.items : null;
+    if (!items) return res.status(400).json({ success: false, message: 'Daftar urutan wajib diisi' });
+    const getButton = db.prepare('SELECT id FROM buttons WHERE id = ?');
+    const getSection = db.prepare('SELECT id FROM sections WHERE id = ?');
+    const update = db.prepare("UPDATE buttons SET section_id = ?, urutan = ?, updated_at = datetime('now') WHERE id = ?");
+    const counters = {};
+    db.transaction(() => {
+      for (const item of items) {
+        const id = toInt(item && item.id, 0);
+        const sectionId = toInt(item && item.section_id, 0);
+        if (!id || !sectionId) continue;
+        if (!getButton.get(id) || !getSection.get(sectionId)) continue;
+        counters[sectionId] = (counters[sectionId] || 0) + 1;
+        update.run(sectionId, counters[sectionId], id);
+      }
+    })();
+    res.json({ success: true });
+  })
+);
+
+router.put(
   '/admin/buttons/:id',
   requireAuth,
   asyncHandler((req, res) => {
