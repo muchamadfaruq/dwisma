@@ -18,6 +18,12 @@ function tableExists(name) {
   return !!db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name = ?").get(name);
 }
 
+function addColumnIfMissing(table, column, definition) {
+  const cols = db.prepare(`PRAGMA table_info(${table})`).all();
+  if (cols.some((c) => c.name === column)) return;
+  db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
+}
+
 function migrate() {
   db.exec(`
     CREATE TABLE IF NOT EXISTS users (
@@ -90,6 +96,7 @@ function migrate() {
     CREATE TABLE IF NOT EXISTS kalender (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       tanggal TEXT NOT NULL,
+      tanggal_selesai TEXT DEFAULT '',
       kegiatan TEXT NOT NULL,
       keterangan TEXT DEFAULT '',
       urutan INTEGER NOT NULL DEFAULT 0,
@@ -148,6 +155,10 @@ function migrate() {
 
     UPDATE access_logs SET tipe = 'admin' WHERE tipe = 'page';
   `);
+
+  addColumnIfMissing('kalender', 'tanggal_selesai', "TEXT DEFAULT ''");
+  addColumnIfMissing('sections', 'tipe', "TEXT NOT NULL DEFAULT 'apps'");
+  addColumnIfMissing('sections', 'config', "TEXT NOT NULL DEFAULT '{}'");
 }
 
 const DEFAULT_AI_PROMPT =
@@ -165,60 +176,13 @@ const DEFAULT_SETTINGS = {
   site_school: 'SMAN 2 Mengwi',
   site_description: 'Portal aplikasi resmi SMAN 2 Mengwi - akses semua layanan sekolah dalam satu tempat',
 
-  site_brand_prefix: 'dwisma.',
-  site_brand_suffix: 'id',
-  nav_logos: JSON.stringify(['/img/logo-pemprov-bali.png', '/img/Logo Dwisma.png', '/img/Logo_Kemendikdasmen.png']),
-
-  hero_badges: JSON.stringify(['/img/logo-pemprov-bali.png', '/img/Logo_Kemendikdasmen.png']),
-  hero_logo: '/img/Logo Dwisma.png',
-  hero_logo_url: 'https://sman2mengwi.sch.id',
-  hero_school: 'SMAN 2 Mengwi',
-  hero_official_label: 'sman2mengwi.sch.id',
-  hero_official_url: 'https://sman2mengwi.sch.id',
-  hero_official_prefix: 'Kunjungi situs resmi:',
-  typing_title_1: 'Selamat Datang di \n',
-  typing_title_2: 'Portal Dwisma',
-  typing_subtitle: 'Wadah Digital Bagi Seluruh Civitas Akademika SMA Negeri 2 Mengwi',
-
-  banner_enabled: '1',
-  banner_url: 'https://guru.kemendikdasmen.go.id/',
-  banner_logo: '/img/logoruanggtk.png',
-  banner_label: 'Akses Langsung',
-  banner_pre: 'Platform',
-  banner_hi1: 'Merdeka',
-  banner_hi2: 'Mengajar',
-
-  location_enabled: '1',
-  location_title: 'SMA Negeri 2 Mengwi',
-  location_address: 'Jl. Raya Munggu - Tanah Lot, Munggu, Kec. Mengwi, Kab. Badung, Bali',
-  location_map_embed: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.605342939339!2d115.11822807499912!3d-8.624244291417036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd23f99e31b3433%3A0x633190829377464a!2sSMA%20Negeri%202%20Mengwi!5e0!3m2!1sid!2sid!4v1721234567890!5m2!1sid!2sid',
-  location_directions_url: 'https://www.google.com/maps/search/?api=1&query=SMA+Negeri+2+Mengwi',
-
-  footer_brand_title: 'DWISMA',
-  footer_brand_sub: 'SMAN 2 Mengwi',
-  footer_logos: JSON.stringify(['/img/logo-pemprov-bali.png', '/img/Logo Dwisma.png', '/img/Logo_Kemendikdasmen.png']),
-  footer_copyright: '© 2026 Tim Teknologi Informasi | SMAN 2 Mengwi.',
-  footer_status_text: 'Sistem Berjalan Normal',
-  admin_login_label: 'Login Admin',
-
-  chat_label: 'Tanya AI Dwisma',
-  chat_header: 'AI Assistant Dwisma',
-  chat_welcome: 'Halo! Ada yang bisa saya bantu tentang SMA Negeri 2 Mengwi?',
-  chat_placeholder: 'Ketik pesan...',
-  chat_quick_questions: JSON.stringify([
-    { label: 'Kepala Sekolah', message: 'Siapa kepala sekolah?' },
-    { label: 'Aplikasi', message: 'Apa saja aplikasi sekolah?' },
-    { label: 'Wakasek', message: 'Siapa wakasek kurikulum?' },
-    { label: 'Kalender', message: 'Kapan hari pertama masuk?' },
-    { label: 'NPSN', message: 'Apa NPSN sekolah?' },
-  ]),
-
   ai_provider: 'deepseek',
   ai_enabled: '1',
   deepseek_api_key: '',
   deepseek_model: 'deepseek-chat',
   deepseek_base_url: 'https://api.deepseek.com',
   ai_system_prompt: DEFAULT_AI_PROMPT,
+
   uptime_enabled: '1',
   uptime_kuma_url: 'https://uptime.dwisma.id',
   uptime_status_slug: 'status',
@@ -230,6 +194,156 @@ const DEFAULT_SECTIONS = [
   { slug: 'ekstrakurikuler', judul: 'Ekstrakurikuler', gaya: 'list', ikon: 'bi-stars', warna: 'green', urutan: 3 },
   { slug: 'pemprov', judul: 'Aplikasi Pemprov Bali', gaya: 'pill', ikon: '', warna: 'red', urutan: 4 },
   { slug: 'pusat', judul: 'Aplikasi Pemerintah Pusat', gaya: 'pillSmall', ikon: '', warna: 'teal', urutan: 5 },
+];
+
+// Jenis blok halaman. `structural` = posisi tetap (hanya bisa diaktifkan/nonaktifkan).
+// `singleton` = hanya boleh ada satu blok untuk tipe tersebut.
+const BLOCK_TYPES = {
+  nav: { label: 'Navbar', structural: true, singleton: true },
+  hero: { label: 'Hero', singleton: true },
+  search: { label: 'Pencarian', singleton: true },
+  kalender: { label: 'Kalender Akademik', singleton: true },
+  berita: { label: 'Berita', singleton: true },
+  banner: { label: 'Banner', singleton: true },
+  location: { label: 'Lokasi Sekolah', singleton: true },
+  footer: { label: 'Footer', structural: true, singleton: true },
+  chat: { label: 'Chat AI', structural: true, singleton: true },
+  html: { label: 'Teks / HTML' },
+  apps: { label: 'Aplikasi (Tombol)' },
+};
+
+const DEFAULT_BLOCK_CONFIG = {
+  nav: {
+    brand_prefix: 'dwisma.',
+    brand_suffix: 'id',
+    login_label: 'Login Admin',
+    logos: ['/img/logo-pemprov-bali.png', '/img/Logo Dwisma.png', '/img/Logo_Kemendikdasmen.png'],
+  },
+  hero: {
+    badges: ['/img/logo-pemprov-bali.png', '/img/Logo_Kemendikdasmen.png'],
+    logo: '/img/Logo Dwisma.png',
+    logo_url: 'https://sman2mengwi.sch.id',
+    school: 'SMAN 2 Mengwi',
+    official_prefix: 'Kunjungi situs resmi:',
+    official_label: 'sman2mengwi.sch.id',
+    official_url: 'https://sman2mengwi.sch.id',
+    typing_title_1: 'Selamat Datang di \n',
+    typing_title_2: 'Portal Dwisma',
+    typing_subtitle: 'Wadah Digital Bagi Seluruh Civitas Akademika SMA Negeri 2 Mengwi',
+  },
+  search: { placeholder: 'Cari di portal...' },
+  kalender: { limit: 3 },
+  berita: {
+    source: 'berita',
+    limit: 12,
+    link_url: 'https://sman2mengwi.sch.id',
+    link_label: 'Lihat Semua Berita',
+  },
+  banner: {
+    url: 'https://guru.kemendikdasmen.go.id/',
+    logo: '/img/logoruanggtk.png',
+    label: 'Akses Langsung',
+    pre: 'Platform',
+    hi1: 'Merdeka',
+    hi2: 'Mengajar',
+  },
+  location: {
+    title: 'SMA Negeri 2 Mengwi',
+    address: 'Jl. Raya Munggu - Tanah Lot, Munggu, Kec. Mengwi, Kab. Badung, Bali',
+    map_embed:
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3944.605342939339!2d115.11822807499912!3d-8.624244291417036!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd23f99e31b3433%3A0x633190829377464a!2sSMA%20Negeri%202%20Mengwi!5e0!3m2!1sid!2sid!4v1721234567890!5m2!1sid!2sid',
+    directions_url: 'https://www.google.com/maps/search/?api=1&query=SMA+Negeri+2+Mengwi',
+  },
+  footer: {
+    logos: ['/img/logo-pemprov-bali.png', '/img/Logo Dwisma.png', '/img/Logo_Kemendikdasmen.png'],
+    brand_title: 'DWISMA',
+    brand_sub: 'SMAN 2 Mengwi',
+    copyright: '© 2026 Tim Teknologi Informasi | SMAN 2 Mengwi.',
+    status_text: 'Sistem Berjalan Normal',
+  },
+  chat: {
+    label: 'Tanya AI Dwisma',
+    header: 'AI Assistant Dwisma',
+    welcome: 'Halo! Ada yang bisa saya bantu tentang SMA Negeri 2 Mengwi?',
+    placeholder: 'Ketik pesan...',
+    quick_questions: [
+      { label: 'Kepala Sekolah', message: 'Siapa kepala sekolah?' },
+      { label: 'Aplikasi', message: 'Apa saja aplikasi sekolah?' },
+      { label: 'Wakasek', message: 'Siapa wakasek kurikulum?' },
+      { label: 'Kalender', message: 'Kapan hari pertama masuk?' },
+      { label: 'NPSN', message: 'Apa NPSN sekolah?' },
+    ],
+  },
+  html: { konten: '' },
+  apps: {},
+};
+
+// Pemetaan setting lama (sebelum blok) ke config blok: [configKey, settingKey, tipe?]
+const LEGACY_CONFIG_MAP = {
+  nav: [
+    ['brand_prefix', 'site_brand_prefix'],
+    ['brand_suffix', 'site_brand_suffix'],
+    ['login_label', 'admin_login_label'],
+    ['logos', 'nav_logos', 'json'],
+  ],
+  hero: [
+    ['badges', 'hero_badges', 'json'],
+    ['logo', 'hero_logo'],
+    ['logo_url', 'hero_logo_url'],
+    ['school', 'hero_school'],
+    ['official_prefix', 'hero_official_prefix'],
+    ['official_label', 'hero_official_label'],
+    ['official_url', 'hero_official_url'],
+    ['typing_title_1', 'typing_title_1'],
+    ['typing_title_2', 'typing_title_2'],
+    ['typing_subtitle', 'typing_subtitle'],
+  ],
+  banner: [
+    ['url', 'banner_url'],
+    ['logo', 'banner_logo'],
+    ['label', 'banner_label'],
+    ['pre', 'banner_pre'],
+    ['hi1', 'banner_hi1'],
+    ['hi2', 'banner_hi2'],
+  ],
+  location: [
+    ['title', 'location_title'],
+    ['address', 'location_address'],
+    ['map_embed', 'location_map_embed'],
+    ['directions_url', 'location_directions_url'],
+  ],
+  footer: [
+    ['logos', 'footer_logos', 'json'],
+    ['brand_title', 'footer_brand_title'],
+    ['brand_sub', 'footer_brand_sub'],
+    ['copyright', 'footer_copyright'],
+    ['status_text', 'footer_status_text'],
+  ],
+  chat: [
+    ['label', 'chat_label'],
+    ['header', 'chat_header'],
+    ['welcome', 'chat_welcome'],
+    ['placeholder', 'chat_placeholder'],
+    ['quick_questions', 'chat_quick_questions', 'json'],
+  ],
+};
+
+const LEGACY_SETTINGS = (() => {
+  const keys = new Set(['banner_enabled', 'location_enabled']);
+  Object.values(LEGACY_CONFIG_MAP).forEach((rows) => rows.forEach((r) => keys.add(r[1])));
+  return Array.from(keys);
+})();
+
+const PAGE_BLOCKS = [
+  { slug: 'nav', tipe: 'nav', judul: 'Navbar', urutan: 0, tampil_judul: 0 },
+  { slug: 'hero', tipe: 'hero', judul: 'Hero', urutan: 10, tampil_judul: 0 },
+  { slug: 'pencarian', tipe: 'search', judul: 'Pencarian', urutan: 20, tampil_judul: 0 },
+  { slug: 'kalender', tipe: 'kalender', judul: 'Kalender Akademik', urutan: 30, tampil_judul: 1 },
+  { slug: 'berita', tipe: 'berita', judul: 'Berita Terkini', urutan: 50, tampil_judul: 1 },
+  { slug: 'banner', tipe: 'banner', judul: 'Banner', urutan: 60, tampil_judul: 0 },
+  { slug: 'lokasi', tipe: 'location', judul: 'Lokasi Sekolah', urutan: 70, tampil_judul: 1 },
+  { slug: 'footer', tipe: 'footer', judul: 'Footer', urutan: 900, tampil_judul: 0 },
+  { slug: 'chat', tipe: 'chat', judul: 'Chat AI', urutan: 910, tampil_judul: 0 },
 ];
 
 const CATEGORY_TO_SLUG = {
@@ -434,9 +548,9 @@ function seedKalenderFromJson() {
   if (db.prepare('SELECT COUNT(*) AS c FROM kalender').get().c > 0) return;
   const items = readSeed('kalender.json');
   if (!items.length) return;
-  const insert = db.prepare('INSERT INTO kalender (tanggal, kegiatan, keterangan, urutan) VALUES (?, ?, ?, ?)');
+  const insert = db.prepare('INSERT INTO kalender (tanggal, tanggal_selesai, kegiatan, keterangan, urutan) VALUES (?, ?, ?, ?, ?)');
   db.transaction((rows) => {
-    rows.forEach((k, i) => insert.run(k.tanggal, k.kegiatan || '', k.keterangan || '', i + 1));
+    rows.forEach((k, i) => insert.run(k.tanggal, k.tanggal_selesai || '', k.kegiatan || '', k.keterangan || '', i + 1));
   })(items);
   console.log(`[seed] ${items.length} agenda diimpor dari kalender.json`);
 }
@@ -461,6 +575,60 @@ function seedSources() {
   for (const s of DEFAULT_SOURCES) insert.run(s.key, s.nama, s.tipe, s.url, JSON.stringify(s.config));
 }
 
+function buildBlockConfig(tipe, settings) {
+  const base = Object.assign({}, DEFAULT_BLOCK_CONFIG[tipe] || {});
+  const map = LEGACY_CONFIG_MAP[tipe] || [];
+  for (const [key, settingKey, kind] of map) {
+    const raw = settings[settingKey];
+    if (raw === undefined || raw === null || raw === '') continue;
+    base[key] = kind === 'json' ? parseJson(raw, base[key]) : raw;
+  }
+  return base;
+}
+
+function legacyBlockActive(tipe, settings) {
+  if (tipe === 'banner' && settings.banner_enabled === '0') return 0;
+  if (tipe === 'location' && settings.location_enabled === '0') return 0;
+  return 1;
+}
+
+function seedPageBlocks() {
+  const settings = getSettings();
+  const insert = db.prepare(
+    `INSERT INTO sections (slug, judul, subjudul, gaya, tipe, ikon, warna, urutan, tampil_judul, aktif, config)
+     VALUES (@slug, @judul, '', 'grid', @tipe, '', 'blue', @urutan, @tampil_judul, @aktif, @config)
+     ON CONFLICT(slug) DO NOTHING`
+  );
+  for (const b of PAGE_BLOCKS) {
+    insert.run({
+      slug: b.slug,
+      judul: b.judul,
+      tipe: b.tipe,
+      urutan: b.urutan,
+      tampil_judul: b.tampil_judul,
+      aktif: legacyBlockActive(b.tipe, settings),
+      config: JSON.stringify(buildBlockConfig(b.tipe, settings)),
+    });
+  }
+}
+
+function renumberLayout() {
+  if (db.prepare("SELECT value FROM settings WHERE key = 'layout_migrated'").get()) return;
+  const apps = db.prepare("SELECT id FROM sections WHERE tipe = 'apps' ORDER BY urutan ASC, id ASC").all();
+  const update = db.prepare('UPDATE sections SET urutan = ? WHERE id = ?');
+  db.transaction(() => {
+    apps.forEach((row, i) => update.run(40 + i, row.id));
+  })();
+  setSetting('layout_migrated', '1');
+}
+
+function cleanupLegacySettings() {
+  const remove = db.prepare('DELETE FROM settings WHERE key = ?');
+  db.transaction(() => {
+    for (const key of LEGACY_SETTINGS) remove.run(key);
+  })();
+}
+
 function seedUsers() {
   if (db.prepare('SELECT COUNT(*) AS c FROM users').get().c > 0) return;
   const username = process.env.ADMIN_USERNAME || 'admin';
@@ -481,6 +649,9 @@ function seed() {
   seedKalenderFromJson();
   seedGuruFromJson();
   seedSources();
+  seedPageBlocks();
+  renumberLayout();
+  cleanupLegacySettings();
   seedUsers();
 }
 
@@ -504,25 +675,14 @@ function parseJson(value, fallback) {
   }
 }
 
-function getSectionsWithButtons() {
-  const sections = db.prepare('SELECT * FROM sections WHERE aktif = 1 ORDER BY urutan ASC, id ASC').all();
+function getBlocksWithButtons() {
+  const blocks = db.prepare('SELECT * FROM sections WHERE aktif = 1 ORDER BY urutan ASC, id ASC').all();
   const stmt = db.prepare('SELECT * FROM buttons WHERE section_id = ? AND aktif = 1 ORDER BY urutan ASC, id ASC');
-  return sections.map((s) => ({ ...s, buttons: stmt.all(s.id) }));
+  return blocks.map((b) => ({ ...b, config: parseJson(b.config, {}), buttons: stmt.all(b.id) }));
 }
 
 function getSocials() {
   return db.prepare('SELECT * FROM social_links WHERE aktif = 1 ORDER BY urutan ASC, id ASC').all();
-}
-
-function getContentSettings() {
-  const s = getSettings();
-  return {
-    ...s,
-    nav_logos: parseJson(s.nav_logos, []),
-    hero_badges: parseJson(s.hero_badges, []),
-    footer_logos: parseJson(s.footer_logos, []),
-    chat_quick_questions: parseJson(s.chat_quick_questions, []),
-  };
 }
 
 function getSourceByKey(key) {
@@ -552,9 +712,10 @@ module.exports = {
   getSettings,
   setSetting,
   parseJson,
-  getSectionsWithButtons,
+  getBlocksWithButtons,
   getSocials,
-  getContentSettings,
   getSourceByKey,
   saveSourceCache,
+  BLOCK_TYPES,
+  DEFAULT_BLOCK_CONFIG,
 };

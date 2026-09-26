@@ -60,4 +60,4 @@ function logAccess(req, tipe = 'page') {
   }
 }
 
-module.exports = { logAccess, getMac, clientIp };
+module.exports = { logAccess };

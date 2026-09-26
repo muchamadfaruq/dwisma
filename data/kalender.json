@@ -26,6 +26,7 @@
   {
     "id": 5,
     "tanggal": "2026-07-27",
+    "tanggal_selesai": "2026-09-27",
     "kegiatan": "Pendaftaran Peserta TKA dan peserta AN",
     "keterangan": "27 Juli - 27 September 2026"
   },
@@ -56,18 +57,21 @@
   {
     "id": 10,
     "tanggal": "2026-09-21",
+    "tanggal_selesai": "2026-09-27",
     "kegiatan": "Simulasi TKA dan AN",
     "keterangan": "21 - 27 September 2026"
   },
   {
     "id": 11,
     "tanggal": "2026-10-05",
+    "tanggal_selesai": "2026-10-11",
     "kegiatan": "Gladi Bersih TKA & AN",
     "keterangan": "5 - 11 Oktober 2026"
   },
   {
     "id": 12,
     "tanggal": "2026-10-26",
+    "tanggal_selesai": "2026-10-29",
     "kegiatan": "Pelaksanaan TKA Tingkat SMA",
     "keterangan": "26 - 29 Oktober 2026"
   },

@@ -22,10 +22,4 @@ function toBool(value, fallback = true) {
   return value === true || value === 1 || value === '1' || value === 'true' || value === 'on';
 }
 
-function pick(obj, keys) {
-  const out = {};
-  for (const k of keys) if (obj[k] !== undefined) out[k] = obj[k];
-  return out;
-}
-
-module.exports = { asyncHandler, isValidHttpUrl, toInt, toBool, pick };
+module.exports = { asyncHandler, isValidHttpUrl, toInt, toBool };

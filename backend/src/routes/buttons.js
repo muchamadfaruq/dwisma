@@ -29,15 +29,6 @@ function normalize(body) {
   };
 }
 
-router.get(
-  '/admin/buttons',
-  requireAuth,
-  asyncHandler((req, res) => {
-    const rows = db.prepare('SELECT * FROM buttons ORDER BY section_id, urutan ASC, id ASC').all();
-    res.json({ success: true, data: rows });
-  })
-);
-
 router.post(
   '/admin/buttons',
   requireAuth,

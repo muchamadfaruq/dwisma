@@ -5,15 +5,21 @@ sumber data (scraping), dan asisten AI (DeepSeek).
 
 ## Fitur
 
-- **Portal publik** (`/`): daftar aplikasi yang dirender dari database, kalender akademik, berita,
-  prestasi, pengumuman, wakasek, profil sekolah, dan status layanan (Uptime Kuma).
+- **Portal publik** (`/`): dirender dari daftar **blok halaman** yang terurut, meliputi navbar, hero,
+  pencarian, kalender akademik, aplikasi sekolah, berita, banner, lokasi, teks/HTML kustom, footer,
+  chat AI, dan status layanan (Uptime Kuma).
 - **Panel admin** (`/admin`): login multi-user dengan role `admin` / `editor`.
-  - CRUD aplikasi (nama, deskripsi, URL, kategori, ikon, logo/gambar, tema warna, urutan, status).
+  - **Tata letak blok halaman**: tambah, geser (drag & drop), aktif/nonaktif, dan hapus blok.
+    Blok aplikasi (tombol) dan blok Teks/HTML dapat ditambah lebih dari satu; blok struktural
+    (navbar, footer, chat) hanya dapat diaktifkan/nonaktifkan.
+  - CRUD tombol aplikasi (nama, deskripsi, URL, ikon, logo/gambar, tema warna, urutan, status).
   - CRUD kalender, guru, dan pengguna.
   - Unggah & kelola gambar.
   - Pengaturan sumber scraping (URL + selector) dengan tombol **Test**.
   - Pengaturan AI DeepSeek (API key, model, system prompt) + test koneksi.
   - Pengaturan identitas situs dan status layanan.
+
+> Blok aplikasi (`apps`) dapat dikelola editor; blok konten/struktural dan pengaturan urutan hanya admin.
 - **Database SQLite** berbasis query, tersimpan di Docker volume.
 - **Asisten AI DeepSeek** dengan konteks otomatis dari data sekolah.
 

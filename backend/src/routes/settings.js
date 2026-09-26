@@ -12,42 +12,6 @@ const EDITABLE_KEYS = [
   'site_short_name',
   'site_school',
   'site_description',
-  'site_brand_prefix',
-  'site_brand_suffix',
-  'admin_login_label',
-  'hero_badges',
-  'hero_logo',
-  'hero_logo_url',
-  'hero_school',
-  'hero_official_label',
-  'hero_official_url',
-  'hero_official_prefix',
-  'nav_logos',
-  'typing_title_1',
-  'typing_title_2',
-  'typing_subtitle',
-  'banner_enabled',
-  'banner_url',
-  'banner_logo',
-  'banner_label',
-  'banner_pre',
-  'banner_hi1',
-  'banner_hi2',
-  'location_enabled',
-  'location_title',
-  'location_address',
-  'location_map_embed',
-  'location_directions_url',
-  'footer_brand_title',
-  'footer_brand_sub',
-  'footer_logos',
-  'footer_copyright',
-  'footer_status_text',
-  'chat_label',
-  'chat_header',
-  'chat_welcome',
-  'chat_placeholder',
-  'chat_quick_questions',
   'ai_provider',
   'ai_enabled',
   'deepseek_model',
@@ -58,8 +22,7 @@ const EDITABLE_KEYS = [
   'uptime_status_slug',
 ];
 
-const BOOLEAN_KEYS = new Set(['banner_enabled', 'location_enabled', 'ai_enabled', 'uptime_enabled']);
-const JSON_KEYS = new Set(['nav_logos', 'hero_badges', 'footer_logos', 'chat_quick_questions']);
+const BOOLEAN_KEYS = new Set(['ai_enabled', 'uptime_enabled']);
 
 router.get(
   '/admin/settings',
@@ -83,7 +46,6 @@ router.put(
       if (body[key] === undefined) continue;
       let value = body[key];
       if (BOOLEAN_KEYS.has(key)) value = value === true || value === '1' || value === 'true' || value === 'on' ? '1' : '0';
-      else if (JSON_KEYS.has(key) && typeof value !== 'string') value = JSON.stringify(value);
       setSetting(key, value);
     }
     if (typeof body.deepseek_api_key === 'string' && body.deepseek_api_key !== '********') {

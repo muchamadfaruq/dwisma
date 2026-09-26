@@ -25,11 +25,20 @@ router.get(
 function normalize(body) {
   const tanggal = String(body.tanggal || '').trim();
   const kegiatan = String(body.kegiatan || '').trim();
+  let tanggalSelesai = String(body.tanggal_selesai || '').trim();
   if (!/^\d{4}-\d{2}-\d{2}$/.test(tanggal)) return { error: 'Tanggal tidak valid (format YYYY-MM-DD)' };
+  if (tanggalSelesai && !/^\d{4}-\d{2}-\d{2}$/.test(tanggalSelesai)) {
+    return { error: 'Tanggal selesai tidak valid (format YYYY-MM-DD)' };
+  }
+  if (tanggalSelesai && tanggalSelesai < tanggal) {
+    return { error: 'Tanggal selesai tidak boleh lebih awal dari tanggal mulai' };
+  }
+  if (tanggalSelesai === tanggal) tanggalSelesai = '';
   if (!kegiatan) return { error: 'Nama kegiatan wajib diisi' };
   return {
     values: {
       tanggal,
+      tanggal_selesai: tanggalSelesai,
       kegiatan,
       keterangan: String(body.keterangan || '').trim(),
       urutan: toInt(body.urutan, 0),
@@ -44,7 +53,7 @@ router.post(
     const { values, error } = normalize(req.body || {});
     if (error) return res.status(400).json({ success: false, message: error });
     const info = db
-      .prepare('INSERT INTO kalender (tanggal, kegiatan, keterangan, urutan) VALUES (@tanggal, @kegiatan, @keterangan, @urutan)')
+      .prepare('INSERT INTO kalender (tanggal, tanggal_selesai, kegiatan, keterangan, urutan) VALUES (@tanggal, @tanggal_selesai, @kegiatan, @keterangan, @urutan)')
       .run(values);
     res.json({ success: true, data: db.prepare('SELECT * FROM kalender WHERE id = ?').get(info.lastInsertRowid) });
   })
@@ -60,7 +69,7 @@ router.put(
     const { values, error } = normalize({ ...existing, ...req.body });
     if (error) return res.status(400).json({ success: false, message: error });
     db.prepare(
-      "UPDATE kalender SET tanggal=@tanggal, kegiatan=@kegiatan, keterangan=@keterangan, urutan=@urutan WHERE id=@id"
+      "UPDATE kalender SET tanggal=@tanggal, tanggal_selesai=@tanggal_selesai, kegiatan=@kegiatan, keterangan=@keterangan, urutan=@urutan WHERE id=@id"
     ).run({ ...values, id });
     res.json({ success: true, data: db.prepare('SELECT * FROM kalender WHERE id = ?').get(id) });
   })

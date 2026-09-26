@@ -62,7 +62,6 @@
                 <button data-tab="guru" class="tab-btn"><i class="bi bi-people"></i> Guru</button>
                 <button data-tab="media" class="tab-btn"><i class="bi bi-image"></i> Gambar</button>
                 <button data-tab="sources" class="tab-btn"><i class="bi bi-cloud-arrow-down"></i> Sumber Data</button>
-                <button data-tab="tampilan" class="tab-btn"><i class="bi bi-palette"></i> Tampilan</button>
                 <button data-tab="ai" class="tab-btn"><i class="bi bi-robot"></i> AI &amp; Situs</button>
                 <button data-tab="users" data-role="admin" class="tab-btn"><i class="bi bi-person-gear"></i> Pengguna</button>
                 <button data-tab="logs" data-role="admin" class="tab-btn"><i class="bi bi-clock-history"></i> Log Akses</button>
@@ -78,10 +77,13 @@
             <section data-panel="konten" class="panel hidden space-y-10">
                 <div>
                     <div class="panel-head">
-                        <h2><i class="bi bi-collection"></i> Section</h2>
-                        <button class="btn-primary" data-action="add-section"><i class="bi bi-plus-lg"></i> Tambah Section</button>
+                        <h2><i class="bi bi-layout-text-window-reverse"></i> Blok Halaman</h2>
+                        <button class="btn-primary" data-action="add-block"><i class="bi bi-plus-lg"></i> Tambah Blok</button>
                     </div>
-                    <div class="card table-wrap"><table id="sections-table"></table></div>
+                    <p class="text-xs text-slate-500 mb-3">Blok konten dapat digeser (drag) untuk mengubah urutan. Blok struktural hanya dapat diaktifkan/nonaktifkan.</p>
+                    <div class="card table-wrap mb-6"><table id="blocks-table"></table></div>
+                    <h3 class="font-black text-sm uppercase text-slate-500 mb-2">Blok Struktural</h3>
+                    <div class="card table-wrap"><table id="blocks-structural-table"></table></div>
                 </div>
                 <div>
                     <div class="panel-head">
@@ -133,95 +135,6 @@
                 </div>
                 <p class="text-xs text-slate-500 mb-3">Atur URL &amp; selector pengambilan data dari web sekolah.</p>
                 <div class="card table-wrap"><table id="sources-table"></table></div>
-            </section>
-
-            <!-- TAMPILAN -->
-            <section data-panel="tampilan" class="panel hidden">
-                <div class="panel-head"><h2><i class="bi bi-palette"></i> Tampilan Portal</h2></div>
-                <form id="display-form" class="space-y-6">
-                    <fieldset class="card p-6 space-y-4">
-                        <legend class="font-black text-lg mb-2">Navbar</legend>
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <label class="block"><span class="lbl">Teks Brand (awalan)</span><input name="site_brand_prefix" class="inp" /></label>
-                            <label class="block"><span class="lbl">Teks Brand (akhiran)</span><input name="site_brand_suffix" class="inp" /></label>
-                            <label class="block"><span class="lbl">Label Tombol Login Admin</span><input name="admin_login_label" class="inp" /></label>
-                        </div>
-                        <label class="block"><span class="lbl">Logo Navbar (satu URL per baris)</span><textarea name="nav_logos" rows="3" class="inp"></textarea></label>
-                    </fieldset>
-
-                    <fieldset class="card p-6 space-y-4">
-                        <legend class="font-black text-lg mb-2">Hero</legend>
-                        <label class="block"><span class="lbl">Logo Badge (satu URL per baris)</span><textarea name="hero_badges" rows="2" class="inp"></textarea></label>
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <label class="block"><span class="lbl">Logo Utama</span>
-                                <div class="flex gap-2"><input name="hero_logo" class="inp flex-1" /><button type="button" class="btn-ghost" data-action="pick-image" data-target="#display-form [name=hero_logo]">Pilih</button></div>
-                            </label>
-                            <label class="block"><span class="lbl">Link Logo Utama</span><input name="hero_logo_url" class="inp" /></label>
-                            <label class="block"><span class="lbl">Nama Sekolah (subjudul)</span><input name="hero_school" class="inp" /></label>
-                            <label class="block"><span class="lbl">Teks Sebelum Link Situs</span><input name="hero_official_prefix" class="inp" /></label>
-                            <label class="block"><span class="lbl">Label Situs Resmi</span><input name="hero_official_label" class="inp" /></label>
-                            <label class="block"><span class="lbl">URL Situs Resmi</span><input name="hero_official_url" class="inp" /></label>
-                        </div>
-                    </fieldset>
-
-                    <fieldset class="card p-6 space-y-4">
-                        <legend class="font-black text-lg mb-2">Teks Animasi</legend>
-                        <label class="block"><span class="lbl">Baris 1</span><input name="typing_title_1" class="inp" /></label>
-                        <label class="block"><span class="lbl">Baris 2 (gradien)</span><input name="typing_title_2" class="inp" /></label>
-                        <label class="block"><span class="lbl">Subjudul</span><input name="typing_subtitle" class="inp" /></label>
-                    </fieldset>
-
-                    <fieldset class="card p-6 space-y-4">
-                        <legend class="font-black text-lg mb-2">Banner</legend>
-                        <label class="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" name="banner_enabled" class="h-4 w-4" /> Tampilkan banner</label>
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <label class="block"><span class="lbl">URL Banner</span><input name="banner_url" class="inp" /></label>
-                            <label class="block"><span class="lbl">Logo Banner</span>
-                                <div class="flex gap-2"><input name="banner_logo" class="inp flex-1" /><button type="button" class="btn-ghost" data-action="pick-image" data-target="#display-form [name=banner_logo]">Pilih</button></div>
-                            </label>
-                            <label class="block"><span class="lbl">Label Kecil</span><input name="banner_label" class="inp" /></label>
-                            <label class="block"><span class="lbl">Kata Awal</span><input name="banner_pre" class="inp" /></label>
-                            <label class="block"><span class="lbl">Kata Gradien 1</span><input name="banner_hi1" class="inp" /></label>
-                            <label class="block"><span class="lbl">Kata Gradien 2</span><input name="banner_hi2" class="inp" /></label>
-                        </div>
-                    </fieldset>
-
-                    <fieldset class="card p-6 space-y-4">
-                        <legend class="font-black text-lg mb-2">Lokasi</legend>
-                        <label class="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" name="location_enabled" class="h-4 w-4" /> Tampilkan lokasi</label>
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <label class="block"><span class="lbl">Nama Lokasi</span><input name="location_title" class="inp" /></label>
-                            <label class="block"><span class="lbl">URL Petunjuk Arah</span><input name="location_directions_url" class="inp" /></label>
-                        </div>
-                        <label class="block"><span class="lbl">Alamat</span><input name="location_address" class="inp" /></label>
-                        <label class="block"><span class="lbl">URL Embed Google Maps</span><textarea name="location_map_embed" rows="2" class="inp"></textarea></label>
-                    </fieldset>
-
-                    <fieldset class="card p-6 space-y-4">
-                        <legend class="font-black text-lg mb-2">Footer</legend>
-                        <label class="block"><span class="lbl">Logo Footer (satu URL per baris)</span><textarea name="footer_logos" rows="3" class="inp"></textarea></label>
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <label class="block"><span class="lbl">Judul Brand</span><input name="footer_brand_title" class="inp" /></label>
-                            <label class="block"><span class="lbl">Sub Judul Brand</span><input name="footer_brand_sub" class="inp" /></label>
-                            <label class="block"><span class="lbl">Copyright</span><input name="footer_copyright" class="inp" /></label>
-                            <label class="block"><span class="lbl">Teks Status</span><input name="footer_status_text" class="inp" /></label>
-                        </div>
-                    </fieldset>
-
-                    <fieldset class="card p-6 space-y-4">
-                        <legend class="font-black text-lg mb-2">Chat AI</legend>
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <label class="block"><span class="lbl">Label Melayang</span><input name="chat_label" class="inp" /></label>
-                            <label class="block"><span class="lbl">Judul Panel</span><input name="chat_header" class="inp" /></label>
-                        </div>
-                        <label class="block"><span class="lbl">Sapaan</span><input name="chat_welcome" class="inp" /></label>
-                        <label class="block"><span class="lbl">Placeholder Input</span><input name="chat_placeholder" class="inp" /></label>
-                        <label class="block"><span class="lbl">Pertanyaan Cepat (format: Label | Pesan, satu per baris)</span><textarea name="chat_quick_questions" rows="5" class="inp"></textarea></label>
-                    </fieldset>
-
-                    <div id="display-alert" class="hidden text-sm rounded-xl px-3 py-2"></div>
-                    <button type="submit" class="btn-primary"><i class="bi bi-save"></i> Simpan Tampilan</button>
-                </form>
             </section>
 
             <!-- AI & SITUS -->

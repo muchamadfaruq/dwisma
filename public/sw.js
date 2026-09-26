@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dwisma-portal-v6';
+const CACHE_NAME = 'dwisma-portal-v7';
 
 // Aset lokal yang akan di-cache untuk akses offline
 const ASSETS_TO_CACHE = [

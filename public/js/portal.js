@@ -17,6 +17,7 @@
   };
 
   var FALLBACK_IMG = '/img/Logo Dwisma.png';
+  var CONTENT_CACHE = 'dwisma-content-v1';
 
   function esc(value) {
     return String(value == null ? '' : value)
@@ -67,8 +68,8 @@
   }
 
   /* ================= NAV ================= */
-  function navHtml(s) {
-    var logos = Array.isArray(s.nav_logos) ? s.nav_logos : [];
+  function navHtml(cfg) {
+    var logos = Array.isArray(cfg.logos) ? cfg.logos : [];
     var logosHtml = logos.map(function (src, i) {
       var divider = i === 2 ? '<div class="h-6 w-[1px] bg-slate-300/80 self-center hidden sm:block"></div>' : '';
       var size = i >= 2 ? 'h-7 w-auto hidden sm:block' : 'h-10 w-10';
@@ -83,13 +84,13 @@
       '<div class="flex-shrink-0 flex items-center gap-3 group">' +
       '<div class="flex items-center gap-2">' + logosHtml + '</div>' +
       '<span class="text-2xl font-black tracking-tighter ml-1">' +
-      '<span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">' + esc(s.site_brand_prefix || 'dwisma.') + '</span>' +
-      '<span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-600">' + esc(s.site_brand_suffix || 'id') + '</span>' +
+      '<span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">' + esc(cfg.brand_prefix || '') + '</span>' +
+      '<span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-600">' + esc(cfg.brand_suffix || '') + '</span>' +
       '</span></div>' +
       '<div class="flex items-center gap-2">' +
-      '<a href="/admin" title="' + esc(s.admin_login_label || 'Login Admin') + '" ' +
+      '<a href="/admin" title="' + esc(cfg.login_label || 'Login Admin') + '" ' +
       'class="flex items-center gap-2 px-4 h-10 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">' +
-      '<i class="bi bi-person-circle text-lg"></i><span class="hidden sm:inline">' + esc(s.admin_login_label || 'Login Admin') + '</span></a>' +
+      '<i class="bi bi-person-circle text-lg"></i><span class="hidden sm:inline">' + esc(cfg.login_label || 'Login Admin') + '</span></a>' +
       '<button id="dark-toggle" onclick="void 0" aria-label="Toggle Dark Mode" ' +
       'class="flex items-center justify-center w-10 h-10 rounded-full bg-white/60 border border-white hover:bg-white text-slate-600 hover:text-amber-500 shadow-sm transition-all duration-300">' +
       '<i id="dark-icon" class="bi bi-moon-fill text-lg"></i></button>' +
@@ -97,8 +98,8 @@
   }
 
   /* ================= HERO ================= */
-  function heroHtml(s) {
-    var badges = Array.isArray(s.hero_badges) ? s.hero_badges : [];
+  function heroHtml(cfg) {
+    var badges = Array.isArray(cfg.badges) ? cfg.badges : [];
     var badgesHtml = badges.map(function (src, i) {
       var sep = i > 0 ? '<div class="h-5 w-[1px] bg-slate-300/80"></div>' : '';
       return sep + '<img src="' + esc(src) + '" alt="Logo" class="h-7 md:h-9 w-auto object-contain" />';
@@ -109,17 +110,17 @@
       '<div class="flex justify-center mb-6 animate-fade-in-up"><div class="px-5 py-2.5 bg-white/70 backdrop-blur-md border border-white/80 rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex items-center gap-3.5 hover:scale-105 transition-all duration-300">' + badgesHtml + '</div></div>' +
       '<div class="relative inline-block animate-float">' +
       '<div class="absolute inset-0 bg-blue-500/30 blur-[40px] rounded-full scale-150"></div>' +
-      '<a href="' + safeHref(s.hero_logo_url || s.hero_official_url || '#') + '" target="_blank" rel="noopener" class="relative block hover:scale-110 transition-transform duration-500">' +
-      '<img src="' + esc(s.hero_logo || FALLBACK_IMG) + '" alt="' + esc(s.hero_school || '') + '" class="w-36 md:w-44 mx-auto drop-shadow-[0_20px_30px_rgba(0,0,0,0.2)] mb-8" /></a></div>' +
-      '<p class="font-merriweather italic text-xl md:text-2xl text-slate-600 font-bold mb-2 animate-fade-in-up">' + esc(s.hero_school || '') + '</p>' +
+      '<a href="' + safeHref(cfg.logo_url || cfg.official_url || '#') + '" target="_blank" rel="noopener" class="relative block hover:scale-110 transition-transform duration-500">' +
+      '<img src="' + esc(cfg.logo || FALLBACK_IMG) + '" alt="' + esc(cfg.school || '') + '" class="w-36 md:w-44 mx-auto drop-shadow-[0_20px_30px_rgba(0,0,0,0.2)] mb-8" /></a></div>' +
+      '<p class="font-merriweather italic text-xl md:text-2xl text-slate-600 font-bold mb-2 animate-fade-in-up">' + esc(cfg.school || '') + '</p>' +
       '<h1 class="font-extrabold text-5xl md:text-7xl text-dwisma-dark mt-2 tracking-tight leading-[1.1] animate-fade-in-up delay-100 min-h-[110px] md:min-h-[150px]">' +
       '<span id="typed-text-1"></span><br class="hidden md:block" />' +
       '<span id="typed-text-2" class="text-gradient-animated bg-gradient-to-r from-blue-600 via-indigo-500 to-cyan-400 animate-gradient pb-2 inline-block"></span><span id="cursor-main" class="animate-pulse font-light text-slate-800 ml-1">|</span></h1>' +
       '<p class="mt-4 text-base md:text-lg text-slate-600 font-bold h-[28px] animate-fade-in-up delay-200"><span id="typed-text-3"></span><span id="cursor-sub" class="hidden animate-pulse font-light text-slate-800 ml-1">|</span></p>' +
       '<p class="mt-8 text-lg md:text-xl text-slate-500 font-medium animate-fade-in-up delay-300">' +
-      esc(s.hero_official_prefix || '') + ' <a href="' + safeHref(s.hero_official_url || '#') + '" target="_blank" rel="noopener" ' +
+      esc(cfg.official_prefix || '') + ' <a href="' + safeHref(cfg.official_url || '#') + '" target="_blank" rel="noopener" ' +
       'class="inline-flex items-center gap-1.5 px-4 py-1.5 ml-1 bg-white/60 border border-white rounded-full shadow-sm text-blue-600 hover:bg-blue-600 hover:text-white font-bold transition-all duration-300">' +
-      esc(s.hero_official_label || '') + ' <i class="bi bi-arrow-up-right text-sm"></i></a></p></div>';
+      esc(cfg.official_label || '') + ' <i class="bi bi-arrow-up-right text-sm"></i></a></p></div>';
   }
 
   /* ================= SECTION HEADERS ================= */
@@ -179,39 +180,38 @@
       '<span class="font-extrabold text-slate-700 group-hover:text-[var(--c)] transition-colors">' + esc(b.nama) + '</span></a>';
   }
 
-  /* ================= SECTION ================= */
-  function renderSection(sec) {
-    var buttons = (sec.buttons || []).map(function (b) { return b; });
-    var judulHtml = sec.tampil_judul ? sec.judul : '';
-    if (sec.gaya === 'grid') {
-      return '<section class="perf-section search-section" id="search-section-aplikasi">' +
-        (sec.tampil_judul ? centeredHeader(sec.judul, sec.ikon || 'bi-grid-1x2-fill', 'from-blue-500', 'to-cyan-500') : '') +
-        '<div id="status-summary" class="text-center mb-8"></div>' +
-        '<div id="aplikasi-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">' +
+  /* ================= APPS BLOCK ================= */
+  function renderApps(block) {
+    var buttons = (block.buttons || []).map(function (b) { return b; });
+    if (block.gaya === 'grid') {
+      return '<section class="perf-section search-section" data-apps-grid>' +
+        (block.tampil_judul ? centeredHeader(block.judul, block.ikon || 'bi-grid-1x2-fill', 'from-blue-500', 'to-cyan-500') : '') +
+        '<div class="status-summary text-center mb-8"></div>' +
+        '<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">' +
         buttons.map(gridCard).join('') + '</div></section>';
     }
-    if (sec.gaya === 'list') {
-      var p = themePair(sec.warna);
+    if (block.gaya === 'list') {
+      var p = themePair(block.warna);
       return '<section class="glass-panel p-8 rounded-[2.5rem] border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] relative overflow-hidden group search-section">' +
         '<div class="absolute -top-20 -right-20 w-64 h-64 blur-[60px] rounded-full" style="background:' + p[0] + '33"></div>' +
         '<h2 class="font-extrabold text-slate-800 text-2xl mb-8 flex items-center gap-4 relative z-10">' +
-        '<div class="w-12 h-12 flex items-center justify-center text-white rounded-[1rem] shadow-lg" style="background:' + gradient(sec.warna) + '"><i class="' + esc(sec.ikon || 'bi-book-half') + ' text-xl"></i></div>' +
-        esc(sec.judul) + '</h2>' +
+        '<div class="w-12 h-12 flex items-center justify-center text-white rounded-[1rem] shadow-lg" style="background:' + gradient(block.warna) + '"><i class="' + esc(block.ikon || 'bi-book-half') + ' text-xl"></i></div>' +
+        esc(block.judul) + '</h2>' +
         '<div class="flex flex-col gap-4 relative z-10">' + buttons.map(listCard).join('') + '</div></section>';
     }
-    if (sec.gaya === 'pill') {
-      return '<section class="search-section">' + (sec.tampil_judul ? barHeader(sec.judul, sec.warna) : '') +
+    if (block.gaya === 'pill') {
+      return '<section class="search-section">' + (block.tampil_judul ? barHeader(block.judul, block.warna) : '') +
         '<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">' + buttons.map(pillCard).join('') + '</div></section>';
     }
-    return '<section class="search-section">' + (sec.tampil_judul ? barHeader(sec.judul, sec.warna) : '') +
+    return '<section class="search-section">' + (block.tampil_judul ? barHeader(block.judul, block.warna) : '') +
       '<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">' + buttons.map(pillSmallCard).join('') + '</div></section>';
   }
 
   /* ================= STATIC BLOCKS ================= */
-  function searchBarHtml() {
+  function searchBarHtml(cfg) {
     return '<div class="relative max-w-lg mx-auto">' +
       '<i class="bi bi-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 text-lg pointer-events-none"></i>' +
-      '<input id="search-input" type="text" placeholder="Cari di portal..." ' +
+      '<input id="search-input" type="text" placeholder="' + esc(cfg.placeholder || 'Cari di portal...') + '" ' +
       'class="w-full pl-12 pr-12 py-3.5 rounded-full bg-white/60 backdrop-blur border border-white/80 text-slate-700 placeholder-slate-400 font-semibold text-sm outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400 transition-all shadow-sm" />' +
       '<button id="search-clear" class="absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-slate-200/60 hover:bg-red-200 hover:text-red-500 text-slate-500 flex items-center justify-center transition-all text-sm"><i class="bi bi-x"></i></button></div>';
   }
@@ -221,58 +221,63 @@
       '<i class="bi bi-inbox text-5xl"></i><p class="font-bold text-lg">Tidak ditemukan</p><p class="text-sm">Coba kata kunci lain</p></div>';
   }
 
-  function kalenderSectionHtml() {
+  function kalenderSectionHtml(block, cfg) {
     return '<section id="search-section-kalender" class="perf-section search-section">' +
-      centeredHeader('Kalender Akademik', 'bi-calendar-event', 'from-emerald-500', 'to-teal-500') +
-      '<div id="kalender-list" class="relative max-w-3xl mx-auto"><div class="text-center py-12 text-slate-400">' +
+      centeredHeader(block.judul || 'Kalender Akademik', block.ikon || 'bi-calendar-event', 'from-emerald-500', 'to-teal-500') +
+      '<div id="kalender-list" data-limit="' + esc(cfg.limit || 3) + '" class="relative max-w-3xl mx-auto"><div class="text-center py-12 text-slate-400">' +
       '<i class="bi bi-calendar-week text-5xl block mb-4"></i><p class="font-semibold text-lg">Memuat kalender...</p></div></div></section>';
   }
 
-  function beritaSectionHtml(s) {
+  function beritaSectionHtml(block, cfg) {
     return '<section class="perf-section search-section" id="berita-section">' +
-      centeredHeader('Berita Terkini', 'bi-newspaper', 'from-blue-500', 'to-cyan-500') +
-      '<div id="berita-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>' +
-      '<div class="text-center mt-8"><a href="' + safeHref((s && s.hero_official_url) || 'https://sman2mengwi.sch.id') + '" target="_blank" rel="noopener" ' +
-      'class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/30 hover:-translate-y-0.5 transition-all duration-300">' +
-      '<i class="bi bi-arrow-up-right-circle-fill"></i> Lihat Semua Berita</a></div></section>';
+      centeredHeader(block.judul || 'Berita Terkini', block.ikon || 'bi-newspaper', 'from-blue-500', 'to-cyan-500') +
+      '<div id="berita-grid" data-source="' + esc(cfg.source || 'berita') + '" data-limit="' + esc(cfg.limit || 12) + '" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>' +
+      (cfg.link_url ? '<div class="text-center mt-8"><a href="' + safeHref(cfg.link_url) + '" target="_blank" rel="noopener" ' +
+        'class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-lg shadow-blue-500/30 hover:-translate-y-0.5 transition-all duration-300">' +
+        '<i class="bi bi-arrow-up-right-circle-fill"></i> ' + esc(cfg.link_label || 'Lihat Semua') + '</a></div>' : '') + '</section>';
   }
 
-  function bannerHtml(s) {
-    if (s.banner_enabled === '0' || s.banner_enabled === false) return '';
-    return '<section class="perf-section text-center w-full"><a href="' + safeHref(s.banner_url || '#') + '" target="_blank" rel="noopener" ' +
+  function bannerHtml(cfg) {
+    return '<section class="perf-section text-center w-full"><a href="' + safeHref(cfg.url || '#') + '" target="_blank" rel="noopener" ' +
       'class="group relative block w-full bg-white/50 backdrop-blur-md border-2 border-white/80 rounded-[2.5rem] p-8 md:p-12 shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_-10px_rgba(239,68,68,0.2)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">' +
       '<div class="absolute inset-0 opacity-20 bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 bg-[length:200%_200%] animate-gradient group-hover:opacity-40 transition-opacity duration-500"></div>' +
       '<div class="absolute inset-0 bg-white/40 backdrop-blur-md"></div>' +
       '<div class="relative z-10 flex flex-col md:flex-row items-center justify-center gap-8">' +
       '<div class="w-24 h-24 bg-white rounded-3xl shadow-xl flex items-center justify-center p-5 border border-slate-100 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500">' +
-      '<img src="' + esc(s.banner_logo || '') + '" loading="lazy" class="w-full h-full object-contain drop-shadow-md" alt="" /></div>' +
+      '<img src="' + esc(cfg.logo || '') + '" loading="lazy" class="w-full h-full object-contain drop-shadow-md" alt="" /></div>' +
       '<div class="text-center md:text-left">' +
-      '<p class="text-sm font-extrabold text-slate-500 uppercase tracking-widest mb-2 flex items-center justify-center md:justify-start gap-2"><span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> ' + esc(s.banner_label || '') + '</p>' +
-      '<h2 class="font-black text-3xl md:text-5xl tracking-tight text-slate-800">' + esc(s.banner_pre || '') + ' ' +
-      '<span class="text-transparent bg-clip-text bg-gradient-to-br from-red-500 to-orange-500">' + esc(s.banner_hi1 || '') + '</span> ' +
-      '<span class="text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-cyan-500">' + esc(s.banner_hi2 || '') + '</span></h2></div>' +
+      '<p class="text-sm font-extrabold text-slate-500 uppercase tracking-widest mb-2 flex items-center justify-center md:justify-start gap-2"><span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> ' + esc(cfg.label || '') + '</p>' +
+      '<h2 class="font-black text-3xl md:text-5xl tracking-tight text-slate-800">' + esc(cfg.pre || '') + ' ' +
+      '<span class="text-transparent bg-clip-text bg-gradient-to-br from-red-500 to-orange-500">' + esc(cfg.hi1 || '') + '</span> ' +
+      '<span class="text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-cyan-500">' + esc(cfg.hi2 || '') + '</span></h2></div>' +
       '<div class="hidden md:flex flex-1 justify-end"><div class="w-14 h-14 rounded-full bg-white shadow-md border border-slate-100 flex items-center justify-center group-hover:scale-110 transition-all"><i class="bi bi-arrow-right text-3xl text-slate-400 group-hover:text-white transition-colors"></i></div></div>' +
       '</div></a></section>';
   }
 
-  function locationHtml(s) {
-    if (s.location_enabled === '0' || s.location_enabled === false) return '';
+  function locationHtml(cfg) {
     return '<section id="search-section-lokasi" class="perf-section search-section">' +
       centeredHeader('Lokasi Sekolah', 'bi-geo-alt-fill', 'from-red-500', 'to-rose-500') +
       '<div class="max-w-4xl mx-auto glass-panel p-5 md:p-8 rounded-[2.5rem] border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] relative overflow-hidden group">' +
       '<div class="relative z-10 flex flex-col gap-6">' +
       '<div class="w-full h-[300px] md:h-[400px] rounded-3xl overflow-hidden border border-slate-100 shadow-inner">' +
-      '<iframe src="' + esc(s.location_map_embed || '') + '" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="w-full h-full"></iframe></div>' +
+      '<iframe src="' + esc(cfg.map_embed || '') + '" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="w-full h-full"></iframe></div>' +
       '<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 px-2">' +
-      '<div class="text-left"><h4 class="font-extrabold text-slate-800 text-lg">' + esc(s.location_title || '') + '</h4>' +
-      '<p class="text-slate-500 font-bold text-sm mt-1"><i class="bi bi-map mr-1.5 text-red-500"></i> ' + esc(s.location_address || '') + '</p></div>' +
-      '<a href="' + safeHref(s.location_directions_url || '#') + '" target="_blank" rel="noopener" ' +
+      '<div class="text-left"><h4 class="font-extrabold text-slate-800 text-lg">' + esc(cfg.title || '') + '</h4>' +
+      '<p class="text-slate-500 font-bold text-sm mt-1"><i class="bi bi-map mr-1.5 text-red-500"></i> ' + esc(cfg.address || '') + '</p></div>' +
+      '<a href="' + safeHref(cfg.directions_url || '#') + '" target="_blank" rel="noopener" ' +
       'class="w-full md:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white font-extrabold rounded-full shadow-[0_10px_20px_-5px_rgba(239,68,68,0.3)] hover:scale-105 transition-all duration-300">' +
       '<i class="bi bi-box-arrow-up-right text-lg"></i> Petunjuk Arah</a></div></div></div></section>';
   }
 
-  function footerHtml(s, socials) {
-    var logos = Array.isArray(s.footer_logos) ? s.footer_logos : [];
+  function htmlBlock(block, cfg) {
+    return '<section class="perf-section search-section">' +
+      (block.tampil_judul && block.judul ? centeredHeader(block.judul, block.ikon || 'bi-journal-text', 'from-slate-500', 'to-slate-700') : '') +
+      '<div class="max-w-4xl mx-auto glass-panel p-6 md:p-10 rounded-[2.5rem] border border-white shadow-[0_8px_30px_rgba(0,0,0,0.04)] text-slate-700 leading-relaxed">' +
+      (cfg.konten || '') + '</div></section>';
+  }
+
+  function footerHtml(cfg, socials) {
+    var logos = Array.isArray(cfg.logos) ? cfg.logos : [];
     var logosHtml = logos.map(function (src) {
       return '<div class="p-3 bg-white rounded-2xl shadow-md border border-slate-100"><img src="' + esc(src) +
         '" alt="Logo" class="h-14 w-auto object-contain" /></div>';
@@ -291,28 +296,28 @@
       '<div class="flex flex-col lg:flex-row justify-between items-center gap-10">' +
       '<div class="flex flex-col sm:flex-row items-center gap-5">' +
       '<div class="flex items-center gap-4">' + logosHtml + '</div>' +
-      '<div class="text-center sm:text-left"><h3 class="text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-600">' + esc(s.footer_brand_title || '') + '</h3>' +
-      '<p class="text-slate-500 font-bold text-sm mt-0.5">' + esc(s.footer_brand_sub || '') + '</p></div></div>' +
+      '<div class="text-center sm:text-left"><h3 class="text-2xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-800 to-slate-600">' + esc(cfg.brand_title || '') + '</h3>' +
+      '<p class="text-slate-500 font-bold text-sm mt-0.5">' + esc(cfg.brand_sub || '') + '</p></div></div>' +
       '<div class="flex flex-wrap justify-center gap-4">' + sosialHtml + '</div></div>' +
       '<div class="mt-12 pt-8 border-t border-white/80 flex flex-col md:flex-row justify-between items-center gap-4">' +
-      '<p class="text-slate-500 text-sm font-bold">' + esc(s.footer_copyright || '') + ' <a href="/admin" class="ml-2 text-blue-500 hover:underline">Masuk Admin</a></p>' +
+      '<p class="text-slate-500 text-sm font-bold">' + esc(cfg.copyright || '') + ' <a href="/admin" class="ml-2 text-blue-500 hover:underline">Masuk Admin</a></p>' +
       '<div class="flex items-center gap-2.5 px-4 py-2 bg-white/50 border border-white rounded-full text-slate-600 text-sm font-bold shadow-sm">' +
       '<span class="relative flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span></span>' +
-      esc(s.footer_status_text || '') + '</div></div></div></footer>';
+      esc(cfg.status_text || '') + '</div></div></div></footer>';
   }
 
-  function chatHtml(s) {
-    var qs = Array.isArray(s.chat_quick_questions) ? s.chat_quick_questions : [];
+  function chatHtml(cfg) {
+    var qs = Array.isArray(cfg.quick_questions) ? cfg.quick_questions : [];
     var qHtml = qs.map(function (q) {
       return '<button type="button" class="quick-q" data-quick="' + esc(q.message) + '">' + esc(q.label) + '</button>';
     }).join('');
-    return '<div id="ai-chat-label">' + esc(s.chat_label || '') + '</div>' +
+    return '<div id="ai-chat-label">' + esc(cfg.label || '') + '</div>' +
       '<button id="ai-chat-btn" onclick="void 0" aria-label="Chat AI"><i class="bi bi-stars"></i></button>' +
-      '<div id="ai-chat-panel"><div id="ai-chat-header"><i class="bi bi-robot"></i><span>' + esc(s.chat_header || '') + '</span>' +
+      '<div id="ai-chat-panel"><div id="ai-chat-header"><i class="bi bi-robot"></i><span>' + esc(cfg.header || '') + '</span>' +
       '<button id="ai-chat-close">&times;</button></div>' +
-      '<div id="ai-chat-messages"><div class="chat-msg bot"><i class="bi bi-robot"></i> ' + esc(s.chat_welcome || '') + '</div>' +
+      '<div id="ai-chat-messages"><div class="chat-msg bot"><i class="bi bi-robot"></i> ' + esc(cfg.welcome || '') + '</div>' +
       '<div id="chat-quick-qs" style="display:flex;flex-wrap:wrap;gap:6px;padding:8px 12px">' + qHtml + '</div></div>' +
-      '<div id="ai-chat-input-area"><input id="ai-chat-input" type="text" placeholder="' + esc(s.chat_placeholder || 'Ketik pesan...') + '" autocomplete="off" />' +
+      '<div id="ai-chat-input-area"><input id="ai-chat-input" type="text" placeholder="' + esc(cfg.placeholder || 'Ketik pesan...') + '" autocomplete="off" />' +
       '<button id="ai-chat-send"><i class="bi bi-send-fill"></i></button></div></div>';
   }
 
@@ -323,31 +328,55 @@
       '<div id="blob3" class="absolute bottom-[-20%] left-[20%] w-[500px] h-[500px] bg-pink-400/30 rounded-full filter blur-[120px] animate-blob animation-delay-4000" style="will-change:transform;transform:translateZ(0)"></div></div>';
   }
 
+  /* ================= BLOCK DISPATCH ================= */
+  function renderBlock(block, socials) {
+    var cfg = block.config || {};
+    switch (block.tipe) {
+      case 'hero': return heroHtml(cfg);
+      case 'search': return searchBarHtml(cfg) + emptyHtml();
+      case 'kalender': return kalenderSectionHtml(block, cfg);
+      case 'apps': return renderApps(block);
+      case 'berita': return beritaSectionHtml(block, cfg);
+      case 'banner': return bannerHtml(cfg);
+      case 'location': return locationHtml(cfg);
+      case 'html': return htmlBlock(block, cfg);
+      default: return '';
+    }
+  }
+
   /* ================= RENDER APP ================= */
   function renderApp(data) {
-    var s = (data && data.settings) || {};
-    var sections = (data && data.sections) || [];
+    var settings = (data && data.settings) || {};
+    var blocks = (data && data.blocks) || [];
     var socials = (data && data.socials) || [];
-    var grids = sections.filter(function (x) { return x.gaya === 'grid'; });
-    var lists = sections.filter(function (x) { return x.gaya === 'list'; });
-    var pills = sections.filter(function (x) { return x.gaya === 'pill' || x.gaya === 'pillSmall'; });
+    if (!blocks.length) return renderEmptyState();
 
-    var listsHtml = lists.length
-      ? '<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 perf-section">' + lists.map(renderSection).join('') + '</div>'
-      : '';
+    var navBlock = blocks.filter(function (b) { return b.tipe === 'nav'; })[0];
+    var footerBlock = blocks.filter(function (b) { return b.tipe === 'footer'; })[0];
+    var chatBlock = blocks.filter(function (b) { return b.tipe === 'chat'; })[0];
+    var contentBlocks = blocks.filter(function (b) {
+      return ['nav', 'footer', 'chat'].indexOf(b.tipe) === -1;
+    });
 
-    document.getElementById('app').innerHTML = blobsHtml() + navHtml(s) +
-      '<main class="flex-grow container mx-auto px-4 py-16">' + heroHtml(s) +
+    var html = blobsHtml();
+    if (navBlock) html += navHtml(navBlock.config || {});
+    html += '<main class="flex-grow container mx-auto px-4 py-16">' +
       '<div class="max-w-6xl mx-auto space-y-20 pb-20 animate-fade-in-up delay-400">' +
-      searchBarHtml() + emptyHtml() + kalenderSectionHtml() +
-      grids.map(renderSection).join('') +
-      beritaSectionHtml(s) +
-      listsHtml + bannerHtml(s) +
-      pills.map(renderSection).join('') +
-      locationHtml(s) +
-      '</div></main>' + footerHtml(s, socials) + chatHtml(s);
+      contentBlocks.map(function (b) { return renderBlock(b, socials); }).join('') +
+      '</div></main>';
+    if (footerBlock) html += footerHtml(footerBlock.config || {}, socials);
+    if (chatBlock) html += chatHtml(chatBlock.config || {});
 
-    document.title = s.site_name || document.title;
+    document.getElementById('app').innerHTML = html;
+    document.title = settings.site_name || document.title;
+  }
+
+  function renderEmptyState() {
+    document.getElementById('app').innerHTML = blobsHtml() +
+      '<div class="min-h-screen flex items-center justify-center p-8 text-center">' +
+      '<div><i class="bi bi-cloud-slash text-5xl text-slate-400"></i>' +
+      '<p class="mt-4 font-bold text-slate-600">Konten belum dapat dimuat</p>' +
+      '<p class="text-sm text-slate-400">Periksa koneksi lalu muat ulang halaman.</p></div></div>';
   }
 
   /* ================= FEATURES ================= */
@@ -374,10 +403,11 @@
     syncDarkIcon();
   }
 
-  function initTyping(s) {
-    var text1 = s.typing_title_1 || '';
-    var text2 = s.typing_title_2 || '';
-    var text3 = s.typing_subtitle || '';
+  function initTyping(cfg) {
+    cfg = cfg || {};
+    var text1 = cfg.typing_title_1 || '';
+    var text2 = cfg.typing_title_2 || '';
+    var text3 = cfg.typing_subtitle || '';
     var el1 = document.getElementById('typed-text-1');
     var el2 = document.getElementById('typed-text-2');
     var el3 = document.getElementById('typed-text-3');
@@ -435,7 +465,6 @@
     sections.forEach(function (sec) {
       var items = Array.prototype.slice.call(sec.querySelectorAll('.search-item'));
       if (!items.length) {
-        // section tanpa item (mis. lokasi/berita saat kosong) -> cocokkan teks section
         if (!q) { sec.style.display = ''; any = true; }
         else {
           var m0 = sec.textContent.toLowerCase().indexOf(q) > -1;
@@ -490,6 +519,7 @@
   function renderKalender() {
     var container = document.getElementById('kalender-list');
     if (!container) return;
+    var limit = Number(container.dataset.limit) || 3;
     fetch('/api/kalender').then(function (r) { return r.json(); }).then(function (res) {
       if (!res.success || !res.data || !res.data.length) {
         container.innerHTML = '<div class="text-center py-12 text-slate-400"><i class="bi bi-calendar-x text-5xl block mb-4"></i><p class="font-semibold text-lg">Belum ada agenda</p></div>';
@@ -506,18 +536,34 @@
         if (diff === 1) return 'Besok';
         return diff + ' hari lagi';
       }
-      var sorted = res.data.slice().sort(function (a, b) { return a.tanggal.localeCompare(b.tanggal); });
-      var limit = 3;
+      function endIso(item) {
+        return item.tanggal_selesai && item.tanggal_selesai > item.tanggal ? item.tanggal_selesai : item.tanggal;
+      }
+      function rangeText(item) {
+        var end = endIso(item);
+        return end !== item.tanggal ? fmt(item.tanggal) + ' &ndash; ' + fmt(end) : fmt(item.tanggal);
+      }
+      var sorted = res.data.filter(function (it) { return new Date(endIso(it) + 'T00:00:00') >= now; })
+        .sort(function (a, b) { return a.tanggal.localeCompare(b.tanggal); });
+      if (!sorted.length) {
+        container.innerHTML = '<div class="text-center py-12 text-slate-400"><i class="bi bi-calendar-check text-5xl block mb-4"></i><p class="font-semibold text-lg">Belum ada agenda mendatang</p></div>';
+        return;
+      }
       var html = '<div class="timeline-track">';
       sorted.forEach(function (item, i) {
+        var end = endIso(item);
+        var endDate = new Date(end + 'T00:00:00');
+        var startDate = new Date(item.tanggal + 'T00:00:00');
+        var past = endDate < now;
+        var ongoing = !past && end !== item.tanggal && startDate <= now;
         var label = daysUntil(item.tanggal);
-        var past = label === null;
         var active = i === 0 && !past ? ' active' : '';
-        var badge = label ? '<span class="timeline-badge ml-2">' + esc(label) + '</span>' : '';
+        var badge = ongoing ? '<span class="timeline-badge ml-2">Sedang berlangsung</span>'
+          : (label ? '<span class="timeline-badge ml-2">' + esc(label) + '</span>' : '');
         var hidden = i >= limit ? ' style="display:none"' : '';
         html += '<div class="timeline-item search-item' + active + (past ? ' past' : '') + '"' + hidden + '>' +
           '<div class="timeline-dot"></div>' +
-          '<div class="timeline-date"><i class="bi bi-calendar3"></i> ' + fmt(item.tanggal) + badge + '</div>' +
+          '<div class="timeline-date"><i class="bi bi-calendar-range"></i> ' + rangeText(item) + badge + '</div>' +
           '<div class="timeline-title">' + esc(item.kegiatan) + '</div>' +
           '<div class="timeline-desc">' + esc(item.keterangan) + '</div></div>';
       });
@@ -536,9 +582,11 @@
   function renderBerita() {
     var grid = document.getElementById('berita-grid');
     if (!grid) return;
-    fetch('/api/berita').then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (res) {
+    var source = grid.dataset.source || 'berita';
+    var limit = Number(grid.dataset.limit) || 12;
+    fetch('/api/' + source).then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (res) {
       if (!res.success || !res.data || !res.data.length) throw new Error('empty');
-      grid.innerHTML = res.data.map(function (item) {
+      grid.innerHTML = res.data.slice(0, limit).map(function (item) {
         return '<a href="' + safeHref(item.link) + '" target="_blank" rel="noopener" ' +
           'class="perf-card search-item group relative flex flex-col bg-white/60 backdrop-blur-md border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(59,130,246,0.3)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">' +
           '<div class="relative w-full h-44 overflow-hidden rounded-t-[2rem] bg-slate-100">' +
@@ -559,14 +607,15 @@
   function normalizeUrl(u) { return (u || '').replace(/^https?:\/\//, '').replace(/\/$/, '').toLowerCase(); }
 
   function loadStatus() {
-    var summary = document.getElementById('status-summary');
+    var summaries = Array.prototype.slice.call(document.querySelectorAll('.status-summary'));
+    if (!summaries.length) return;
     fetch('/api/status').then(function (r) { return r.json(); }).then(function (res) {
       if (!res.success || res.enabled === false) return;
       var monitors = res.monitors || [];
       var byUrl = {};
       monitors.forEach(function (m) { if (m.url) byUrl[normalizeUrl(m.url)] = m; });
       var up = 0, down = 0;
-      document.querySelectorAll('#aplikasi-grid a.perf-card').forEach(function (card) {
+      document.querySelectorAll('[data-apps-grid] a.perf-card').forEach(function (card) {
         var href = card.getAttribute('href');
         if (!href) return;
         var mon = byUrl[normalizeUrl(href)];
@@ -580,14 +629,15 @@
         card.appendChild(dot);
       });
       var total = up + down;
-      if (!summary || total === 0) return;
+      if (total === 0) return;
       var allUp = down === 0;
-      summary.innerHTML = '<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur border border-white shadow-sm text-sm font-semibold text-slate-600">' +
+      var html = '<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur border border-white shadow-sm text-sm font-semibold text-slate-600">' +
         '<span class="w-2.5 h-2.5 rounded-full ' + (allUp ? 'bg-green-500' : 'bg-red-500') + '"></span>' +
         (allUp ? up + ' layanan aktif · semua berjalan normal' : up + ' aktif · ' + down + ' gangguan') +
         (res.detailUrl ? ' <a href="' + esc(res.detailUrl) + '" target="_blank" rel="noopener" class="ml-1 text-blue-600 hover:underline">Detail</a>' : '') +
         '</div>';
-    }).catch(function () { if (summary) summary.innerHTML = ''; });
+      summaries.forEach(function (el) { el.innerHTML = html; });
+    }).catch(function () { summaries.forEach(function (el) { el.innerHTML = ''; }); });
   }
 
   function addMsg(text, role) {
@@ -668,37 +718,33 @@
   }
 
   /* ================= BOOT ================= */
+  function readCache() {
+    try {
+      var raw = localStorage.getItem(CONTENT_CACHE);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  }
+
+  function writeCache(data) {
+    try { localStorage.setItem(CONTENT_CACHE, JSON.stringify(data)); } catch (e) { /* noop */ }
+  }
+
   function boot() {
-    fetch('/api/content').then(function (r) { return r.json(); }).then(function (j) {
-      if (j && j.success && j.data) {
-        renderApp(j.data);
-        initTyping(j.data.settings || {});
-      } else {
-        throw new Error('invalid');
-      }
-    }).catch(function () {
-      var fb = {
-        settings: {
-          site_brand_prefix: 'dwisma.', site_brand_suffix: 'id', admin_login_label: 'Login Admin',
-          nav_logos: ['/img/logo-pemprov-bali.png', '/img/Logo Dwisma.png', '/img/Logo_Kemendikdasmen.png'],
-          hero_badges: ['/img/logo-pemprov-bali.png', '/img/Logo_Kemendikdasmen.png'],
-          hero_logo: '/img/Logo Dwisma.png', hero_logo_url: 'https://sman2mengwi.sch.id', hero_school: 'SMAN 2 Mengwi',
-          hero_official_label: 'sman2mengwi.sch.id', hero_official_url: 'https://sman2mengwi.sch.id', hero_official_prefix: 'Kunjungi situs resmi:',
-          typing_title_1: 'Selamat Datang di \n', typing_title_2: 'Portal Dwisma', typing_subtitle: 'Wadah Digital Bagi Seluruh Civitas Akademika SMA Negeri 2 Mengwi',
-          footer_logos: ['/img/logo-pemprov-bali.png', '/img/Logo Dwisma.png', '/img/Logo_Kemendikdasmen.png'],
-          footer_brand_title: 'DWISMA', footer_brand_sub: 'SMAN 2 Mengwi', footer_copyright: '© 2026 Tim Teknologi Informasi | SMAN 2 Mengwi.', footer_status_text: 'Sistem Berjalan Normal',
-          chat_label: 'Tanya AI Dwisma', chat_header: 'AI Assistant Dwisma', chat_welcome: 'Halo! Ada yang bisa saya bantu tentang SMA Negeri 2 Mengwi?', chat_placeholder: 'Ketik pesan...',
-          chat_quick_questions: [],
-        },
-        sections: [],
-        socials: [],
-      };
-      renderApp(fb);
-      initTyping(fb.settings);
-    }).then(function () {
-      initDark(); initBlobs(); initSearch(); initChat();
-      renderKalender(); renderBerita(); loadStatus(); registerSW();
-    });
+    fetch('/api/content')
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!(j && j.success && j.data)) throw new Error('invalid');
+        writeCache(j.data);
+        return j.data;
+      })
+      .catch(function () { return readCache() || { settings: {}, blocks: [], socials: [] }; })
+      .then(function (data) {
+        renderApp(data);
+        var hero = (data.blocks || []).filter(function (b) { return b.tipe === 'hero'; })[0];
+        initTyping(hero ? hero.config : {});
+        initDark(); initBlobs(); initSearch(); initChat();
+        renderKalender(); renderBerita(); loadStatus(); registerSW();
+      });
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

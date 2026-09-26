@@ -37,8 +37,14 @@ async function collectParts() {
   }
 
   try {
-    const kalender = db.prepare('SELECT tanggal, kegiatan, keterangan FROM kalender ORDER BY tanggal').all();
-    push('Kalender Akademik', kalender.map((k) => `- ${k.tanggal}: ${k.kegiatan} (${k.keterangan})`));
+    const kalender = db.prepare('SELECT tanggal, tanggal_selesai, kegiatan, keterangan FROM kalender ORDER BY tanggal').all();
+    push(
+      'Kalender Akademik',
+      kalender.map((k) => {
+        const rentang = k.tanggal_selesai && k.tanggal_selesai !== k.tanggal ? `${k.tanggal} s/d ${k.tanggal_selesai}` : k.tanggal;
+        return `- ${rentang}: ${k.kegiatan} (${k.keterangan})`;
+      })
+    );
   } catch (e) {
     push('Kalender Akademik', [], e.message);
   }
@@ -109,4 +115,4 @@ async function buildAIContext() {
   return { systemPrompt, parts, context };
 }
 
-module.exports = { collectParts, buildAIContext };
+module.exports = { buildAIContext };

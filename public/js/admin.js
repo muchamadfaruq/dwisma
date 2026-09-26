@@ -2,6 +2,7 @@ const state = {
   user: null,
   settings: null,
   sections: [],
+  blockTypes: {},
   buttons: [],
   socials: [],
   media: [],
@@ -137,7 +138,6 @@ function activateTab(name) {
     guru: loadGuru,
     media: loadMedia,
     sources: loadSources,
-    tampilan: loadSettings,
     ai: loadSettings,
     users: loadUsers,
     logs: loadAccessLogs,
@@ -147,50 +147,239 @@ function activateTab(name) {
 
 /* ===== Sections ===== */
 async function loadKonten() {
-  const [sections, socials] = await Promise.all([
+  const [blocks, socials, types] = await Promise.all([
     api('GET', '/api/admin/sections'),
     api('GET', '/api/admin/socials'),
+    api('GET', '/api/admin/sections/types'),
   ]);
-  state.sections = sections.data;
+  state.sections = blocks.data;
+  state.blockTypes = types.data;
   state.socials = socials.data;
-  state.buttons = state.sections.flatMap((s) => s.buttons);
-  renderSections();
+  state.buttons = state.sections.flatMap((s) => s.buttons || []);
+  renderBlocks();
   renderButtons();
   renderSocials();
 }
 
-function renderSections() {
-  const rows = state.sections.map((s) => `<tr>
-    <td class="font-mono text-xs">${esc(s.slug)}</td>
-    <td class="font-bold">${esc(s.judul)}</td>
-    <td><span class="badge">${esc(s.gaya)}</span></td>
-    <td>${s.ikon ? `<i class="${esc(s.ikon)}"></i> ${esc(s.ikon)}` : '-'}</td>
-    <td>${esc(s.warna)}</td>
-    <td>${s.urutan}</td>
-    <td><span class="badge ${s.aktif ? 'on' : 'off'}">${s.aktif ? 'Aktif' : 'Off'}</span></td>
+function isStructural(b) { return !!(state.blockTypes[b.tipe] || {}).structural; }
+function blockTypeLabel(tipe) { return (state.blockTypes[tipe] || {}).label || tipe; }
+
+function blockRow(b) {
+  const structural = isStructural(b);
+  const dragCell = structural ? '<td></td>' : '<td class="drag-handle" title="Geser untuk mengubah urutan">⠿</td>';
+  const upDown = structural
+    ? ''
+    : `<button class="btn-mini" data-action="block-up" data-id="${b.id}">&uarr;</button>
+       <button class="btn-mini" data-action="block-down" data-id="${b.id}">&darr;</button>`;
+  const del = structural ? '' : `<button class="btn-danger" data-action="del-block" data-id="${b.id}">Hapus</button>`;
+  return `<tr data-block-id="${b.id}" data-structural="${structural ? '1' : '0'}" ${structural ? '' : 'draggable="true"'}>
+    ${dragCell}
+    <td><span class="badge">${esc(blockTypeLabel(b.tipe))}</span></td>
+    <td class="font-bold">${esc(b.judul)}</td>
+    <td>${b.tipe === 'apps' ? esc(b.gaya) : '-'}</td>
+    <td>${b.urutan}</td>
+    <td><span class="badge ${b.aktif ? 'on' : 'off'}">${b.aktif ? 'Aktif' : 'Off'}</span></td>
     <td class="whitespace-nowrap">
-      <button class="btn-mini" data-action="edit-section" data-id="${s.id}">Edit</button>
-      <button class="btn-danger" data-action="del-section" data-id="${s.id}">Hapus</button>
-    </td></tr>`).join('');
-  $('#sections-table').innerHTML = `<thead><tr><th>Slug</th><th>Judul</th><th>Gaya</th><th>Ikon</th><th>Warna</th><th>Urutan</th><th>Status</th><th>Aksi</th></tr></thead>
-    <tbody>${rows || '<tr><td colspan="8" class="text-center text-slate-400 py-6">Belum ada section</td></tr>'}</tbody>`;
+      <button class="btn-mini" data-action="toggle-block" data-id="${b.id}">${b.aktif ? 'Matikan' : 'Aktifkan'}</button>
+      ${upDown}
+      <button class="btn-mini" data-action="edit-block" data-id="${b.id}">Edit</button>
+      ${del}
+    </td></tr>`;
 }
 
-function sectionForm(s = {}) {
-  return modalForm(s.id ? 'Edit Section' : 'Tambah Section', `
-    <div class="grid grid-cols-2 gap-4">
-      ${field('Slug', `<input name="slug" required class="inp font-mono" value="${esc(s.slug || '')}" />`)}
-      ${field('Gaya', `<select name="gaya" class="inp">${options(['grid', 'list', 'pill', 'pillSmall'], s.gaya || 'grid')}</select>`)}
+function renderBlocks() {
+  const content = state.sections.filter((b) => !isStructural(b));
+  const structural = state.sections.filter(isStructural);
+  const head = '<thead><tr><th></th><th>Tipe</th><th>Judul</th><th>Gaya</th><th>Urutan</th><th>Status</th><th>Aksi</th></tr></thead>';
+  const empty = '<tr><td colspan="7" class="text-center text-slate-400 py-6">Belum ada blok</td></tr>';
+  $('#blocks-table').innerHTML = head + '<tbody>' + (content.map(blockRow).join('') || empty) + '</tbody>';
+  $('#blocks-structural-table').innerHTML = head + '<tbody>' + (structural.map(blockRow).join('') || empty) + '</tbody>';
+  bindBlockDrag();
+}
+
+function bindBlockDrag() {
+  const tbody = $('#blocks-table tbody');
+  if (!tbody) return;
+  let dragId = null;
+  tbody.querySelectorAll('tr[draggable="true"]').forEach((row) => {
+    row.addEventListener('dragstart', (e) => {
+      dragId = row.dataset.blockId;
+      row.classList.add('dragging');
+      if (e.dataTransfer) e.dataTransfer.effectAllowed = 'move';
+    });
+    row.addEventListener('dragend', () => {
+      dragId = null;
+      row.classList.remove('dragging');
+      tbody.querySelectorAll('tr').forEach((r) => r.classList.remove('drag-over'));
+    });
+    row.addEventListener('dragover', (e) => { e.preventDefault(); row.classList.add('drag-over'); });
+    row.addEventListener('dragleave', () => row.classList.remove('drag-over'));
+    row.addEventListener('drop', async (e) => {
+      e.preventDefault();
+      row.classList.remove('drag-over');
+      if (!dragId || dragId === row.dataset.blockId) return;
+      const ids = Array.from(tbody.querySelectorAll('tr')).map((r) => Number(r.dataset.blockId));
+      const from = ids.indexOf(Number(dragId));
+      const to = ids.indexOf(Number(row.dataset.blockId));
+      if (from < 0 || to < 0) return;
+      ids.splice(to, 0, ids.splice(from, 1)[0]);
+      try {
+        await api('PUT', '/api/admin/sections/reorder', { order: ids });
+        toast('Urutan disimpan');
+        loadKonten();
+      } catch (err) { toast(err.message, 'error'); }
+    });
+  });
+}
+
+async function moveBlock(id, dir) {
+  const content = state.sections.filter((b) => !isStructural(b)).map((b) => b.id);
+  const from = content.indexOf(id);
+  const to = from + dir;
+  if (from < 0 || to < 0 || to >= content.length) return;
+  content.splice(to, 0, content.splice(from, 1)[0]);
+  try {
+    await api('PUT', '/api/admin/sections/reorder', { order: content });
+    toast('Urutan disimpan');
+    loadKonten();
+  } catch (err) { toast(err.message, 'error'); }
+}
+
+const ARRAY_CFG = new Set(['logos', 'badges']);
+const NUM_CFG = new Set(['limit']);
+
+function blockConfigFields(tipe, cfg) {
+  const c = cfg || {};
+  const t = (name, label, value, ph) => field(label, `<input name="cfg_${name}" class="inp" placeholder="${esc(ph || '')}" value="${esc(value || '')}" />`);
+  const ta = (name, label, value, rows) => field(label, `<textarea name="cfg_${name}" rows="${rows || 3}" class="inp">${esc(value || '')}</textarea>`);
+  switch (tipe) {
+    case 'nav':
+      return t('brand_prefix', 'Teks Brand (awalan)', c.brand_prefix)
+        + t('brand_suffix', 'Teks Brand (akhiran)', c.brand_suffix)
+        + t('login_label', 'Label Tombol Login', c.login_label)
+        + ta('logos', 'Logo Navbar (satu URL per baris)', arrayToLines(c.logos));
+    case 'hero':
+      return ta('badges', 'Logo Badge (satu URL per baris)', arrayToLines(c.badges), 2)
+        + t('logo', 'Logo Utama', c.logo)
+        + t('logo_url', 'Link Logo Utama', c.logo_url)
+        + t('school', 'Nama Sekolah', c.school)
+        + t('official_prefix', 'Teks Sebelum Link', c.official_prefix)
+        + t('official_label', 'Label Situs Resmi', c.official_label)
+        + t('official_url', 'URL Situs Resmi', c.official_url)
+        + t('typing_title_1', 'Teks Animasi Baris 1', c.typing_title_1)
+        + t('typing_title_2', 'Teks Animasi Baris 2', c.typing_title_2)
+        + t('typing_subtitle', 'Subjudul Animasi', c.typing_subtitle);
+    case 'search':
+      return t('placeholder', 'Placeholder Pencarian', c.placeholder);
+    case 'kalender':
+      return field('Jumlah Ditampilkan', `<input name="cfg_limit" type="number" class="inp" value="${c.limit || 3}" />`);
+    case 'berita':
+      return field('Sumber Data (key)', `<input name="cfg_source" class="inp" value="${esc(c.source || 'berita')}" />`)
+        + field('Jumlah Berita', `<input name="cfg_limit" type="number" class="inp" value="${c.limit || 12}" />`)
+        + t('link_url', 'URL Lihat Semua', c.link_url)
+        + t('link_label', 'Label Lihat Semua', c.link_label);
+    case 'banner':
+      return t('url', 'URL Banner', c.url) + t('logo', 'Logo Banner', c.logo)
+        + t('label', 'Label Kecil', c.label) + t('pre', 'Kata Awal', c.pre)
+        + t('hi1', 'Kata Gradien 1', c.hi1) + t('hi2', 'Kata Gradien 2', c.hi2);
+    case 'location':
+      return t('title', 'Nama Lokasi', c.title) + t('address', 'Alamat', c.address)
+        + ta('map_embed', 'URL Embed Google Maps', c.map_embed, 2)
+        + t('directions_url', 'URL Petunjuk Arah', c.directions_url);
+    case 'footer':
+      return ta('logos', 'Logo Footer (satu URL per baris)', arrayToLines(c.logos))
+        + t('brand_title', 'Judul Brand', c.brand_title) + t('brand_sub', 'Sub Judul Brand', c.brand_sub)
+        + t('copyright', 'Copyright', c.copyright) + t('status_text', 'Teks Status', c.status_text);
+    case 'chat':
+      return t('label', 'Label Melayang', c.label) + t('header', 'Judul Panel', c.header)
+        + t('welcome', 'Sapaan', c.welcome) + t('placeholder', 'Placeholder Input', c.placeholder)
+        + ta('quick_questions', 'Pertanyaan Cepat (Label | Pesan per baris)', quickToText(c.quick_questions), 5);
+    case 'html':
+      return ta('konten', 'Konten HTML', c.konten, 8);
+    default:
+      return '';
+  }
+}
+
+function blockForm(b = {}) {
+  const tipe = b.tipe || 'apps';
+  const structural = !!(state.blockTypes[tipe] || {}).structural;
+  const slugField = b.id ? '' : field('Slug', `<input name="slug" required class="inp font-mono" value="${esc(b.slug || '')}" />`);
+  const appsFields = tipe === 'apps'
+    ? `<div class="grid grid-cols-2 gap-4">
+        ${field('Gaya', `<select name="gaya" class="inp">${options(['grid', 'list', 'pill', 'pillSmall'], b.gaya || 'grid')}</select>`)}
+        ${field('Warna', `<select name="warna" class="inp">${options(THEME_OPTIONS, b.warna || 'blue')}</select>`)}
+      </div>
+      ${field('Ikon', iconInput('ikon', b.ikon))}`
+    : '';
+  const urutanField = structural ? '' : field('Urutan', `<input name="urutan" type="number" class="inp" value="${b.urutan || 0}" />`);
+  return modalForm(b.id ? 'Edit Blok: ' + blockTypeLabel(tipe) : 'Tambah Blok: ' + blockTypeLabel(tipe), `
+    <input type="hidden" name="tipe" value="${esc(tipe)}" />
+    ${slugField}
+    ${field('Judul', `<input name="judul" required class="inp" value="${esc(b.judul || '')}" />`)}
+    ${appsFields}
+    ${blockConfigFields(tipe, b.config)}
+    ${urutanField}
+    <label class="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" name="tampil_judul" class="h-4 w-4" ${b.tampil_judul === 0 ? '' : 'checked'} /> Tampilkan judul</label>
+    <label class="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" name="aktif" class="h-4 w-4" ${b.aktif === 0 ? '' : 'checked'} /> Aktif`);
+}
+
+function collectBlockConfig() {
+  const out = {};
+  $$('#modal-form [name^="cfg_"]').forEach((el) => {
+    const key = el.name.slice(4);
+    if (key === 'quick_questions') out[key] = textToQuick(el.value);
+    else if (ARRAY_CFG.has(key)) out[key] = linesToArray(el.value);
+    else if (NUM_CFG.has(key)) out[key] = Number(el.value) || 0;
+    else out[key] = el.value.trim();
+  });
+  return out;
+}
+
+function afterBlockForm(form, block) {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = collectForm(form);
+    data.tampil_judul = form.tampil_judul.checked;
+    data.aktif = form.aktif.checked;
+    data.config = collectBlockConfig();
+    try {
+      if (block.id) await api('PUT', '/api/admin/sections/' + block.id, data);
+      else await api('POST', '/api/admin/sections', data);
+      closeModal(); toast('Blok disimpan'); loadKonten();
+    } catch (err) { toast(err.message, 'error'); }
+  });
+}
+
+function addBlockMenu() {
+  const present = new Set(state.sections.map((b) => b.tipe));
+  const items = Object.entries(state.blockTypes || {}).filter(([tipe, meta]) => !meta.singleton || !present.has(tipe));
+  openModal(`<div class="p-6 space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="text-xl font-black">Tambah Blok</h3>
+      <button data-action="close-modal" class="text-2xl text-slate-400 hover:text-slate-700">&times;</button>
     </div>
-    ${field('Judul', `<input name="judul" required class="inp" value="${esc(s.judul || '')}" />`)}
-    ${field('Subjudul', `<input name="subjudul" class="inp" value="${esc(s.subjudul || '')}" />`)}
-    <div class="grid grid-cols-3 gap-4">
-      ${field('Ikon', iconInput('ikon', s.ikon))}
-      ${field('Warna', `<select name="warna" class="inp">${options(THEME_OPTIONS, s.warna || 'blue')}</select>`)}
-      ${field('Urutan', `<input name="urutan" type="number" class="inp" value="${s.urutan || 0}" />`)}
-    </div>
-    <label class="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" name="tampil_judul" class="h-4 w-4" ${s.tampil_judul === 0 ? '' : 'checked'} /> Tampilkan judul</label>
-    <label class="flex items-center gap-2 text-sm font-semibold"><input type="checkbox" name="aktif" class="h-4 w-4" ${s.aktif === 0 ? '' : 'checked'} /> Aktif</label>`);
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      ${items.map(([tipe, meta]) => `<button type="button" class="btn-ghost justify-center" data-action="new-block" data-tipe="${esc(tipe)}">${esc(meta.label)}</button>`).join('') || '<p class="text-slate-400">Semua tipe blok sudah ditambahkan.</p>'}
+    </div></div>`);
+}
+
+function newBlock(tipe) {
+  const meta = state.blockTypes[tipe] || {};
+  const maxUrutan = state.sections.reduce((m, b) => !isStructural(b) && b.urutan < 800 ? Math.max(m, b.urutan) : m, 0);
+  const block = {
+    tipe,
+    slug: meta.singleton ? tipe : tipe + '-' + Date.now().toString(36),
+    judul: meta.label || tipe,
+    gaya: 'grid',
+    warna: 'blue',
+    urutan: maxUrutan + 1,
+    tampil_judul: 1,
+    aktif: 1,
+    config: {},
+  };
+  openModal(blockForm(block));
+  afterBlockForm($('#modal-form'), block);
 }
 
 /* ===== Buttons ===== */
@@ -215,7 +404,10 @@ function renderButtons() {
 }
 
 function buttonForm(b = {}) {
-  const sectionOptions = state.sections.map((s) => `<option value="${s.id}" ${b.section_id === s.id ? 'selected' : ''}>${esc(s.judul)} (${esc(s.slug)})</option>`).join('');
+  const sectionOptions = state.sections
+    .filter((s) => s.tipe === 'apps')
+    .map((s) => `<option value="${s.id}" ${b.section_id === s.id ? 'selected' : ''}>${esc(s.judul)} (${esc(s.slug)})</option>`)
+    .join('');
   return modalForm(b.id ? 'Edit Tombol' : 'Tambah Tombol', `
     ${field('Section', `<select name="section_id" required class="inp">${sectionOptions}</select>`)}
     ${field('Nama', `<input name="nama" required class="inp" value="${esc(b.nama || '')}" />`)}
@@ -292,7 +484,7 @@ async function loadKalender() {
   const res = await api('GET', '/api/admin/kalender');
   state.kalender = res.data;
   const rows = state.kalender.map((k) => `<tr>
-    <td class="whitespace-nowrap font-semibold">${esc(k.tanggal)}</td>
+    <td class="whitespace-nowrap font-semibold">${esc(k.tanggal)}${k.tanggal_selesai ? ' &ndash; ' + esc(k.tanggal_selesai) : ''}</td>
     <td>${esc(k.kegiatan)}</td>
     <td class="text-slate-500">${esc(k.keterangan)}</td>
     <td class="whitespace-nowrap"><button class="btn-mini" data-action="edit-kalender" data-id="${k.id}">Edit</button>
@@ -302,7 +494,8 @@ async function loadKalender() {
 }
 function kalenderForm(item = {}) {
   return modalForm(item.id ? 'Edit Agenda' : 'Tambah Agenda', `
-    ${field('Tanggal', `<input type="date" name="tanggal" required class="inp" value="${esc(item.tanggal || '')}" />`)}
+    ${field('Tanggal Mulai', `<input type="date" name="tanggal" required class="inp" value="${esc(item.tanggal || '')}" />`)}
+    ${field('Tanggal Selesai (opsional)', `<input type="date" name="tanggal_selesai" class="inp" value="${esc(item.tanggal_selesai || '')}" />`)}
     ${field('Kegiatan', `<input name="kegiatan" required class="inp" value="${esc(item.kegiatan || '')}" />`)}
     ${field('Keterangan', `<textarea name="keterangan" rows="2" class="inp">${esc(item.keterangan || '')}</textarea>`)}`);
 }
@@ -405,7 +598,7 @@ function afterSourceForm(form, source) {
   });
 }
 
-/* ===== Settings & Tampilan ===== */
+/* ===== Settings ===== */
 function fillForm(form, map) {
   Object.entries(map).forEach(([k, v]) => { if (form[k] != null) form[k].value = v == null ? '' : v; });
 }
@@ -427,26 +620,6 @@ async function loadSettings() {
     sf.deepseek_api_key.value = '';
     sf.deepseek_api_key.placeholder = s.deepseek_api_key_set ? 'Sudah diatur (isi untuk ganti)' : 'sk-...';
     $('#key-hint').textContent = s.deepseek_api_key_set ? 'API key tersimpan.' : 'API key belum diatur.';
-  }
-
-  const df = $('#display-form');
-  if (df) {
-    fillForm(df, {
-      site_brand_prefix: s.site_brand_prefix, site_brand_suffix: s.site_brand_suffix, admin_login_label: s.admin_login_label,
-      hero_logo: s.hero_logo, hero_logo_url: s.hero_logo_url, hero_school: s.hero_school,
-      hero_official_prefix: s.hero_official_prefix, hero_official_label: s.hero_official_label, hero_official_url: s.hero_official_url,
-      typing_title_1: s.typing_title_1, typing_title_2: s.typing_title_2, typing_subtitle: s.typing_subtitle,
-      banner_url: s.banner_url, banner_logo: s.banner_logo, banner_label: s.banner_label, banner_pre: s.banner_pre, banner_hi1: s.banner_hi1, banner_hi2: s.banner_hi2,
-      location_title: s.location_title, location_address: s.location_address, location_map_embed: s.location_map_embed, location_directions_url: s.location_directions_url,
-      footer_brand_title: s.footer_brand_title, footer_brand_sub: s.footer_brand_sub, footer_copyright: s.footer_copyright, footer_status_text: s.footer_status_text,
-      chat_label: s.chat_label, chat_header: s.chat_header, chat_welcome: s.chat_welcome, chat_placeholder: s.chat_placeholder,
-    });
-    df.nav_logos.value = arrayToLines(s.nav_logos);
-    df.hero_badges.value = arrayToLines(s.hero_badges);
-    df.footer_logos.value = arrayToLines(s.footer_logos);
-    df.chat_quick_questions.value = quickToText(s.chat_quick_questions);
-    df.banner_enabled.checked = s.banner_enabled === '1';
-    df.location_enabled.checked = s.location_enabled === '1';
   }
 }
 
@@ -629,30 +802,6 @@ document.addEventListener('DOMContentLoaded', () => {
     catch (err) { alert.className = 'text-sm rounded-xl px-3 py-2 bg-red-50 text-red-700'; alert.textContent = err.message; }
   });
 
-  $('#display-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const f = e.target;
-    const payload = {
-      site_brand_prefix: f.site_brand_prefix.value, site_brand_suffix: f.site_brand_suffix.value,
-      admin_login_label: f.admin_login_label.value,
-      nav_logos: linesToArray(f.nav_logos.value), hero_badges: linesToArray(f.hero_badges.value),
-      hero_logo: f.hero_logo.value, hero_logo_url: f.hero_logo_url.value, hero_school: f.hero_school.value,
-      hero_official_prefix: f.hero_official_prefix.value, hero_official_label: f.hero_official_label.value, hero_official_url: f.hero_official_url.value,
-      typing_title_1: f.typing_title_1.value, typing_title_2: f.typing_title_2.value, typing_subtitle: f.typing_subtitle.value,
-      banner_enabled: f.banner_enabled.checked, banner_url: f.banner_url.value, banner_logo: f.banner_logo.value,
-      banner_label: f.banner_label.value, banner_pre: f.banner_pre.value, banner_hi1: f.banner_hi1.value, banner_hi2: f.banner_hi2.value,
-      location_enabled: f.location_enabled.checked, location_title: f.location_title.value, location_address: f.location_address.value,
-      location_map_embed: f.location_map_embed.value, location_directions_url: f.location_directions_url.value,
-      footer_logos: linesToArray(f.footer_logos.value), footer_brand_title: f.footer_brand_title.value,
-      footer_brand_sub: f.footer_brand_sub.value, footer_copyright: f.footer_copyright.value, footer_status_text: f.footer_status_text.value,
-      chat_label: f.chat_label.value, chat_header: f.chat_header.value, chat_welcome: f.chat_welcome.value,
-      chat_placeholder: f.chat_placeholder.value, chat_quick_questions: textToQuick(f.chat_quick_questions.value),
-    };
-    const alert = $('#display-alert');
-    try { await api('PUT', '/api/admin/settings', payload); alert.className = 'text-sm rounded-xl px-3 py-2 bg-emerald-50 text-emerald-700'; alert.textContent = 'Tampilan disimpan.'; loadSettings(); }
-    catch (err) { alert.className = 'text-sm rounded-xl px-3 py-2 bg-red-50 text-red-700'; alert.textContent = err.message; }
-  });
-
   $('#ai-context-btn').addEventListener('click', async () => {
     const btn = $('#ai-context-btn');
     const old = btn.innerHTML;
@@ -703,11 +852,15 @@ document.addEventListener('DOMContentLoaded', () => {
       if (action === 'close-modal') return closeModal();
       if (action === 'pick-image') return openMediaPicker(el.dataset.target);
 
-      if (action === 'add-section') { openModal(sectionForm()); bindForm('POST', '/api/admin/sections', loadKonten, 'Section disimpan'); }
-      else if (action === 'edit-section') { openModal(sectionForm(state.sections.find((s) => s.id === id))); bindForm('PUT', '/api/admin/sections/' + id, loadKonten, 'Section disimpan'); }
-      else if (action === 'del-section') { if (confirm('Hapus section ini? Semua tombol di dalamnya ikut terhapus.')) { await api('DELETE', '/api/admin/sections/' + id); toast('Section dihapus'); loadKonten(); } }
+      if (action === 'add-block') return addBlockMenu();
+      else if (action === 'new-block') { closeModal(); return newBlock(el.dataset.tipe); }
+      else if (action === 'edit-block') { const blk = state.sections.find((s) => s.id === id); openModal(blockForm(blk)); afterBlockForm($('#modal-form'), blk); }
+      else if (action === 'toggle-block') { const blk = state.sections.find((s) => s.id === id); await api('PUT', '/api/admin/sections/' + id, { aktif: !blk.aktif }); toast('Status blok diubah'); loadKonten(); }
+      else if (action === 'block-up') { await moveBlock(id, -1); }
+      else if (action === 'block-down') { await moveBlock(id, 1); }
+      else if (action === 'del-block') { if (confirm('Hapus blok ini? Semua tombol di dalamnya ikut terhapus.')) { await api('DELETE', '/api/admin/sections/' + id); toast('Blok dihapus'); loadKonten(); } }
 
-      else if (action === 'add-button') { openModal(buttonForm({ section_id: state.sections[0] && state.sections[0].id })); afterButtonForm($('#modal-form'), {}); }
+      else if (action === 'add-button') { const firstApp = state.sections.find((s) => s.tipe === 'apps'); openModal(buttonForm({ section_id: firstApp && firstApp.id })); afterButtonForm($('#modal-form'), {}); }
       else if (action === 'edit-button') { openModal(buttonForm(state.buttons.find((b) => b.id === id))); afterButtonForm($('#modal-form'), state.buttons.find((b) => b.id === id)); }
       else if (action === 'del-button') { if (confirm('Hapus tombol ini?')) { await api('DELETE', '/api/admin/buttons/' + id); toast('Tombol dihapus'); loadKonten(); } }
 
