@@ -141,7 +141,7 @@
   /* ================= CARDS ================= */
   function gridCard(b) {
     var p = themePair(b.warna);
-    return '<a href="' + safeHref(b.url) + '" target="_blank" rel="noopener" title="' + esc(b.deskripsi) + '" ' +
+    return '<a href="' + safeHref(b.url) + '" target="_blank" rel="noopener" data-uptime="' + esc(b.uptime_url || '') + '" title="' + esc(b.deskripsi) + '" ' +
       'class="perf-card search-item group relative flex items-center gap-5 p-5 bg-white/60 backdrop-blur-md border border-white/80 rounded-[2rem] shadow-glass hover:shadow-[0_20px_40px_-5px_rgba(59,130,246,0.35)] hover:-translate-y-2 transition-all duration-500 overflow-hidden">' +
       '<div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style="background:linear-gradient(135deg,' + p[0] + '1a,' + p[1] + '0d)"></div>' +
       '<div class="relative rounded-2xl p-[2px] group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-md" style="background:' + gradient(b.warna) + '">' +
@@ -155,7 +155,7 @@
 
   function listCard(b) {
     var p = themePair(b.warna);
-    return '<a href="' + safeHref(b.url) + '" target="_blank" rel="noopener" style="--c:' + p[0] + '" ' +
+    return '<a href="' + safeHref(b.url) + '" target="_blank" rel="noopener" data-uptime="' + esc(b.uptime_url || '') + '" style="--c:' + p[0] + '" ' +
       'class="perf-card search-item group flex items-center gap-5 p-4 bg-white/70 backdrop-blur-sm rounded-2xl border border-white shadow-sm hover:shadow-[0_10px_20px_-5px_rgba(0,0,0,0.15)] hover:-translate-y-1 transition-all duration-300">' +
       '<div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center p-2 shadow-sm border border-slate-100 overflow-hidden">' + mediaHtml(b, p[0], { ini: '1.2rem', icon: 'text-2xl' }) + '</div>' +
       '<span class="font-bold text-lg text-slate-700 flex-1 group-hover:text-[var(--c)] transition-colors">' + esc(b.nama) + '</span>' +
@@ -164,7 +164,7 @@
 
   function pillCard(b) {
     var p = themePair(b.warna);
-    return '<a href="' + safeHref(b.url) + '" target="_blank" rel="noopener" title="' + esc(b.deskripsi || b.nama) + '" style="--c:' + p[0] + '" ' +
+    return '<a href="' + safeHref(b.url) + '" target="_blank" rel="noopener" data-uptime="' + esc(b.uptime_url || '') + '" title="' + esc(b.deskripsi || b.nama) + '" style="--c:' + p[0] + '" ' +
       'class="perf-card search-item group flex items-center gap-4 p-4 bg-white/60 backdrop-blur-sm border border-white rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">' +
       '<div class="w-14 h-14 rounded-[14px] p-[2px] shadow-sm group-hover:scale-110 transition-transform flex-shrink-0" style="background:' + gradient(b.warna) + '">' +
       '<div class="w-full h-full bg-white rounded-[12px] flex items-center justify-center p-1.5 overflow-hidden">' + mediaHtml(b, p[0], { ini: '1.4rem', icon: 'text-3xl' }) + '</div></div>' +
@@ -173,7 +173,7 @@
 
   function pillSmallCard(b) {
     var p = themePair(b.warna);
-    return '<a href="' + safeHref(b.url) + '" target="_blank" rel="noopener" title="' + esc(b.deskripsi || b.nama) + '" style="--c:' + p[0] + '" ' +
+    return '<a href="' + safeHref(b.url) + '" target="_blank" rel="noopener" data-uptime="' + esc(b.uptime_url || '') + '" title="' + esc(b.deskripsi || b.nama) + '" style="--c:' + p[0] + '" ' +
       'class="perf-card search-item group flex items-center justify-center gap-3 p-4 bg-white/60 backdrop-blur-sm border border-white rounded-2xl shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all">' +
       '<div class="w-10 h-10 rounded-full p-[2px] shadow-sm group-hover:scale-110 transition-transform flex-shrink-0" style="background:' + gradient(b.warna) + '">' +
       '<div class="w-full h-full bg-white rounded-full flex items-center justify-center p-1.5 overflow-hidden">' + mediaHtml(b, p[0], { ini: '1rem', icon: 'text-xl' }) + '</div></div>' +
@@ -615,10 +615,10 @@
       var byUrl = {};
       monitors.forEach(function (m) { if (m.url) byUrl[normalizeUrl(m.url)] = m; });
       var up = 0, down = 0;
-      document.querySelectorAll('[data-apps-grid] a.perf-card').forEach(function (card) {
-        var href = card.getAttribute('href');
-        if (!href) return;
-        var mon = byUrl[normalizeUrl(href)];
+      document.querySelectorAll('.perf-card[data-uptime]').forEach(function (card) {
+        var target = card.dataset.uptime || card.getAttribute('href');
+        if (!target) return;
+        var mon = byUrl[normalizeUrl(target)];
         if (!mon) return;
         if (mon.status === 1) up++; else if (mon.status === 0) down++;
         var cls = mon.status === 1 ? 'up' : (mon.status === 3 ? 'maintenance' : 'down');

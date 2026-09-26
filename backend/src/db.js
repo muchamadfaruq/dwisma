@@ -159,6 +159,7 @@ function migrate() {
   addColumnIfMissing('kalender', 'tanggal_selesai', "TEXT DEFAULT ''");
   addColumnIfMissing('sections', 'tipe', "TEXT NOT NULL DEFAULT 'apps'");
   addColumnIfMissing('sections', 'config', "TEXT NOT NULL DEFAULT '{}'");
+  addColumnIfMissing('buttons', 'uptime_url', "TEXT DEFAULT ''");
 }
 
 const DEFAULT_AI_PROMPT =

@@ -14,12 +14,17 @@ function normalize(body) {
   }
   if (!nama) return { error: 'Nama tombol wajib diisi' };
   if (!isValidHttpUrl(url)) return { error: 'URL harus diawali http:// atau https://' };
+  const uptimeUrl = String(body.uptime_url || '').trim();
+  if (uptimeUrl && !isValidHttpUrl(uptimeUrl)) {
+    return { error: 'URL monitor Uptime Kuma harus diawali http:// atau https://' };
+  }
   return {
     values: {
       section_id,
       nama,
       deskripsi: String(body.deskripsi || '').trim(),
       url,
+      uptime_url: uptimeUrl,
       icon: String(body.icon || 'bi-link-45deg').trim() || 'bi-link-45deg',
       image: String(body.image || '').trim(),
       warna: String(body.warna || 'blue').trim() || 'blue',
@@ -37,8 +42,8 @@ router.post(
     if (error) return res.status(400).json({ success: false, message: error });
     const info = db
       .prepare(
-        `INSERT INTO buttons (section_id, nama, deskripsi, url, icon, image, warna, urutan, aktif)
-         VALUES (@section_id, @nama, @deskripsi, @url, @icon, @image, @warna, @urutan, @aktif)`
+        `INSERT INTO buttons (section_id, nama, deskripsi, url, uptime_url, icon, image, warna, urutan, aktif)
+         VALUES (@section_id, @nama, @deskripsi, @url, @uptime_url, @icon, @image, @warna, @urutan, @aktif)`
       )
       .run(values);
     res.json({ success: true, data: db.prepare('SELECT * FROM buttons WHERE id = ?').get(info.lastInsertRowid) });
@@ -80,7 +85,7 @@ router.put(
     if (error) return res.status(400).json({ success: false, message: error });
     db.prepare(
       `UPDATE buttons SET section_id=@section_id, nama=@nama, deskripsi=@deskripsi, url=@url,
-       icon=@icon, image=@image, warna=@warna, urutan=@urutan, aktif=@aktif,
+       uptime_url=@uptime_url, icon=@icon, image=@image, warna=@warna, urutan=@urutan, aktif=@aktif,
        updated_at=datetime('now') WHERE id=@id`
     ).run({ ...values, id });
     res.json({ success: true, data: db.prepare('SELECT * FROM buttons WHERE id = ?').get(id) });

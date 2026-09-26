@@ -156,6 +156,13 @@ table tbody tr:hover { background: #f8fafc; }
 }
 .badge.on { background: #dcfce7; color: #15803d; }
 .badge.off { background: #fee2e2; color: #b91c1c; }
+.badge-toggle {
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: filter .15s, transform .15s;
+}
+.badge-toggle:hover { filter: brightness(.94); transform: translateY(-1px); }
 
 .thumb {
   width: 40px;

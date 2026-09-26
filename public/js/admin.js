@@ -3,6 +3,7 @@ const state = {
   settings: null,
   sections: [],
   blockTypes: {},
+  uptime: null,
   buttons: [],
   socials: [],
   media: [],
@@ -156,9 +157,29 @@ async function loadKonten() {
   state.blockTypes = types.data;
   state.socials = socials.data;
   state.buttons = state.sections.flatMap((s) => s.buttons || []);
+  try {
+    const st = await api('GET', '/api/status');
+    state.uptime = { enabled: st.enabled !== false, byUrl: {} };
+    (st.monitors || []).forEach((m) => { if (m.url) state.uptime.byUrl[normalizeUrl(m.url)] = m; });
+  } catch (e) {
+    state.uptime = { enabled: false, byUrl: {} };
+  }
   renderBlocks();
   renderButtons();
   renderSocials();
+}
+
+function normalizeUrl(u) {
+  return (u || '').replace(/^https?:\/\//, '').replace(/\/$/, '').toLowerCase();
+}
+
+function uptimeBadge(b) {
+  if (!state.uptime || !state.uptime.enabled) return '<span class="text-slate-300">&mdash;</span>';
+  const mon = state.uptime.byUrl[normalizeUrl(b.uptime_url || b.url)];
+  if (!mon) return '<span class="badge">Tak dipantau</span>';
+  const label = mon.status === 1 ? 'Online' : (mon.status === 3 ? 'Pemeliharaan' : 'Offline');
+  const cls = mon.status === 1 ? 'on' : (mon.status === 3 ? '' : 'off');
+  return `<span class="badge ${cls}">${label}</span>`;
 }
 
 function isStructural(b) { return !!(state.blockTypes[b.tipe] || {}).structural; }
@@ -178,9 +199,8 @@ function blockRow(b) {
     <td class="font-bold">${esc(b.judul)}</td>
     <td>${b.tipe === 'apps' ? esc(b.gaya) : '-'}</td>
     <td>${b.urutan}</td>
-    <td><span class="badge ${b.aktif ? 'on' : 'off'}">${b.aktif ? 'Aktif' : 'Off'}</span></td>
+    <td><button class="badge badge-toggle ${b.aktif ? 'on' : 'off'}" data-action="toggle-block" data-id="${b.id}" title="Klik untuk ubah status">${b.aktif ? 'Aktif' : 'Off'}</button></td>
     <td class="whitespace-nowrap">
-      <button class="btn-mini" data-action="toggle-block" data-id="${b.id}">${b.aktif ? 'Matikan' : 'Aktifkan'}</button>
       ${upDown}
       <button class="btn-mini" data-action="edit-block" data-id="${b.id}">Edit</button>
       ${del}
@@ -390,7 +410,8 @@ function buttonRow(b) {
     <td class="font-bold">${esc(b.nama)}</td>
     <td class="max-w-[200px] truncate text-slate-500">${esc(b.deskripsi)}</td>
     <td><a href="${esc(b.url)}" target="_blank" rel="noopener" class="text-blue-600 hover:underline">${esc(b.url)}</a></td>
-    <td><span class="badge ${b.aktif ? 'on' : 'off'}">${b.aktif ? 'Aktif' : 'Off'}</span></td>
+    <td>${uptimeBadge(b)}</td>
+    <td><button class="badge badge-toggle ${b.aktif ? 'on' : 'off'}" data-action="toggle-button" data-id="${b.id}" title="Klik untuk ubah status">${b.aktif ? 'Aktif' : 'Off'}</button></td>
     <td class="whitespace-nowrap">
       <button class="btn-mini" data-action="edit-button" data-id="${b.id}">Edit</button>
       <button class="btn-danger" data-action="del-button" data-id="${b.id}">Hapus</button>
@@ -401,14 +422,14 @@ function renderButtons() {
   const appsSections = state.sections.filter((s) => s.tipe === 'apps');
   const groups = appsSections.map((s) => {
     const items = state.buttons.filter((b) => b.section_id === s.id);
-    const header = `<tr class="group-header" data-section="${s.id}"><td colspan="7">
+    const header = `<tr class="group-header" data-section="${s.id}"><td colspan="8">
       <i class="bi bi-folder2-open"></i> ${esc(s.judul)} <span class="badge">${esc(s.slug)}</span>
       <span class="text-slate-400 text-xs">${items.length} tombol</span></td></tr>`;
     const rows = items.map(buttonRow).join('');
-    return header + (rows || '<tr><td colspan="7" class="text-center text-slate-400 py-4 text-xs">Belum ada tombol</td></tr>');
+    return header + (rows || '<tr><td colspan="8" class="text-center text-slate-400 py-4 text-xs">Belum ada tombol</td></tr>');
   }).join('');
-  $('#buttons-table').innerHTML = `<thead><tr><th></th><th>Ikon</th><th>Nama</th><th>Deskripsi</th><th>URL</th><th>Status</th><th>Aksi</th></tr></thead>
-    <tbody>${groups || '<tr><td colspan="7" class="text-center text-slate-400 py-6">Belum ada section aplikasi</td></tr>'}</tbody>`;
+  $('#buttons-table').innerHTML = `<thead><tr><th></th><th>Ikon</th><th>Nama</th><th>Deskripsi</th><th>URL</th><th>Uptime</th><th>Aktif</th><th>Aksi</th></tr></thead>
+    <tbody>${groups || '<tr><td colspan="8" class="text-center text-slate-400 py-6">Belum ada section aplikasi</td></tr>'}</tbody>`;
   bindButtonDrag();
 }
 
@@ -482,6 +503,7 @@ function buttonForm(b = {}) {
         <label class="btn-ghost cursor-pointer">Unggah<input name="__upload" type="file" accept="image/*" class="hidden" /></label>
       </div>
       <div class="mt-2">${b.image ? `<img src="${esc(b.image)}" class="h-12 rounded-lg border border-slate-200" />` : ''}</div>`)}
+    ${field('URL Monitor Uptime Kuma (opsional)', `<input name="uptime_url" class="inp" placeholder="Kosongkan = cocokkan otomatis dari URL" value="${esc(b.uptime_url || '')}" />`)}
     <div class="grid grid-cols-2 gap-4">
       ${field('Urutan', `<input name="urutan" type="number" class="inp" value="${b.urutan || 0}" />`)}
       <label class="flex items-center gap-2 text-sm font-semibold mt-6"><input type="checkbox" name="aktif" class="h-4 w-4" ${b.aktif === 0 ? '' : 'checked'} /> Aktif</label>
@@ -516,7 +538,7 @@ function renderSocials() {
     <td><a href="${esc(s.url)}" target="_blank" rel="noopener" class="text-blue-600 hover:underline">${esc(s.url)}</a></td>
     <td>${esc(s.warna)}</td>
     <td>${s.urutan}</td>
-    <td><span class="badge ${s.aktif ? 'on' : 'off'}">${s.aktif ? 'Aktif' : 'Off'}</span></td>
+    <td><button class="badge badge-toggle ${s.aktif ? 'on' : 'off'}" data-action="toggle-social" data-id="${s.id}" title="Klik untuk ubah status">${s.aktif ? 'Aktif' : 'Off'}</button></td>
     <td class="whitespace-nowrap">
       <button class="btn-mini" data-action="edit-social" data-id="${s.id}">Edit</button>
       <button class="btn-danger" data-action="del-social" data-id="${s.id}">Hapus</button>
@@ -809,6 +831,42 @@ function showPreview(data) {
     <pre class="bg-slate-900 text-emerald-300 text-xs rounded-xl p-4 overflow-auto max-h-[60vh]">${esc(JSON.stringify(data, null, 2))}</pre></div>`);
 }
 
+function uptimeLabel(status) {
+  if (status === 1) return ['Online', 'on'];
+  if (status === 3) return ['Pemeliharaan', ''];
+  if (status === 0) return ['Offline', 'off'];
+  return ['-', ''];
+}
+
+function renderUptimeStatus(res, buttons) {
+  const enabled = res.enabled !== false;
+  const monitors = res.monitors || [];
+  const byUrl = {};
+  monitors.forEach((m) => { if (m.url) byUrl[normalizeUrl(m.url)] = m; });
+  const monRows = monitors.map((m) => {
+    const [label, cls] = uptimeLabel(m.status);
+    return `<tr><td class="font-semibold">${esc(m.name)}</td><td class="text-xs text-slate-500">${esc(m.url || '-')}</td><td><span class="badge ${cls}">${label}</span></td></tr>`;
+  }).join('');
+  const btnRows = (buttons || []).map((b) => {
+    const mon = byUrl[normalizeUrl(b.uptime_url || b.url)];
+    return `<tr><td class="font-semibold">${esc(b.nama)}</td><td class="text-xs text-slate-500">${esc(b.uptime_url || b.url)}</td><td>${mon ? esc(mon.name) : '<span class="text-slate-400">tidak cocok</span>'}</td></tr>`;
+  }).join('');
+  openModal(`<div class="p-6 space-y-4">
+    <div class="flex items-center justify-between">
+      <h3 class="text-xl font-black"><i class="bi bi-activity"></i> Status Layanan (Uptime Kuma)</h3>
+      <button data-action="close-modal" class="text-2xl text-slate-400 hover:text-slate-700">&times;</button>
+    </div>
+    ${enabled ? '' : '<p class="text-sm text-amber-600">Pengecekan status sedang nonaktif.</p>'}
+    <h4 class="font-black text-sm uppercase text-slate-500">Monitor (${monitors.length})</h4>
+    <div class="card table-wrap"><table><thead><tr><th>Nama</th><th>URL</th><th>Status</th></tr></thead>
+      <tbody>${monRows || '<tr><td colspan="3" class="text-center text-slate-400 py-4">Tidak ada monitor</td></tr>'}</tbody></table></div>
+    <h4 class="font-black text-sm uppercase text-slate-500">Pemetaan Tombol Aplikasi</h4>
+    <p class="text-xs text-slate-500">Isi kolom "URL Monitor Uptime Kuma" pada tombol bila pencocokan otomatis dari URL tidak tepat.</p>
+    <div class="card table-wrap"><table><thead><tr><th>Tombol</th><th>URL Dipantau</th><th>Monitor</th></tr></thead>
+      <tbody>${btnRows || '<tr><td colspan="3" class="text-center text-slate-400 py-4">Belum ada tombol</td></tr>'}</tbody></table></div>
+  </div>`);
+}
+
 /* ===== Events ===== */
 document.addEventListener('DOMContentLoaded', () => {
   init();
@@ -875,6 +933,25 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.innerHTML = old;
   });
 
+  $('#uptime-status-btn').addEventListener('click', async () => {
+    const btn = $('#uptime-status-btn');
+    const old = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Memuat...';
+    try {
+      const [st, secs] = await Promise.all([
+        api('GET', '/api/status'),
+        api('GET', '/api/admin/sections'),
+      ]);
+      const buttons = secs.data.flatMap((s) => s.buttons || []);
+      renderUptimeStatus(st, buttons);
+    } catch (err) {
+      toast(err.message, 'error');
+    }
+    btn.disabled = false;
+    btn.innerHTML = old;
+  });
+
   $('#test-ai-btn').addEventListener('click', async () => {
     const btn = $('#test-ai-btn'); btn.disabled = true; btn.textContent = 'Menguji...';
     try {
@@ -914,6 +991,8 @@ document.addEventListener('DOMContentLoaded', () => {
       else if (action === 'new-block') { closeModal(); return newBlock(el.dataset.tipe); }
       else if (action === 'edit-block') { const blk = state.sections.find((s) => s.id === id); openModal(blockForm(blk)); afterBlockForm($('#modal-form'), blk); }
       else if (action === 'toggle-block') { const blk = state.sections.find((s) => s.id === id); await api('PUT', '/api/admin/sections/' + id, { aktif: !blk.aktif }); toast('Status blok diubah'); loadKonten(); }
+      else if (action === 'toggle-button') { const btn = state.buttons.find((b) => b.id === id); await api('PUT', '/api/admin/buttons/' + id, { aktif: !btn.aktif }); toast('Status tombol diubah'); loadKonten(); }
+      else if (action === 'toggle-social') { const soc = state.socials.find((s) => s.id === id); await api('PUT', '/api/admin/socials/' + id, { aktif: !soc.aktif }); toast('Status sosial diubah'); loadKonten(); }
       else if (action === 'block-up') { await moveBlock(id, -1); }
       else if (action === 'block-down') { await moveBlock(id, 1); }
       else if (action === 'del-block') { if (confirm('Hapus blok ini? Semua tombol di dalamnya ikut terhapus.')) { await api('DELETE', '/api/admin/sections/' + id); toast('Blok dihapus'); loadKonten(); } }
